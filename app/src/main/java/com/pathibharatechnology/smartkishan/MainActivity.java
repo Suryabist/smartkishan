@@ -9,9 +9,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.pathibharatechnology.smartkishan.dashboard.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.login_and_signup.LoginFragment;
-import com.pathibharatechnology.smartkishan.login_and_signup.SignUpFragment;
 
 public class MainActivity extends AppCompatActivity {
 
