@@ -16,4 +16,15 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string-array name="categories_array">
+        <item>Select a category</item>
+        <item>Fruits</item>
+        <item>Meats and fishes</item>
+        <item>Vegetables</item>
+        <item>Animalistic</item>
+    </string-array>
+
+    <string name="select_prompt">Select a prompt</string>
+
 </resources>

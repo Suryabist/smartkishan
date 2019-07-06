@@ -14,165 +14,182 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-
-
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <ImageView
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/imageID"
-                    android:layout_centerInParent="true"
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:src="@drawable/product_detail_bg_pic"
-                    android:background="#e4e4e4"
-                    android:layout_height="200dp"
-                    />
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_camera_alt_black_24dp"
-                    android:layout_height="wrap_content" />
+                    <ImageView
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/imageID"
+                        android:layout_centerInParent="true"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/product_detail_bg_pic"
+                        android:background="#e4e4e4"
+                        android:layout_height="200dp"
+                        />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_camera_alt_black_24dp"
+                        android:layout_height="wrap_content" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_height="wrap_content">
+                </RelativeLayout>
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/productNameID"
+                <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_height="wrap_content">
 
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/custom_inputtext"
-                    android:gravity="center"
-                    android:hint="Name of Product"
-                    android:padding="16dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/productNameEditTextID"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/productNameID"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/custom_inputtext"
+                        android:gravity="center"
+                        android:hint="Name of Product"
+                        android:padding="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/productNameEditTextID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_inputtext"
+                            android:singleLine="true"
+                            android:padding="8dp"
+                            android:textColor="#000" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/selectCategoryID"
+                        android:layout_below="@+id/productNameID"
+                        android:layout_width="match_parent"
+                        android:padding="32dp"
+                        android:textSize="16dp"
+                        android:text="Select a category"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/custom_inputtext"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/productPriceID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/selectCategoryID"
+                        android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
-                        android:singleLine="true"
-                        android:padding="8dp"
-                        android:textColor="#000" />
+                        android:gravity="center"
+                        android:hint="Price of Product (in NRs.)"
+                        android:padding="8dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/productPriceEdittextID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_inputtext"
+                            android:singleLine="true"
+                            android:inputType="number"
+                            android:padding="16dp"
+                            android:textColor="#000" />
 
-                <TextView
-                    android:id="@+id/selectCategoryID"
-                    android:layout_below="@+id/productNameID"
-                    android:layout_width="match_parent"
-                    android:padding="32dp"
-                    android:textSize="16dp"
-                    android:text="Select a category"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/custom_inputtext"
-                    android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/productPriceID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/selectCategoryID"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/custom_inputtext"
-                    android:gravity="center"
-                    android:hint="Price of Product (in NRs.)"
-                    android:padding="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/productPriceEdittextID"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/productDescriptionID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/productPriceID"
+                        android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
-                        android:singleLine="true"
+                        android:gravity="center"
+                        android:hint="Product Description"
+                        android:padding="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/productDescriptionEdittextID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_inputtext"
+                            android:singleLine="true"
+                            android:padding="16dp"
+                            android:textColor="#000" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/productDeliveryLocationID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/productDescriptionID"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/custom_inputtext"
+                        android:gravity="center"
+                        android:hint="Product Delivery Location"
+                        android:padding="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/productDeliveryLocationEdittextID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_inputtext"
+                            android:singleLine="true"
+                            android:padding="16dp"
+                            android:textColor="#000" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/uploadButtonID"
+                        android:layout_below="@id/productDeliveryLocationID"
+                        android:background="@drawable/upload_button_background"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Upload"
                         android:padding="16dp"
-                        android:textColor="#000" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/productDescriptionID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/productPriceID"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/custom_inputtext"
-                    android:gravity="center"
-                    android:hint="Product Description"
-                    android:padding="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/productDescriptionEdittextID"
+                        android:textColor="#fff"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_inputtext"
-                        android:singleLine="true"
-                        android:padding="16dp"
-                        android:textColor="#000" />
+                        android:layout_height="wrap_content" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/productDeliveryLocationID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/productDescriptionID"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/custom_inputtext"
-                    android:gravity="center"
-                    android:hint="Product Delivery Location"
-                    android:padding="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/productDeliveryLocationEdittextID"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_inputtext"
-                        android:singleLine="true"
-                        android:padding="16dp"
-                        android:textColor="#000" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
 
-                <Button
-                    android:id="@+id/uploadButtonID"
-                    android:layout_below="@id/productDeliveryLocationID"
-                    android:background="@drawable/upload_button_background"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Upload"
-                    android:padding="16dp"
-                    android:textColor="#fff"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        </ScrollView>
 
-            </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progressBarID"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_height="wrap_content" />
 
-        </LinearLayout>
+    </RelativeLayout>
 
 
-    </ScrollView>
 
 
 </LinearLayout>

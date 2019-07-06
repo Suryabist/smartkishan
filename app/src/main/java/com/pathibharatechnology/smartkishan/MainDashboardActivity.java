@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.LoginFragment;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductFragment;
+import com.pathibharatechnology.smartkishan.products_list.ListProductsFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class MainDashboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                .add(R.id.dashboardFrameID, new AddNewProductFragment());
+                .add(R.id.dashboardFrameID, new ListProductsFragment());
         transaction.commit();
     }
 

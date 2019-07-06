@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -17,13 +19,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.R;
+import com.pathibharatechnology.smartkishan.products_list.ListProductsFragment;
+import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 
 import java.io.IOException;
 
@@ -36,7 +49,8 @@ public class AddNewProductFragment extends Fragment {
     TextView selectCategoryTextView;
     ImageView imageUploadImageView;
     TextInputEditText productNameEdittext, productPriceEdittext, productDescriptionEdittext, productDeliverLocationEdittext;
-    String productName, productPrice, productDescription, productDeliveryLocation;
+    String productName, productDescription, productDeliveryLocation;
+    Integer productPrice = 0;
     String category = "";
     Button uploadButton;
 
@@ -44,6 +58,8 @@ public class AddNewProductFragment extends Fragment {
     Uri uri;
     Bitmap bitmap;
     StorageReference storageReference;
+
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +73,7 @@ public class AddNewProductFragment extends Fragment {
         productDeliverLocationEdittext = view.findViewById(R.id.productDeliveryLocationEdittextID);
         uploadButton = view.findViewById(R.id.uploadButtonID);
         imageUploadImageView  = view.findViewById(R.id.imageID);
+        progressBar = view.findViewById(R.id.progressBarID);
 
 
         imageUploadImageView.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +130,7 @@ public class AddNewProductFragment extends Fragment {
                                 })
                                 .show();
                     }else {
-                        Toast.makeText(getContext(), "Verified successfully.", Toast.LENGTH_SHORT).show();
+                        addPostToDatabase();
                     }
                 } else {
 
@@ -124,15 +141,90 @@ public class AddNewProductFragment extends Fragment {
         return view;
     }
 
+
+    private void addPostToDatabase() {
+        progressBar.setVisibility(View.VISIBLE);
+        final ProductListDTO post = new ProductListDTO();
+        String postid = FirebaseDatabase.getInstance().getReference().child("products").push().getKey();
+        post.setProductUploaderUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        post.setProductId(postid);
+        post.setProductName(productName);
+        post.setProductDescription(productDescription);
+        post.setProductCategory(category);
+        post.setProductDeliveryLocation(productDeliveryLocation);
+        post.setProductPrice(productPrice);
+
+        if (bitmap != null) {
+
+            storageReference = FirebaseStorage.getInstance().getReference().child("post_pictures").child(postid)
+                    .child(String.valueOf(System.currentTimeMillis()));
+            storageReference.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return storageReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri uri = task.getResult();
+                        String downloadurl = uri.toString();
+                        post.setProductImageUrl(downloadurl);
+                        uploadPost(post);
+                    }
+
+                }
+            });
+        } else {
+            post.setProductImageUrl("");
+            uploadPost(post);
+
+        }
+    }
+
+
+    private void uploadPost(ProductListDTO post) {
+        FirebaseDatabase.getInstance().getReference().child("posts")
+                .child(post.getProductId())
+                .setValue(post)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(View.GONE);
+                        Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isComplete()) {
+                            progressBar.setVisibility(View.GONE);
+//                            onBackPressed();
+                            Snackbar.make(getView(), "Successfully uploaded...", Snackbar.LENGTH_SHORT).show();
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction()
+                                    .replace(R.id.dashboardFrameID, new ListProductsFragment());
+                            fragmentTransaction.commit();
+                        }
+
+                    }
+                });
+
+    }
+
+
     private boolean validate() {
         boolean isValid=false;
         productName=productNameEdittext.getText().toString();
-        productPrice=productPriceEdittext.getText().toString();
+        productPrice= Integer.parseInt(productPriceEdittext.getText().toString());
         productDescription = productDescriptionEdittext.getText().toString();
         productDeliveryLocation = productDeliverLocationEdittext.getText().toString();
         if(TextUtils.isEmpty(productName)){
             productNameEdittext.setError("Required");
-        }else if(TextUtils.isEmpty(productPrice)){
+        }else if(productPrice==0){
             productPriceEdittext.setError("Required");
         }else if(TextUtils.isEmpty(productDescription)){
             productDescriptionEdittext.setError("Required");
