@@ -1,21 +1,17 @@
 package com.pathibharatechnology.smartkishan.new_product;
 
-import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -34,17 +30,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
-import com.pathibharatechnology.smartkishan.products_list.ListProductsFragment;
+import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 
 import java.io.IOException;
 
-import static android.app.Activity.RESULT_OK;
-
-
-public class AddNewProductFragment extends Fragment {
-
+public class AddNewProductActivity extends AppCompatActivity {
 
     TextView selectCategoryTextView;
     ImageView imageUploadImageView;
@@ -62,18 +55,23 @@ public class AddNewProductFragment extends Fragment {
     ProgressBar progressBar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_new_product, container, false);
-        selectCategoryTextView = view.findViewById(R.id.selectCategoryID);
-        productNameEdittext = view.findViewById(R.id.productNameEditTextID);
-        productPriceEdittext = view.findViewById(R.id.productPriceEdittextID);
-        productDescriptionEdittext = view.findViewById(R.id.productDescriptionEdittextID);
-        productDeliverLocationEdittext = view.findViewById(R.id.productDeliveryLocationEdittextID);
-        uploadButton = view.findViewById(R.id.uploadButtonID);
-        imageUploadImageView  = view.findViewById(R.id.imageID);
-        progressBar = view.findViewById(R.id.progressBarID);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_new_product);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        SupportActionBarInitializer.setUpSupportActionBar(getSupportActionBar(), "Upload Product", true);
+
+        selectCategoryTextView = findViewById(R.id.selectCategoryID);
+        productNameEdittext = findViewById(R.id.productNameEditTextID);
+        productPriceEdittext = findViewById(R.id.productPriceEdittextID);
+        productDescriptionEdittext = findViewById(R.id.productDescriptionEdittextID);
+        productDeliverLocationEdittext = findViewById(R.id.productDeliveryLocationEdittextID);
+        uploadButton = findViewById(R.id.uploadButtonID);
+        imageUploadImageView  = findViewById(R.id.imageID);
+        progressBar = findViewById(R.id.progressBarID);
+
 
 
         imageUploadImageView.setOnClickListener(new View.OnClickListener() {
@@ -88,11 +86,10 @@ public class AddNewProductFragment extends Fragment {
         });
 
 
-
         selectCategoryTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu = new PopupMenu(getContext(), selectCategoryTextView);
+                final PopupMenu popupMenu = new PopupMenu(AddNewProductActivity.this, selectCategoryTextView);
                 popupMenu.getMenu().add(0, 0, 0, "Select a category");
                 popupMenu.getMenu().add(1, 1, 1, "Fruits");
                 popupMenu.getMenu().add(2,2,2,"Meats and fishes");
@@ -122,7 +119,7 @@ public class AddNewProductFragment extends Fragment {
             public void onClick(View view) {
                 if (validate()) {
                     if (category.equals("")){
-                        Snackbar.make(getView(), "Select a category", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(view, "Select a category", Snackbar.LENGTH_SHORT)
                                 .setAction("Close", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -138,25 +135,27 @@ public class AddNewProductFragment extends Fragment {
             }
         });
 
-        return view;
-    }
 
+
+
+
+    }
 
     private void addPostToDatabase() {
         progressBar.setVisibility(View.VISIBLE);
-        final ProductListDTO post = new ProductListDTO();
-        String postid = FirebaseDatabase.getInstance().getReference().child("products").push().getKey();
-        post.setProductUploaderUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        post.setProductId(postid);
-        post.setProductName(productName);
-        post.setProductDescription(productDescription);
-        post.setProductCategory(category);
-        post.setProductDeliveryLocation(productDeliveryLocation);
-        post.setProductPrice(productPrice);
+        final ProductListDTO productListDTO = new ProductListDTO();
+        String productId = FirebaseDatabase.getInstance().getReference().child("products").push().getKey();
+        productListDTO.setProductUploaderUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        productListDTO.setProductId(productId);
+        productListDTO.setProductName(productName);
+        productListDTO.setProductDescription(productDescription);
+        productListDTO.setProductCategory(category);
+        productListDTO.setProductDeliveryLocation(productDeliveryLocation);
+        productListDTO.setProductPrice(productPrice);
 
         if (bitmap != null) {
 
-            storageReference = FirebaseStorage.getInstance().getReference().child("post_pictures").child(postid)
+            storageReference = FirebaseStorage.getInstance().getReference().child("product_pictures").child(productId)
                     .child(String.valueOf(System.currentTimeMillis()));
             storageReference.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
@@ -172,29 +171,29 @@ public class AddNewProductFragment extends Fragment {
                     if (task.isSuccessful()) {
                         Uri uri = task.getResult();
                         String downloadurl = uri.toString();
-                        post.setProductImageUrl(downloadurl);
-                        uploadPost(post);
+                        productListDTO.setProductImageUrl(downloadurl);
+                        uploadPost(productListDTO);
                     }
 
                 }
             });
         } else {
-            post.setProductImageUrl("");
-            uploadPost(post);
+            productListDTO.setProductImageUrl("");
+            uploadPost(productListDTO);
 
         }
     }
 
-
     private void uploadPost(ProductListDTO post) {
-        FirebaseDatabase.getInstance().getReference().child("posts")
+        FirebaseDatabase.getInstance().getReference().child("products")
                 .child(post.getProductId())
                 .setValue(post)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressBar.setVisibility(View.GONE);
-                        Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getWindow().getDecorView().getRootView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getWindow().getDecorView().getRootView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     }
                 })
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -204,10 +203,10 @@ public class AddNewProductFragment extends Fragment {
                         if (task.isComplete()) {
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
-                            Snackbar.make(getView(), "Successfully uploaded...", Snackbar.LENGTH_SHORT).show();
-                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction()
-                                    .replace(R.id.dashboardFrameID, new ListProductsFragment());
-                            fragmentTransaction.commit();
+                            Toast.makeText(AddNewProductActivity.this, "Successfully uploaded...", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(AddNewProductActivity.this, MainDashboardActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
 
                     }
@@ -243,7 +242,7 @@ public class AddNewProductFragment extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uri = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 imageUploadImageView.setImageBitmap(bitmap);
 
             } catch (IOException e) {
@@ -254,6 +253,12 @@ public class AddNewProductFragment extends Fragment {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddNewProductActivity.this, MainDashboardActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
 
-
+    }
 }

@@ -1,27 +1,60 @@
 package com.pathibharatechnology.smartkishan;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
-import com.pathibharatechnology.smartkishan.R;
-import com.pathibharatechnology.smartkishan.login_and_signup.LoginFragment;
-import com.pathibharatechnology.smartkishan.new_product.AddNewProductFragment;
-import com.pathibharatechnology.smartkishan.products_list.ListProductsFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
+import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
+import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
+import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ArrayList<String> listOfCategories =  new ArrayList<>();
+    Spinner selectCategorySpinner;
+    FloatingActionButton uploadProductFloatingActionButton;
+
+    ProgressBar progressBar;
+    RecyclerView recyclerView;
+    LinearLayout nav_header;
+
+    CircleImageView navUserImage;
+    TextView navUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +62,122 @@ public class MainDashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_dashboard);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+        uploadProductFloatingActionButton = findViewById(R.id.uploadProductID);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        View mView = navigationView.getHeaderView(0);
+        nav_header = mView.findViewById(R.id.nav_headerID);
+        nav_header.setScrollContainer(true);
+
+        navUserImage = mView.findViewById(R.id.nav_imageID);
+        navUserName = mView.findViewById(R.id.nav_userNameID);
+
+
+        getUserDetails();
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                .add(R.id.dashboardFrameID, new ListProductsFragment());
-        transaction.commit();
+
+
+        uploadProductFloatingActionButton = findViewById(R.id.uploadProductID);
+        progressBar = findViewById(R.id.progressBarID);
+        recyclerView = findViewById(R.id.recyclerViewID);
+
+        SupportActionBarInitializer.setSupportActionBarTitle( this.getSupportActionBar(),"Smart Kishan");
+
+
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        listOfCategories.add("Select a category");
+        listOfCategories.add("Fruits");
+        listOfCategories.add("Meats and fishes");
+        listOfCategories.add("Vegetables");
+        listOfCategories.add("Animalistic");
+        selectCategorySpinner = findViewById(R.id.searchCategoryID);
+
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item, listOfCategories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectCategorySpinner.setAdapter(adapter);
+
+
+
+        fetchFeedFromDatabase();
+
+
+
+
+        uploadProductFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+    }
+
+    private void getUserDetails(){
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserDTO user=dataSnapshot.getValue(UserDTO.class);
+                        navUserName.setText(user.getUserName());
+                        Glide.with(MainDashboardActivity.this).
+                                load(user.getProfilePic())
+                                .into(navUserImage);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+
+    private void fetchFeedFromDatabase(){
+
+        progressBar.setVisibility(View.VISIBLE);
+        FirebaseDatabase.getInstance().getReference().child("products")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<ProductListDTO> productList=new ArrayList<>();
+                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
+                        while (iterator.hasNext()){
+                            DataSnapshot snap=iterator.next();
+                            productList.add(snap.getValue(ProductListDTO.class));
+
+                        }
+
+                        ProductListAdapter adapter=new ProductListAdapter(productList, MainDashboardActivity.this);
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setAdapter(adapter);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override
@@ -87,19 +217,26 @@ public class MainDashboardActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent = null;
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.profileID) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.productsID) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.uploadProductID) {
+            intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
 
-        } else if (id == R.id.nav_tools) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.categoriesID) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.aboutUsID) {
 
+        } else if (id == R.id.logOutID) {
+
+        }
+        if (intent!=null) {
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
