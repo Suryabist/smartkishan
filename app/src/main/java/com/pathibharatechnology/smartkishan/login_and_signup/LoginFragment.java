@@ -101,12 +101,17 @@ public class LoginFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
-                            Snackbar.make(getView(), "Login Successful.", Snackbar.LENGTH_LONG)
-                                    .show();
-                            Toast.makeText(getContext(), "Login successfully.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getContext(), MainActivity.class);
-                            getActivity().startActivity(intent);
-                            getActivity().finish();
+                            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                Snackbar.make(getView(), "Login Successful.", Snackbar.LENGTH_LONG)
+                                        .show();
+                                Toast.makeText(getContext(), "Login successfully.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                getActivity().startActivity(intent);
+                                getActivity().finish();
+                            } else {
+                                Toast.makeText(getContext(), "Please verify your email...", Toast.LENGTH_SHORT).show();
+                            }
+
                         }else{
                             Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG)
                                     .show();

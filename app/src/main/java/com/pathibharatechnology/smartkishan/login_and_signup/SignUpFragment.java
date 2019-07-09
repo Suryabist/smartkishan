@@ -158,36 +158,49 @@ public class SignUpFragment extends Fragment {
 
                         if (task.isSuccessful()) {
 
-                            if (bitmap != null) {
+                            FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        if (bitmap != null) {
 
-                                storageReference = FirebaseStorage.getInstance().getReference().child("profile_pictures")
-                                        .child(FirebaseAuth.getInstance().getUid())
-                                        .child(String.valueOf(System.currentTimeMillis()));
-                                storageReference.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                                    @Override
-                                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                                        if (!task.isSuccessful()) {
-                                            throw task.getException();
-                                        }
-                                        return storageReference.getDownloadUrl();
-                                    }
-                                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        if (task.isSuccessful()) {
-                                            Uri uri = task.getResult();
-                                            String downloadurl = uri.toString();
-                                            user.setProfilePic(downloadurl);
+                                            storageReference = FirebaseStorage.getInstance().getReference().child("profile_pictures")
+                                                    .child(FirebaseAuth.getInstance().getUid())
+                                                    .child(String.valueOf(System.currentTimeMillis()));
+                                            storageReference.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                                                @Override
+                                                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                                    if (!task.isSuccessful()) {
+                                                        throw task.getException();
+                                                    }
+                                                    return storageReference.getDownloadUrl();
+                                                }
+                                            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Uri> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Uri uri = task.getResult();
+                                                        String downloadurl = uri.toString();
+                                                        user.setProfilePic(downloadurl);
+                                                        uploadUserInformation(user);
+                                                    }
+
+                                                }
+                                            });
+                                        } else {
+                                            user.setProfilePic("");
                                             uploadUserInformation(user);
+
                                         }
-
+                                    }else {
+                                        Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
-                                });
-                            } else {
-                                user.setProfilePic("");
-                                uploadUserInformation(user);
+                                }
+                            });
 
-                            }
+
+
 
 
                         } else {
@@ -215,15 +228,22 @@ public class SignUpFragment extends Fragment {
             public void onComplete(@NonNull Task<Void> task) {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
-                    Snackbar.make(getView(), "Sign Up successful.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(getView(), "Sign Up successful. Please check your email to verify.", Snackbar.LENGTH_LONG)
                             .show();
-                    Toast.makeText(getContext(), "registered to database", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(getContext(), MainActivity.class);
-                    getActivity().startActivity(intent);
-                    getActivity().finish();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction()
+                            .replace(R.id.frameForFragmentID, new LoginFragment());
+                    fragmentTransaction.commit();
                 }
             }
-        });
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_LONG)
+                        .show();
+            }
+        })
+        ;
 
     }
     @Override

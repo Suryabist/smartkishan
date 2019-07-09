@@ -10,6 +10,7 @@ public class ProductListDTO {
     private Integer productPrice;
     private String productDescription;
     private String productDeliveryLocation;
+    private String productUploaderName;
 
     private String productUploaderUserId;
     private String productId;
@@ -76,5 +77,13 @@ public class ProductListDTO {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getProductUploaderName() {
+        return productUploaderName;
+    }
+
+    public void setProductUploaderName(String productUploaderName) {
+        this.productUploaderName = productUploaderName;
     }
 }

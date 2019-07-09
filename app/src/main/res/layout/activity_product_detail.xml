@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/productDetailLayoutID"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+
+        <RelativeLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nameOfProductID"
+                android:layout_width="wrap_content"
+                android:text="Test"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/priceID"
+                android:layout_width="wrap_content"
+                android:text="Price"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_money_bag_with_dollar_symbol"
+                android:textSize="16dp"
+                android:textColor="#000"
+                android:layout_below="@+id/nameOfProductID"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/productDetailID"
+                android:text="Detail of product"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/priceID"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/descriptionOfProductID"
+                android:layout_width="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_below="@+id/productDetailID"
+                android:text="Product Description"
+                android:layout_height="wrap_content" />
+
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="6dp"
+                android:layout_width="match_parent"
+                android:id="@+id/cardViewID"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="24dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="24dp"
+                android:layout_below="@id/descriptionOfProductID"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/uploaderIamgeID"
+                        android:layout_width="40dp"
+                        android:layout_weight="0.2"
+                        android:src="@drawable/smart_krishi_default_image"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:id="@+id/uploadedByID"
+                        android:layout_weight="0.6"
+                        android:layout_width="wrap_content"
+                        android:padding="8dp"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="Suryaghising2"
+
+                        android:layout_height="wrap_content" />
+
+                    <ImageButton
+                        android:background="@drawable/circleimage_background"
+                        android:layout_width="30dp"
+                        android:layout_weight="0.2"
+                        android:tint="#fff"
+                        android:padding="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chat_black_24dp"
+                        android:layout_height="40dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/deliveryLocationID"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/cardViewID"
+                android:text="Delivery Location"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/placeID"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/deliveryLocationID"
+                android:text="Jorpati"
+                android:textSize="16dp"
+                android:textColor="#000"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:id="@+id/notifyID"
+                android:layout_below="@id/placeID"
+                android:text="Inform the dealer"
+                android:paddingLeft="8dp"
+                android:textColor="#fff"
+                android:textSize="16dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/custom_botton_design"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content" />
+
+
+
+        </RelativeLayout>
+
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/appBarLayout"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways"
+            app:title="Detail"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/productImageviewID"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_collapseMode="parallax"
+                android:scaleType="centerCrop"
+                android:src="@drawable/product_detail_bg_pic" />
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/editProductInfoID"
+        android:layout_gravity="right"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        android:tint="#fff"
+        android:src="@drawable/ic_edit_black_24dp"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_phone_in_talk_black_24dp"
+        android:tint="#fff"
+        app:layout_anchor="@id/appBarLayout"
+        app:layout_anchorGravity="bottom|right|end"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content" />
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

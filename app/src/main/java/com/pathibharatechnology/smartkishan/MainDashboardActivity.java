@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
+import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
 import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 
@@ -55,6 +56,9 @@ public class MainDashboardActivity extends AppCompatActivity
 
     CircleImageView navUserImage;
     TextView navUserName;
+
+
+    String userName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +236,8 @@ public class MainDashboardActivity extends AppCompatActivity
         } else if (id == R.id.aboutUsID) {
 
         } else if (id == R.id.logOutID) {
+            FirebaseAuth.getInstance().signOut();
+            intent = new Intent(MainDashboardActivity.this, MainActivity.class);
 
         }
         if (intent!=null) {

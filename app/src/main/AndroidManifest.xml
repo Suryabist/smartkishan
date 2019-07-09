@@ -6,12 +6,13 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/smart_krishi_default_image"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".new_product.AddNewProductActivity"></activity>
+        <activity android:name=".product_detail.ProductDetailActivity"></activity>
+        <activity android:name=".new_product.AddNewProductActivity" />
         <activity
             android:name=".MainDashboardActivity"
             android:label="Main Dashboard Activity"
