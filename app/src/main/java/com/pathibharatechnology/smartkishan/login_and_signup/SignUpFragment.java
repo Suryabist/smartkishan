@@ -26,12 +26,17 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.MainActivity;
 import com.pathibharatechnology.smartkishan.R;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
 
@@ -78,9 +83,11 @@ public class SignUpFragment extends Fragment {
                     user.setUserName(userName);
                     user.setMobile(mobile);
                     user.setPassword(password);
+                    DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                    Date date = new Date();
+                    String strDate = dateFormat.format(date);
+                    user.setJoinedTime(strDate);
                     regiterUserToFirebase(user);
-
-
                 }
 
             }

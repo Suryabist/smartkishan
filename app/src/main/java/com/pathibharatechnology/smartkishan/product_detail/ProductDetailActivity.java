@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pathibharatechnology.smartkishan.R;
+import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -23,7 +25,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView nameOfProduct, priceTextview, productDescriptionTextView, uploaderUserNameTextview, productDeliveryTextview;
     CircleImageView uploaderImage;
     FloatingActionButton editProductInfoFloatingButton;
-
+    LinearLayout uploaderDetailLinearLayout;
 
     String userId, uploaderUserName, imageUrl, productName, productDetail, deliveryLocation, uploaderImageUrl;
     Integer price;
@@ -42,8 +44,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         productDeliveryTextview = findViewById(R.id.placeID);
         uploaderImage = findViewById(R.id.uploaderIamgeID);
         editProductInfoFloatingButton = findViewById(R.id.editProductInfoID);
+        uploaderDetailLinearLayout = findViewById(R.id.uploaderDetailID);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         uploaderUserName = intent.getStringExtra("uploaderUserName");
         imageUrl = intent.getStringExtra("imageUrl");
@@ -68,6 +71,20 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getUid().equals(userId)) {
             editProductInfoFloatingButton.setVisibility(View.VISIBLE);
         }
+
+        uploaderDetailLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent userDetailIntent = new Intent(ProductDetailActivity.this, UserProfileActivity.class);
+                userDetailIntent.putExtra("userId", userId);
+                userDetailIntent.putExtra("userName", uploaderUserName);
+                userDetailIntent.putExtra("userProfilePic", uploaderImageUrl);
+                startActivity(userDetailIntent);
+                finish();
+
+            }
+        });
+
 
 
     }

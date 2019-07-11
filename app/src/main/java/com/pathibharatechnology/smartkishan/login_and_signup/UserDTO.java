@@ -1,5 +1,7 @@
 package com.pathibharatechnology.smartkishan.login_and_signup;
 
+import java.util.Map;
+
 public class UserDTO {
     private String fullName;
     private String email;
@@ -7,6 +9,7 @@ public class UserDTO {
     private String mobile;
     private String password;
     private String profilePic;
+    private String joinedTime;
 
     public String getFullName() {
         return fullName;
@@ -54,5 +57,13 @@ public class UserDTO {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getJoinedTime() {
+        return joinedTime;
+    }
+
+    public void setJoinedTime(String joinedTime) {
+        this.joinedTime = joinedTime;
     }
 }

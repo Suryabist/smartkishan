@@ -23,6 +23,7 @@ import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
 import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,6 +59,8 @@ public class MainDashboardActivity extends AppCompatActivity
     TextView navUserName;
 
 
+    String userId;
+    String userProfilePic = null;
     String userName = null;
 
     @Override
@@ -142,6 +145,9 @@ public class MainDashboardActivity extends AppCompatActivity
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserDTO user=dataSnapshot.getValue(UserDTO.class);
                         navUserName.setText(user.getUserName());
+                        userName = user.getUserName();
+                        userProfilePic = user.getProfilePic();
+
                         Glide.with(MainDashboardActivity.this).
                                 load(user.getProfilePic())
                                 .into(navUserImage);
@@ -224,6 +230,12 @@ public class MainDashboardActivity extends AppCompatActivity
         Intent intent = null;
 
         if (id == R.id.profileID) {
+            intent = new Intent(MainDashboardActivity.this, UserProfileActivity.class);
+            userId = FirebaseAuth.getInstance().getUid();
+            intent.putExtra("userId",userId);
+            intent.putExtra("userName", userName);
+            intent.putExtra("userProfilePic", userProfilePic);
+
             // Handle the camera action
         } else if (id == R.id.productsID) {
 
