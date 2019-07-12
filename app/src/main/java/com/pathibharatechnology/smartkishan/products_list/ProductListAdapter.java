@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,15 +23,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder>  implements Filterable {
 
     List<ProductListDTO> productListDTOS;
+    List<ProductListDTO> fullProductListDTOs;
     Context mContext;
 
     public ProductListAdapter(List<ProductListDTO> productListDTOS, Context mContext) {
         this.productListDTOS = productListDTOS;
+        fullProductListDTOs = new ArrayList<>(productListDTOS);
         this.mContext = mContext;
     }
 
@@ -50,6 +55,49 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public int getItemCount() {
         return productListDTOS.size();
     }
+
+
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ProductListDTO> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(fullProductListDTOs);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (ProductListDTO productListDTO : fullProductListDTOs) {
+                    if (productListDTO.getProductName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(productListDTO);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            productListDTOS.clear();
+            productListDTOS.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
