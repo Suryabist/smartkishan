@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
+import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
 import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
@@ -244,6 +245,7 @@ public class MainDashboardActivity extends AppCompatActivity
 
 
         } else if (id == R.id.categoriesID) {
+            intent = new Intent(MainDashboardActivity.this, CategoriesActivity.class);
 
         } else if (id == R.id.aboutUsID) {
 

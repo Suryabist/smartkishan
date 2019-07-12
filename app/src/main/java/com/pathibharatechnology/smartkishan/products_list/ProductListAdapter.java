@@ -125,6 +125,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     intent.putExtra("deliveryLocation", deliveryLocation);
                     intent.putExtra("uploaderImageUrl", uploaderImageUrl);
                     mContext.startActivity(intent);
+
                 }
             });
         }

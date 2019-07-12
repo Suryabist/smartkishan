@@ -81,10 +81,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                 userDetailIntent.putExtra("userProfilePic", uploaderImageUrl);
                 startActivity(userDetailIntent);
                 finish();
-
             }
         });
-
 
 
     }
