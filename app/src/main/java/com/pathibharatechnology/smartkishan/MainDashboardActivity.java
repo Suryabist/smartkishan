@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pathibharatechnology.smartkishan.about_us.AboutUsActivity;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
@@ -121,6 +122,9 @@ public class MainDashboardActivity extends AppCompatActivity
 
 
         fetchFeedFromDatabase();
+
+
+
 
 
 
@@ -248,6 +252,7 @@ public class MainDashboardActivity extends AppCompatActivity
             intent = new Intent(MainDashboardActivity.this, CategoriesActivity.class);
 
         } else if (id == R.id.aboutUsID) {
+            intent = new Intent(MainDashboardActivity.this, AboutUsActivity.class);
 
         } else if (id == R.id.logOutID) {
             FirebaseAuth.getInstance().signOut();
