@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,8 +54,12 @@ public class AddNewProductActivity extends AppCompatActivity {
     Uri uri;
     Bitmap bitmap;
     StorageReference storageReference;
-
+    String productPriceInString;
     ProgressBar progressBar;
+    String buttonText = "Upload";
+    String idOfProduct;
+
+    String downloadurl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +76,39 @@ public class AddNewProductActivity extends AppCompatActivity {
         productDescriptionEdittext = findViewById(R.id.productDescriptionEdittextID);
         productDeliverLocationEdittext = findViewById(R.id.productDeliveryLocationEdittextID);
         uploadButton = findViewById(R.id.uploadButtonID);
-        imageUploadImageView  = findViewById(R.id.imageID);
+        imageUploadImageView = findViewById(R.id.imageID);
         progressBar = findViewById(R.id.progressBarID);
 
+
+        Intent intent = getIntent();
+
+        System.out.println("intent=====" + intent);
+
+        downloadurl = intent.getStringExtra("productImageUrl");
+        productName = intent.getStringExtra("productName");
+        category = intent.getStringExtra("productCategory");
+        productPriceInString = intent.getStringExtra("productPrice");
+        productDescription = intent.getStringExtra("productDetail");
+        productDeliveryLocation = intent.getStringExtra("productDeliveryLocation");
+        idOfProduct = intent.getStringExtra("productId");
+
+
+        if (downloadurl == null) {
+
+        } else {
+            Glide.with(this)
+                    .load(downloadurl)
+                    .asBitmap()
+                    .into(imageUploadImageView);
+            productNameEdittext.setText(productName);
+
+            selectCategoryTextView.setText(category);
+            productPriceEdittext.setText(productPriceInString);
+            productDescriptionEdittext.setText(productDescription);
+            productDeliverLocationEdittext.setText(productDeliveryLocation);
+
+            uploadButton.setText("Edit and Upload");
+        }
 
 
         imageUploadImageView.setOnClickListener(new View.OnClickListener() {
@@ -90,15 +125,15 @@ public class AddNewProductActivity extends AppCompatActivity {
                 final PopupMenu popupMenu = new PopupMenu(AddNewProductActivity.this, selectCategoryTextView);
                 popupMenu.getMenu().add(0, 0, 0, "Select a category");
                 popupMenu.getMenu().add(1, 1, 1, "Fruits");
-                popupMenu.getMenu().add(2,2,2,"Meats and fishes");
-                popupMenu.getMenu().add(3,3,3,"Vegetables");
-                popupMenu.getMenu().add(4,4,4,"Animalistic");
+                popupMenu.getMenu().add(2, 2, 2, "Meats and fishes");
+                popupMenu.getMenu().add(3, 3, 3, "Vegetables");
+                popupMenu.getMenu().add(4, 4, 4, "Animalistic");
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(final MenuItem menuItem) {
-                        if (menuItem.getItemId()==0 ) {
+                        if (menuItem.getItemId() == 0) {
                             selectCategoryTextView.setText(menuItem.getTitle());
                             category = "";
                         } else {
@@ -116,7 +151,7 @@ public class AddNewProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validate()) {
-                    if (category.equals("")){
+                    if (category.equals("")) {
                         Snackbar.make(view, "Select a category", Snackbar.LENGTH_SHORT)
                                 .setAction("Close", new View.OnClickListener() {
                                     @Override
@@ -124,14 +159,29 @@ public class AddNewProductActivity extends AppCompatActivity {
                                     }
                                 })
                                 .show();
-                    }else {
+                    } else {
 
-                        if (bitmap==null){
-                            Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
+
+                        if (uploadButton.getText().toString().equals("Edit and Upload")) {
+
+                            if (downloadurl.equals("")) {
+                                Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
+                            } else {
+//                                addPostToDatabase();
+                                updatePost();
+                                Toast.makeText(AddNewProductActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            }
+
+
                         } else {
+                            if (bitmap == null) {
+                                Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
+                            } else {
 
-                            addPostToDatabase();
+                                addPostToDatabase();
+                            }
                         }
+
                     }
                 } else {
 
@@ -139,6 +189,52 @@ public class AddNewProductActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void updatePost(){
+        progressBar.setVisibility(View.VISIBLE);
+        final ProductListDTO productListDTO = new ProductListDTO();
+        productListDTO.setProductUploaderUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        productListDTO.setProductId(idOfProduct);
+        System.out.println("id of product===="+idOfProduct);
+        productListDTO.setProductName(productName);
+        productListDTO.setProductDescription(productDescription);
+        productListDTO.setProductCategory(category);
+        productListDTO.setProductDeliveryLocation(productDeliveryLocation);
+        productListDTO.setProductPrice(productPrice);
+
+        if (bitmap != null) {
+
+            storageReference = FirebaseStorage.getInstance().getReference().child("product_pictures").child(idOfProduct)
+                    .child(String.valueOf(System.currentTimeMillis()));
+            storageReference.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return storageReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri uri = task.getResult();
+                        downloadurl = uri.toString();
+                        productListDTO.setProductImageUrl(downloadurl);
+                        uploadPost(productListDTO);
+                    }
+
+                }
+            });
+        } else {
+            productListDTO.setProductImageUrl(downloadurl);
+            uploadPost(productListDTO);
+        }
+
+
+    }
+
 
     private void addPostToDatabase() {
         progressBar.setVisibility(View.VISIBLE);
@@ -169,7 +265,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri uri = task.getResult();
-                        String downloadurl = uri.toString();
+                        downloadurl = uri.toString();
                         productListDTO.setProductImageUrl(downloadurl);
                         uploadPost(productListDTO);
                     }
@@ -180,6 +276,10 @@ public class AddNewProductActivity extends AppCompatActivity {
     }
 
     private void uploadPost(ProductListDTO post) {
+
+        System.out.println("post data ====="+post.getProductId());
+
+
         FirebaseDatabase.getInstance().getReference().child("products")
                 .child(post.getProductId())
                 .setValue(post)
@@ -210,21 +310,21 @@ public class AddNewProductActivity extends AppCompatActivity {
 
 
     private boolean validate() {
-        boolean isValid=false;
-        productName=productNameEdittext.getText().toString();
+        boolean isValid = false;
+        productName = productNameEdittext.getText().toString();
         productDescription = productDescriptionEdittext.getText().toString();
         productDeliveryLocation = productDeliverLocationEdittext.getText().toString();
-        if(TextUtils.isEmpty(productName)){
+        if (TextUtils.isEmpty(productName)) {
             productNameEdittext.setError("Required");
-        }else if(productPriceEdittext.getText().toString().equals("")){
+        } else if (productPriceEdittext.getText().toString().equals("")) {
             productPriceEdittext.setError("Required");
-        }else if(TextUtils.isEmpty(productDescription)){
+        } else if (TextUtils.isEmpty(productDescription)) {
             productDescriptionEdittext.setError("Required");
-        }else if(TextUtils.isEmpty(productDeliveryLocation)){
+        } else if (TextUtils.isEmpty(productDeliveryLocation)) {
             productDeliverLocationEdittext.setError("Required");
-        }else {
-            productPrice= Integer.parseInt(productPriceEdittext.getText().toString());
-            isValid=true;
+        } else {
+            productPrice = Integer.parseInt(productPriceEdittext.getText().toString());
+            isValid = true;
 
         }
         return isValid;

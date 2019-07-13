@@ -32,13 +32,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
+import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationDTO;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationList;
+import com.pathibharatechnology.smartkishan.products_list.CategoryProductList;
+import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
+import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,6 +66,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageButton sendMailButton;
     String mobile;
     String email;
+
+    String productCategory, productPrice;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -92,6 +101,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         productUploaderUserId = intent.getStringExtra("productUploaderId");
 
         getUserDetails();
+        getProductDetails(productId);
 
         nameOfProduct.setText(productName);
         priceTextview.setText(" NRs. " + price);
@@ -108,6 +118,22 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getUid().equals(userId)) {
             editProductInfoFloatingButton.setVisibility(View.VISIBLE);
         }
+
+
+        editProductInfoFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent getEditIntent = new Intent(ProductDetailActivity.this, AddNewProductActivity.class);
+                getEditIntent.putExtra("productImageUrl", imageUrl);
+                getEditIntent.putExtra("productName", productName);
+                getEditIntent.putExtra("productCategory", productCategory);
+                getEditIntent.putExtra("productPrice", productPrice);
+                getEditIntent.putExtra("productDetail", productDetail);
+                getEditIntent.putExtra("productDeliveryLocation", deliveryLocation);
+                getEditIntent.putExtra("productId", productId);
+                startActivity(getEditIntent);
+            }
+        });
 
         getUploaderPhone(productUploaderUserId);
 
@@ -223,6 +249,30 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     }
                 });
+
+    }
+
+
+    public void getProductDetails(String idOfProduct){
+
+        FirebaseDatabase.getInstance().getReference().child("products").child(idOfProduct)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ProductListDTO productListDTO = dataSnapshot.getValue(ProductListDTO.class);
+                        productCategory = productListDTO.getProductCategory();
+                        productPrice = productListDTO.getProductPrice().toString();
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
     }
 

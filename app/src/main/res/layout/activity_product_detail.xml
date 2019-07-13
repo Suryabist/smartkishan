@@ -194,8 +194,8 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
         android:id="@+id/editProductInfoID"
+        android:layout_width="wrap_content"
         android:layout_gravity="right"
         android:layout_margin="16dp"
         android:visibility="gone"
