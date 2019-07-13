@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -44,6 +45,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,21 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getUserDetails();
         getUserProducts();
+
+        if (FirebaseAuth.getInstance().getUid().equals(userId)){
+            editProfileFloatingAction.setVisibility(View.VISIBLE);
+        } else {
+            editProfileFloatingAction.setVisibility(View.GONE);
+        }
+
+
+        editProfileFloatingAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editProfileIntent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
+                startActivity(editProfileIntent);
+            }
+        });
 
 
     }

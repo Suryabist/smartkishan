@@ -196,7 +196,6 @@ public class AddNewProductActivity extends AppCompatActivity {
         final ProductListDTO productListDTO = new ProductListDTO();
         productListDTO.setProductUploaderUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
         productListDTO.setProductId(idOfProduct);
-        System.out.println("id of product===="+idOfProduct);
         productListDTO.setProductName(productName);
         productListDTO.setProductDescription(productDescription);
         productListDTO.setProductCategory(category);
