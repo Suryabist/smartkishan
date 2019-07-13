@@ -193,7 +193,6 @@ public class AddNewProductActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         progressBar.setVisibility(View.GONE);
                         Snackbar.make(getWindow().getDecorView().getRootView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                        Snackbar.make(getWindow().getDecorView().getRootView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     }
                 })
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

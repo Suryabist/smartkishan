@@ -146,8 +146,8 @@
 
 
             <Button
-                android:layout_width="wrap_content"
                 android:id="@+id/notifyID"
+                android:layout_width="wrap_content"
                 android:layout_below="@id/placeID"
                 android:text="Inform the dealer"
                 android:paddingLeft="8dp"

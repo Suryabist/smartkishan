@@ -23,9 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.about_us.AboutUsActivity;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
-import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
+import com.pathibharatechnology.smartkishan.notification_package.NotificationAdapter;
+import com.pathibharatechnology.smartkishan.notification_package.NotificationList;
+import com.pathibharatechnology.smartkishan.notification_package.NotificationDTO;
 import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
-import com.pathibharatechnology.smartkishan.products_list.CategoryProductList;
 import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
@@ -74,6 +75,12 @@ public class MainDashboardActivity extends AppCompatActivity
     ImageView searchButton;
     String selectedCategory = "";
     String categoryFilter = "";
+
+    ImageView notificationImage;
+    TextView notificationCountTextview;
+
+    int pendingNotificationCount = 10;
+
 
 
 
@@ -353,23 +360,65 @@ public class MainDashboardActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_dashboard, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_notifications);
+
+        View showNotificationView = menuItem.getActionView();
+
+        notificationImage = showNotificationView.findViewById(R.id.notificationImageID);
+        notificationCountTextview = showNotificationView.findViewById(R.id.notificationCountID);
+        getNotifications();
+
+
+        notificationImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainDashboardActivity.this, NotificationList.class);
+                startActivity(intent);
+            }
+        });
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    public void getNotifications(){
 
-        return super.onOptionsItemSelected(item);
+        FirebaseDatabase.getInstance().getReference().child("notifications").orderByChild("productUploaderUserId").equalTo(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<NotificationDTO> notificationDTOList=new ArrayList<>();
+                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
+                        while (iterator.hasNext()){
+                            DataSnapshot snap=iterator.next();
+                            notificationDTOList.add(snap.getValue(NotificationDTO.class));
+                        }
+
+                        NotificationAdapter notificationAdapter = new NotificationAdapter(notificationDTOList, MainDashboardActivity.this);
+
+                        int notificationCount = notificationAdapter.performFiltering();
+                        setUpBadge(notificationCount);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
     }
+
+    private void setUpBadge(int notificationCount) {
+        if (notificationCount==0){
+            notificationCountTextview.setVisibility(View.GONE);
+        }else {
+            notificationCountTextview.setVisibility(View.VISIBLE);
+            notificationCountTextview.setText(notificationCount+"");
+        }
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -411,4 +460,7 @@ public class MainDashboardActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }

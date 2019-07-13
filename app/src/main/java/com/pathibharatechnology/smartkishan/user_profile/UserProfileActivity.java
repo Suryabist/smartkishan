@@ -130,9 +130,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(UserProfileActivity.this, MainDashboardActivity.class);
-        startActivity(intent);
-        finish();
         super.onBackPressed();
     }
 }
