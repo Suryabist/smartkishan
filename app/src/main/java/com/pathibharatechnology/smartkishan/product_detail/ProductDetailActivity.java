@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,7 +56,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     Integer price;
     String currentUserName;
 
+    ImageButton sendMailButton;
     String mobile;
+    String email;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -74,6 +77,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         uploaderDetailLinearLayout = findViewById(R.id.uploaderDetailID);
         sendNotificationButton = findViewById(R.id.notifyID);
         callFloatingButton = findViewById(R.id.callFloatingButtonID);
+        sendMailButton = findViewById(R.id.sendMailButtonID);
 
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
@@ -108,6 +112,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         getUploaderPhone(productUploaderUserId);
 
 
+        sendMailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMailToUploader();
+            }
+        });
+
+
         callFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
@@ -119,7 +131,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 } else {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    System.out.println("mobile====="+mobile);
+                    System.out.println("mobile=====" + mobile);
                     callIntent.setData(Uri.parse("tel:" + mobile));
                     ProductDetailActivity.this.startActivity(callIntent);
                 }
@@ -166,15 +178,16 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
-    private void getUploaderPhone(String uploaderUserId) {
+    private void getUploaderPhone(final String uploaderUserId) {
         FirebaseDatabase.getInstance().getReference()
                 .child("users")
                 .child(uploaderUserId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        UserDTO user=dataSnapshot.getValue(UserDTO.class);
+                        UserDTO user = dataSnapshot.getValue(UserDTO.class);
                         mobile = user.getMobile();
+                        email = user.getEmail();
                     }
 
                     @Override
@@ -214,9 +227,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void getUserDetails() {
         FirebaseDatabase.getInstance().getReference()
                 .child("users")
@@ -239,5 +249,31 @@ public class ProductDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+    private void sendMailToUploader() {
+
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            if (email != null && !email.equals("Not Available")) {
+                Intent intent = new Intent("android.intent.action.SENDTO", Uri.fromParts("mailto", email, null));
+                intent.putExtra("android.intent.extra.SUBJECT", "Smart Kishan");
+                if (mobile != null && !mobile.equals("Not Available")) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("I want to buy your product, Please reply to this mail or call me at ");
+                    stringBuilder.append(mobile);
+                    intent.putExtra("android.intent.extra.TEXT", stringBuilder.toString());
+                } else {
+                    intent.putExtra("android.intent.extra.TEXT", "I want to buy your product, Please reply to this mail.");
+                }
+                this.startActivity(intent);
+            } else {
+                Toast.makeText(this, "Sorry, Uploader does not provide us his/her email", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            Toast.makeText(this, "Please login first.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
