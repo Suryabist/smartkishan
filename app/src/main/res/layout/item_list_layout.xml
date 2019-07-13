@@ -17,6 +17,7 @@
             android:id="@+id/productImageviewID"
             android:layout_width="match_parent"
             android:src="@drawable/product_detail_bg_pic"
+            android:scaleType="centerCrop"
             android:layout_height="150dp" />
 
         <View

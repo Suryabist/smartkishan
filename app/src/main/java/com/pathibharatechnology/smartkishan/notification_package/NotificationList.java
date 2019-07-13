@@ -20,6 +20,7 @@ import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,12 +51,22 @@ public class NotificationList extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<NotificationDTO> notificationDTOList = new ArrayList<>();
+                        List<NotificationDTO> reverseNotificationDTOList = new ArrayList<>();
                         Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
                         while (iterator.hasNext()){
                             DataSnapshot snap=iterator.next();
                             notificationDTOList.add(snap.getValue(NotificationDTO.class));
                         }
-                        NotificationAdapter adapter = new NotificationAdapter(notificationDTOList, NotificationList.this);
+
+                        Collections.reverse(notificationDTOList);
+
+                        int size = notificationDTOList.size()-1;
+
+                        for(int i=size;i>=0;i--){
+                            reverseNotificationDTOList.add(notificationDTOList.get(i));
+                        }
+
+                        NotificationAdapter adapter = new NotificationAdapter(reverseNotificationDTOList, NotificationList.this);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 

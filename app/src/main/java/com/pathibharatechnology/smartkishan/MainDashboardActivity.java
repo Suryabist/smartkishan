@@ -367,6 +367,7 @@ public class MainDashboardActivity extends AppCompatActivity
 
         notificationImage = showNotificationView.findViewById(R.id.notificationImageID);
         notificationCountTextview = showNotificationView.findViewById(R.id.notificationCountID);
+        notificationCountTextview.setVisibility(View.INVISIBLE);
         getNotifications();
 
 

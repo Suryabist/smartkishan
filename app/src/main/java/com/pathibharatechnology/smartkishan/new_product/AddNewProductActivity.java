@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
 
@@ -47,7 +50,6 @@ public class AddNewProductActivity extends AppCompatActivity {
     String category = "";
     Button uploadButton;
 
-    final int PICK_IMAGE_REQUEST = 1;
     Uri uri;
     Bitmap bitmap;
     StorageReference storageReference;
@@ -77,11 +79,7 @@ public class AddNewProductActivity extends AppCompatActivity {
         imageUploadImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-
+                selectImage();
             }
         });
 
@@ -127,18 +125,19 @@ public class AddNewProductActivity extends AppCompatActivity {
                                 })
                                 .show();
                     }else {
-                        addPostToDatabase();
+
+                        if (bitmap==null){
+                            Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
+                        } else {
+
+                            addPostToDatabase();
+                        }
                     }
                 } else {
 
                 }
             }
         });
-
-
-
-
-
     }
 
     private void addPostToDatabase() {
@@ -177,10 +176,6 @@ public class AddNewProductActivity extends AppCompatActivity {
 
                 }
             });
-        } else {
-            productListDTO.setProductImageUrl("");
-            uploadPost(productListDTO);
-
         }
     }
 
@@ -217,36 +212,84 @@ public class AddNewProductActivity extends AppCompatActivity {
     private boolean validate() {
         boolean isValid=false;
         productName=productNameEdittext.getText().toString();
-        productPrice= Integer.parseInt(productPriceEdittext.getText().toString());
         productDescription = productDescriptionEdittext.getText().toString();
         productDeliveryLocation = productDeliverLocationEdittext.getText().toString();
         if(TextUtils.isEmpty(productName)){
             productNameEdittext.setError("Required");
-        }else if(productPrice==0){
+        }else if(productPriceEdittext.getText().toString().equals("")){
             productPriceEdittext.setError("Required");
         }else if(TextUtils.isEmpty(productDescription)){
             productDescriptionEdittext.setError("Required");
         }else if(TextUtils.isEmpty(productDeliveryLocation)){
             productDeliverLocationEdittext.setError("Required");
         }else {
+            productPrice= Integer.parseInt(productPriceEdittext.getText().toString());
             isValid=true;
 
         }
         return isValid;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            uri = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imageUploadImageView.setImageBitmap(bitmap);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+    private void selectImage() {
+
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(3, 3)
+                .setMaxCropResultSize(4096, 4096)
+                .start(this);
+    }
+
+    private void cropRequest() {
+        CropImage.activity()
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(3, 3)
+                .setMaxCropResultSize(4096, 4096)
+                .start(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                selectImage();
+            } else {
+                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
             }
+        }
+        if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // required permissions granted, start crop image activity
+                cropRequest();
+            } else {
+                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                uri = resultUri;
+
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    imageUploadImageView.setImageBitmap(bitmap);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+
+
         }
 
 
