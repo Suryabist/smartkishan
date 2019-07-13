@@ -204,6 +204,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
+        android:id="@+id/callFloatingButtonID"
         android:src="@drawable/ic_phone_in_talk_black_24dp"
         android:tint="#fff"
         app:layout_anchor="@id/appBarLayout"

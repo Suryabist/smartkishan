@@ -2,9 +2,13 @@ package com.pathibharatechnology.smartkishan.product_detail;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,13 +47,15 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageView productImageView;
     TextView nameOfProduct, priceTextview, productDescriptionTextView, uploaderUserNameTextview, productDeliveryTextview;
     CircleImageView uploaderImage;
-    FloatingActionButton editProductInfoFloatingButton;
+    FloatingActionButton editProductInfoFloatingButton, callFloatingButton;
     LinearLayout uploaderDetailLinearLayout;
     Button sendNotificationButton;
 
     String userId, uploaderUserName, imageUrl, productName, productDetail, deliveryLocation, uploaderImageUrl, productId, productUploaderUserId;
     Integer price;
     String currentUserName;
+
+    String mobile;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -67,6 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         editProductInfoFloatingButton = findViewById(R.id.editProductInfoID);
         uploaderDetailLinearLayout = findViewById(R.id.uploaderDetailID);
         sendNotificationButton = findViewById(R.id.notifyID);
+        callFloatingButton = findViewById(R.id.callFloatingButtonID);
 
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
@@ -97,6 +104,28 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getUid().equals(userId)) {
             editProductInfoFloatingButton.setVisibility(View.VISIBLE);
         }
+
+        getUploaderPhone(productUploaderUserId);
+
+
+        callFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                if (ActivityCompat.checkSelfPermission(ProductDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(ProductDetailActivity.this, new String[]{
+                            Manifest.permission.CALL_PHONE
+                    }, 0);
+
+                } else {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    System.out.println("mobile====="+mobile);
+                    callIntent.setData(Uri.parse("tel:" + mobile));
+                    ProductDetailActivity.this.startActivity(callIntent);
+                }
+
+            }
+        });
 
         uploaderDetailLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +166,25 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
+    private void getUploaderPhone(String uploaderUserId) {
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(uploaderUserId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserDTO user=dataSnapshot.getValue(UserDTO.class);
+                        mobile = user.getMobile();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
 
     private void uploadNotification(NotificationDTO notificationDTO) {
         FirebaseDatabase.getInstance().getReference().child("notifications")
@@ -164,6 +212,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                 });
 
     }
+
+
+
 
 
     private void getUserDetails() {
