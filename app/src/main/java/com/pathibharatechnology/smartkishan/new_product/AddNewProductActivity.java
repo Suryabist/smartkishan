@@ -107,7 +107,7 @@ public class AddNewProductActivity extends AppCompatActivity {
             productDescriptionEdittext.setText(productDescription);
             productDeliverLocationEdittext.setText(productDeliveryLocation);
 
-            uploadButton.setText("Edit and Upload");
+            uploadButton.setText("अपडेट गर्नुहोस");
         }
 
 
@@ -123,11 +123,11 @@ public class AddNewProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final PopupMenu popupMenu = new PopupMenu(AddNewProductActivity.this, selectCategoryTextView);
-                popupMenu.getMenu().add(0, 0, 0, "Select a category");
-                popupMenu.getMenu().add(1, 1, 1, "Fruits");
-                popupMenu.getMenu().add(2, 2, 2, "Meats and fishes");
-                popupMenu.getMenu().add(3, 3, 3, "Vegetables");
-                popupMenu.getMenu().add(4, 4, 4, "Animalistic");
+                popupMenu.getMenu().add(0, 0, 0, "क्याटेगोरी सिलेक्ट गर्नुहोस");
+                popupMenu.getMenu().add(1, 1, 1, "फलफुल");
+                popupMenu.getMenu().add(2, 2, 2, "माछा मासु");
+                popupMenu.getMenu().add(3, 3, 3, "तरकारी");
+                popupMenu.getMenu().add(4, 4, 4, "पशुजन्य");
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -152,7 +152,7 @@ public class AddNewProductActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (validate()) {
                     if (category.equals("")) {
-                        Snackbar.make(view, "Select a category", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(view, "क्याटेगोरी सिलेक्ट गर्नुहोस", Snackbar.LENGTH_SHORT)
                                 .setAction("Close", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -161,15 +161,13 @@ public class AddNewProductActivity extends AppCompatActivity {
                                 .show();
                     } else {
 
-
-                        if (uploadButton.getText().toString().equals("Edit and Upload")) {
+                        if (uploadButton.getText().toString().equals("अपडेट गर्नुहोस")) {
 
                             if (downloadurl.equals("")) {
                                 Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
                             } else {
 //                                addPostToDatabase();
                                 updatePost();
-                                Toast.makeText(AddNewProductActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -296,7 +294,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                         if (task.isComplete()) {
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
-                            Toast.makeText(AddNewProductActivity.this, "Successfully uploaded...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddNewProductActivity.this, "Successful...", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(AddNewProductActivity.this, MainDashboardActivity.class);
                             startActivity(intent);
                             finish();

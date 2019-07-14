@@ -80,7 +80,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
                         android:gravity="center"
-                        android:hint="Name of Product"
+                        android:hint="प्रोडक्टको नाम"
                         android:padding="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:padding="32dp"
                         android:textSize="16dp"
-                        android:text="Select a category"
+                        android:text="क्याटेगोरी सिलेक्ट गर्नुहोस"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
                         android:layout_height="wrap_content" />
@@ -113,7 +113,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
                         android:gravity="center"
-                        android:hint="Price of Product (in NRs.)"
+                        android:hint="प्रोडक्टको मूल्य नेरुमा"
                         android:padding="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -136,7 +136,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
                         android:gravity="center"
-                        android:hint="Product Description"
+                        android:hint="प्रोडक्टको विबरण"
                         android:padding="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -158,7 +158,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
                         android:gravity="center"
-                        android:hint="Product Delivery Location"
+                        android:hint="प्रोडक्ट पाउने स्थान"
                         android:padding="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -179,8 +179,9 @@
                         android:background="@drawable/upload_button_background"
                         android:layout_marginBottom="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="Upload"
-                        android:padding="16dp"
+                        android:text="अपलोड गर्नुहोस"
+                        android:textSize="18sp"
+                        android:padding="20dp"
                         android:textColor="#fff"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

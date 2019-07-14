@@ -126,11 +126,11 @@ public class MainDashboardActivity extends AppCompatActivity
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        listOfCategories.add("Select a category");
-        listOfCategories.add("Fruits");
-        listOfCategories.add("Meats and fishes");
-        listOfCategories.add("Vegetables");
-        listOfCategories.add("Animalistic");
+        listOfCategories.add("क्याटेगोरी सिलेक्ट गर्नुहोस");
+        listOfCategories.add("फलफुल");
+        listOfCategories.add("माछा मासु");
+        listOfCategories.add("तरकारी");
+        listOfCategories.add("पशुजन्य");
         selectCategorySpinner = findViewById(R.id.searchCategoryID);
 
 
@@ -154,7 +154,7 @@ public class MainDashboardActivity extends AppCompatActivity
                 final String searchKeyWord = searchKeywordEditText.getText().toString().trim();
                 selectedCategory = selectCategorySpinner.getSelectedItem().toString();
                 System.out.println("Selected category is====="+selectedCategory);
-                if (selectedCategory.equals("Select a category")){
+                if (selectedCategory.equals("क्याटेगोरी सिलेक्ट गर्नुहोस")){
                     categoryFilter = "";
                 } else {
                     categoryFilter = selectedCategory;

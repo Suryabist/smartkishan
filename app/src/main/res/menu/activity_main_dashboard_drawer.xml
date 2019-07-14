@@ -7,29 +7,29 @@
         <item
             android:id="@+id/profileID"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="Profile" />
+            android:title="प्रोफाइल" />
         <item
             android:id="@+id/productsID"
             android:icon="@drawable/ic_shopping_basket_black_24dp"
-            android:title="Products" />
+            android:title="प्रोडक्टहरु" />
         <item
             android:id="@+id/uploadProductID"
             android:icon="@drawable/add_post_floating_icon"
-            android:title="Upload Product" />
+            android:title="प्रोडक्ट बेच्नुहोस" />
         <item
             android:id="@+id/categoriesID"
             android:icon="@drawable/ic_categories"
-            android:title="Categories" />
+            android:title="क्याटेगोरिहरु" />
 
         <item
             android:id="@+id/aboutUsID"
             android:icon="@drawable/ic_about_us"
-            android:title="About Us" />
+            android:title="हाम्रो बारेमा जन्नुहोस" />
 
         <item
             android:id="@+id/logOutID"
             android:icon="@drawable/ic_power_settings_new_black_24dp"
-            android:title="Log out" />
+            android:title="लग आउट" />
     </group>
 
 </menu>

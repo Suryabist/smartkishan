@@ -34,13 +34,13 @@ public class CategoriesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewID);
 
         categoryArrayList.add("fruits");
-        categoryImageData.put("fruits", "Fruits");
-        categoryArrayList.add("meats_and_fishes");
-        categoryImageData.put("meats_and_fishes", "Meats and fishes");
+        categoryImageData.put("fruits", "फलफुल");
+        categoryArrayList.add("meat_fish");
+        categoryImageData.put("meat_fish", "माछा मासु");
         categoryArrayList.add("vegetables");
-        categoryImageData.put("vegetables", "Vegetables");
-        categoryArrayList.add("animalistic");
-        categoryImageData.put("animalistic", "Animalistic");
+        categoryImageData.put("vegetables", "तरकारी");
+        categoryArrayList.add("animal");
+        categoryImageData.put("animal", "पशुजन्य");
 
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);

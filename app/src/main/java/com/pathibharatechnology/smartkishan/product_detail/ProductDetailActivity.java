@@ -104,7 +104,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         getProductDetails(productId);
 
         nameOfProduct.setText(productName);
-        priceTextview.setText(" NRs. " + price);
+        priceTextview.setText(price + " ने.रू.");
         System.out.println("Product description====" + productDetail);
         productDescriptionTextView.setText(productDetail + " ");
         uploaderUserNameTextview.setText(uploaderUserName);
