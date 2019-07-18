@@ -88,7 +88,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 if (validate()) {
 
                     user=new UserDTO();
-                    user.setPassword(password);
                     user.setJoinedTime(joinedTime);
                     user.setEmail(userEmail);
                     user.setFullName(userFullName);
@@ -185,7 +184,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                         userMobile = user.getMobile();
                         imageUrl = user.getProfilePic();
                         joinedTime = user.getJoinedTime();
-                        password = user.getPassword();
 
                         fullnameEdittext.setText(userFullName);
                         emailEdittext.setText(userEmail);

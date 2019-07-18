@@ -82,7 +82,6 @@ public class SignUpFragment extends Fragment {
                     user.setEmail(email);
                     user.setUserName(userName);
                     user.setMobile(mobile);
-                    user.setPassword(password);
                     DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
                     Date date = new Date();
                     String strDate = dateFormat.format(date);
@@ -158,7 +157,7 @@ public class SignUpFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener((Activity) getContext(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

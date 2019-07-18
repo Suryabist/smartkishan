@@ -7,7 +7,6 @@ public class UserDTO {
     private String email;
     private String userName;
     private String mobile;
-    private String password;
     private String profilePic;
     private String joinedTime;
 
@@ -41,14 +40,6 @@ public class UserDTO {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getProfilePic() {

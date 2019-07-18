@@ -29,4 +29,9 @@
 
     <string name="about_us">Smart Krishi is a application which includes goods and services offers related to the agriculture. When you start browsing, the app displays an assortment of new goods and services. Buy and sell any agricultural products easily within the app.\\n\\nSmart Krishi is a mobile marketplace for local buyers and sellers.\\nBuy or Sell anything, easily post your item for sale by taking a photo.\\nBrowse agricultural items for sale through app.\\nMessage, call or request to contact you, buyers and sellers from within the app. \\n\\nIf you want more information please feel free to contact us at smartkisan7@gmail.com</string>
 
+    <string name="facebook_app_id">622714848239273</string>
+    <string name="fb_login_protocol_scheme">fb622714848239273</string>
+
+
+
 </resources>

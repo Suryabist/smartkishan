@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.view.View;
@@ -451,6 +452,8 @@ public class MainDashboardActivity extends AppCompatActivity
         } else if (id == R.id.logOutID) {
             FirebaseAuth.getInstance().signOut();
             intent = new Intent(MainDashboardActivity.this, MainActivity.class);
+
+            LoginManager.getInstance().logOut();
 
         }
         if (intent!=null) {

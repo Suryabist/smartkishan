@@ -49,6 +49,10 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
 
 
+    //facebook dependency
+    implementation 'com.facebook.android:facebook-login:[5,6)'
+
 }
+
 
 apply plugin: 'com.google.gms.google-services'
