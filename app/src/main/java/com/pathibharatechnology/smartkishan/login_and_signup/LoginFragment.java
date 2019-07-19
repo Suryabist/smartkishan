@@ -58,11 +58,10 @@ public class LoginFragment extends Fragment {
 
 
     EditText emailEditText, passwordEditText;
-    Button loginnButton;
+    Button signInButton;
     TextView signUpTextView;
     String email, password;
     ProgressBar progressBar;
-
     LoginButton fbLoginButton;
 
     CallbackManager callbackManager;
@@ -71,20 +70,14 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     StorageReference storageReference;
 
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         callbackManager = CallbackManager.Factory.create();
 
-
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-
 
     }
 
@@ -98,11 +91,11 @@ public class LoginFragment extends Fragment {
 
         emailEditText = view.findViewById(R.id.emailEditTextID);
         passwordEditText = view.findViewById(R.id.passwordEditTextID);
-        loginnButton = view.findViewById(R.id.loginButtonID);
-        signUpTextView = view.findViewById(R.id.signUpID);
+        signInButton = view.findViewById(R.id.signInButtonId);
+        signUpTextView = view.findViewById(R.id.signUpTextviewId);
         progressBar = view.findViewById(R.id.progressBarID);
 
-        fbLoginButton = (LoginButton) view.findViewById(R.id.login_button);
+        fbLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
         fbLoginButton.setReadPermissions(Arrays.asList(EMAIL));
 
 
@@ -115,7 +108,6 @@ public class LoginFragment extends Fragment {
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getContext(), "Text login", Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
 
                 // App code
@@ -138,7 +130,7 @@ public class LoginFragment extends Fragment {
 
 
 
-        loginnButton.setOnClickListener(new View.OnClickListener() {
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validate()) {
@@ -175,6 +167,7 @@ public class LoginFragment extends Fragment {
 
 
     private void handleFacebookAccessToken(AccessToken token) {
+        progressBar.setVisibility(View.VISIBLE);
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -183,6 +176,7 @@ public class LoginFragment extends Fragment {
                 .addOnCompleteListener((Activity) getContext(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
 
                             uploadUserInformation();
@@ -271,7 +265,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
 
@@ -279,7 +273,7 @@ public class LoginFragment extends Fragment {
         if (currentUser != null){
             Toast.makeText(getContext(), "Hello surya. logged in to fb", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     private boolean validate(){
         boolean isValid=false;
