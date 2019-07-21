@@ -26,6 +26,12 @@
             android:icon="@drawable/ic_about_us"
             android:title="हाम्रो बारेमा जन्नुहोस" />
 
+
+        <item
+            android:id="@+id/loginId"
+            android:icon="@drawable/ic_login"
+            android:title="लग इन गर्नुहोस्" />
+
         <item
             android:id="@+id/logOutID"
             android:icon="@drawable/ic_power_settings_new_black_24dp"

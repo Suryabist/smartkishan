@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
     android:layout_margin="4dp"
     android:layout_height="wrap_content">
@@ -28,16 +28,18 @@
             android:id="@+id/productNameTextviewID"
             android:layout_width="wrap_content"
             android:text="Product Name"
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginLeft="8dp"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/productPriceTextviewID"
             android:layout_width="wrap_content"
             android:text="Product price"
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content" />
 

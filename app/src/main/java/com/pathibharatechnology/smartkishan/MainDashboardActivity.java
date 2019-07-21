@@ -118,6 +118,19 @@ public class MainDashboardActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        Menu menu = navigationView.getMenu();
+        MenuItem logInMenu = menu.findItem(R.id.loginId);
+        MenuItem logOutMenu = menu.findItem(R.id.logOutID);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            logInMenu.setVisible(false);
+            logOutMenu.setVisible(true);
+        } else {
+            logInMenu.setVisible(true);
+            logOutMenu.setVisible(false);
+        }
+
         navigationView.setNavigationItemSelectedListener(this);
 
 

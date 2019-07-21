@@ -39,7 +39,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.pathibharatechnology.smartkishan.MainActivity;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
@@ -325,7 +328,6 @@ public class LoginFragment extends Fragment {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
-            Toast.makeText(getContext(), "Logged in surya.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -409,7 +411,6 @@ public class LoginFragment extends Fragment {
                             if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
                                 Snackbar.make(getView(), "Login Successful.", Snackbar.LENGTH_LONG)
                                         .show();
-                                Toast.makeText(getContext(), "Login successfully.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 getActivity().startActivity(intent);
                                 getActivity().finish();
