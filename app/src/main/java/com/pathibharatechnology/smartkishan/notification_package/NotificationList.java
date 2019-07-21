@@ -2,12 +2,14 @@ package com.pathibharatechnology.smartkishan.notification_package;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
+import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +36,11 @@ public class NotificationList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_list);
         recyclerView = findViewById(R.id.recyclerViewID);
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        SupportActionBarInitializer.setUpSupportActionBar(getSupportActionBar(), "Notifications", true);
 
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
@@ -70,9 +78,6 @@ public class NotificationList extends AppCompatActivity {
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
-
-
-
                     }
 
                     @Override
@@ -85,12 +90,18 @@ public class NotificationList extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(NotificationList.this, MainDashboardActivity.class);
-        startActivity(intent);
-        finish();
         super.onBackPressed();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

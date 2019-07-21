@@ -33,7 +33,7 @@
                 <TextView
                     android:id="@+id/signUpTextviewId"
                     android:layout_width="wrap_content"
-                    android:text="SIGN UP NOW"
+                    android:text="साइन अप गर्नुहोस्"
                     android:textSize="14dp"
                     android:layout_marginLeft="16dp"
                     android:layout_gravity="center"
@@ -70,7 +70,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="Sign in to continue"
+                android:text="जारी राख्न साइन इन गर्नुहोस्"
                 android:layout_gravity="center"
                 android:textSize="16dp"
                 android:layout_height="wrap_content" />
@@ -79,9 +79,9 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="EMAIL"
+                android:text="इ-मेल"
                 android:layout_marginLeft="16dp"
-                android:textSize="10dp"
+                android:textSize="14sp"
                 android:layout_marginTop="100dp"
                 android:layout_height="wrap_content" />
 
@@ -96,11 +96,11 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="PASSWORD"
+                android:text="पासवर्ड"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
-                android:textSize="10dp"
+                android:textSize="14sp"
                 android:layout_height="wrap_content" />
 
             <EditText
@@ -115,7 +115,7 @@
             <TextView
                 android:id="@+id/forgotPasswordTextviewID"
                 android:layout_width="wrap_content"
-                android:text="Forgot password?"
+                android:text="पासवर्ड भुल्नु भयो?"
                 android:layout_gravity="right"
                 android:textSize="14sp"
                 android:layout_marginRight="16dp"
@@ -124,7 +124,7 @@
             <Button
                 android:id="@+id/signInButtonId"
                 android:layout_width="match_parent"
-                android:text="Sign In"
+                android:text="साइन इन"
                 android:textColor="#fff"
                 android:layout_margin="16dp"
                 android:padding="16dp"

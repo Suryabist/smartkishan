@@ -49,6 +49,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class ProductDetailActivity extends AppCompatActivity {
 
 
@@ -298,6 +300,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(ProductDetailActivity.this, MainDashboardActivity.class);
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
         super.onBackPressed();
     }
 

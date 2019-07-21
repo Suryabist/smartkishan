@@ -16,6 +16,8 @@ import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class CategoriesActivity extends AppCompatActivity {
 
     ArrayList<String> categoryArrayList = new ArrayList<>();
@@ -41,6 +43,8 @@ public class CategoriesActivity extends AppCompatActivity {
         categoryImageData.put("vegetables", "तरकारी");
         categoryArrayList.add("animal");
         categoryImageData.put("animal", "पशुजन्य");
+        categoryArrayList.add("crops");
+        categoryImageData.put("crops", "अन्न");
 
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -55,6 +59,7 @@ public class CategoriesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(CategoriesActivity.this, MainDashboardActivity.class);
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
         super.onBackPressed();

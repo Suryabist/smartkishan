@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import android.view.MenuItem;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -53,10 +55,12 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class MainDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<String> listOfCategories =  new ArrayList<>();
+    ArrayList<String> listOfCategories = new ArrayList<>();
     Spinner selectCategorySpinner;
     FloatingActionButton uploadProductFloatingActionButton;
 
@@ -83,8 +87,6 @@ public class MainDashboardActivity extends AppCompatActivity
     int pendingNotificationCount = 10;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +108,11 @@ public class MainDashboardActivity extends AppCompatActivity
         navUserName = mView.findViewById(R.id.nav_userNameID);
 
 
-        getUserDetails();
+        try {
+            getUserDetails();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -115,15 +121,14 @@ public class MainDashboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
         uploadProductFloatingActionButton = findViewById(R.id.uploadProductID);
         progressBar = findViewById(R.id.progressBarID);
         recyclerView = findViewById(R.id.recyclerViewID);
 
-        SupportActionBarInitializer.setSupportActionBarTitle( this.getSupportActionBar(),"Smart Kishan");
+        SupportActionBarInitializer.setSupportActionBarTitle(this.getSupportActionBar(), "Smart Kishan");
 
 
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -132,15 +137,14 @@ public class MainDashboardActivity extends AppCompatActivity
         listOfCategories.add("माछा मासु");
         listOfCategories.add("तरकारी");
         listOfCategories.add("पशुजन्य");
+        listOfCategories.add("अन्न");
         selectCategorySpinner = findViewById(R.id.searchCategoryID);
-
 
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item, listOfCategories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectCategorySpinner.setAdapter(adapter);
-
 
 
         fetchFeedFromDatabase();
@@ -150,21 +154,21 @@ public class MainDashboardActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                final List<ProductListDTO> listOfProduct=new ArrayList<>();
+                final List<ProductListDTO> listOfProduct = new ArrayList<>();
 
                 final String searchKeyWord = searchKeywordEditText.getText().toString().trim();
                 selectedCategory = selectCategorySpinner.getSelectedItem().toString();
-                System.out.println("Selected category is====="+selectedCategory);
-                if (selectedCategory.equals("क्याटेगोरी सिलेक्ट गर्नुहोस")){
+                System.out.println("Selected category is=====" + selectedCategory);
+                if (selectedCategory.equals("क्याटेगोरी सिलेक्ट गर्नुहोस")) {
                     categoryFilter = "";
                 } else {
                     categoryFilter = selectedCategory;
                 }
 
 
-                if (searchKeyWord.equals("")){
+                if (searchKeyWord.equals("")) {
                     //search empty && category also empty
-                    if (categoryFilter.equals("")){
+                    if (categoryFilter.equals("")) {
                         fetchFeedFromDatabase();
                     }
 
@@ -174,10 +178,10 @@ public class MainDashboardActivity extends AppCompatActivity
                                 .addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        List<ProductListDTO> productList=new ArrayList<>();
-                                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
-                                        while (iterator.hasNext()){
-                                            DataSnapshot snap=iterator.next();
+                                        List<ProductListDTO> productList = new ArrayList<>();
+                                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                                        while (iterator.hasNext()) {
+                                            DataSnapshot snap = iterator.next();
                                             productList.add(snap.getValue(ProductListDTO.class));
 
                                         }
@@ -197,15 +201,15 @@ public class MainDashboardActivity extends AppCompatActivity
                 } else {
 
                     //search !empty && category empty
-                    if (categoryFilter.equals("")){
+                    if (categoryFilter.equals("")) {
                         FirebaseDatabase.getInstance().getReference().child("products").orderByChild("productName").startAt(searchKeyWord)
                                 .addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        List<ProductListDTO> productList=new ArrayList<>();
-                                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
-                                        while (iterator.hasNext()){
-                                            DataSnapshot snap=iterator.next();
+                                        List<ProductListDTO> productList = new ArrayList<>();
+                                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                                        while (iterator.hasNext()) {
+                                            DataSnapshot snap = iterator.next();
                                             productList.add(snap.getValue(ProductListDTO.class));
 
                                         }
@@ -233,7 +237,7 @@ public class MainDashboardActivity extends AppCompatActivity
                                         ProductListDTO productListDTO = dataSnapshot.getValue(ProductListDTO.class);
 
 
-                                        if (productListDTO.getProductName().contains(searchKeyWord) && productListDTO.getProductCategory().equals(categoryFilter)){
+                                        if (productListDTO.getProductName().contains(searchKeyWord) && productListDTO.getProductCategory().equals(categoryFilter)) {
                                             listOfProduct.add(productListDTO);
                                         }
                                         ProductListAdapter productListAdapter = new ProductListAdapter(listOfProduct, MainDashboardActivity.this);
@@ -273,34 +277,31 @@ public class MainDashboardActivity extends AppCompatActivity
         });
 
 
-
-
-
-
-
-
-
-
         uploadProductFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
-                startActivity(intent);
-                finish();
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    Intent intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainDashboardActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
 
     }
 
-    private void getUserDetails(){
+    private void getUserDetails() {
         FirebaseDatabase.getInstance().getReference()
                 .child("users")
                 .child(FirebaseAuth.getInstance().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        UserDTO user=dataSnapshot.getValue(UserDTO.class);
+                        UserDTO user = dataSnapshot.getValue(UserDTO.class);
                         navUserName.setText(user.getUserName());
                         userName = user.getUserName();
                         userProfilePic = user.getProfilePic();
@@ -318,22 +319,22 @@ public class MainDashboardActivity extends AppCompatActivity
     }
 
 
-    private void fetchFeedFromDatabase(){
+    private void fetchFeedFromDatabase() {
 
         progressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase.getInstance().getReference().child("products")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<ProductListDTO> productList=new ArrayList<>();
-                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
-                        while (iterator.hasNext()){
-                            DataSnapshot snap=iterator.next();
+                        List<ProductListDTO> productList = new ArrayList<>();
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        while (iterator.hasNext()) {
+                            DataSnapshot snap = iterator.next();
                             productList.add(snap.getValue(ProductListDTO.class));
 
                         }
 
-                        ProductListAdapter adapter=new ProductListAdapter(productList, MainDashboardActivity.this);
+                        ProductListAdapter adapter = new ProductListAdapter(productList, MainDashboardActivity.this);
 
                         progressBar.setVisibility(View.GONE);
                         recyclerView.setAdapter(adapter);
@@ -375,8 +376,14 @@ public class MainDashboardActivity extends AppCompatActivity
         notificationImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainDashboardActivity.this, NotificationList.class);
-                startActivity(intent);
+                if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                    Intent intent = new Intent(MainDashboardActivity.this, NotificationList.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainDashboardActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
@@ -384,16 +391,16 @@ public class MainDashboardActivity extends AppCompatActivity
     }
 
 
-    public void getNotifications(){
+    public void getNotifications() {
 
         FirebaseDatabase.getInstance().getReference().child("notifications").orderByChild("productUploaderUserId").equalTo(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<NotificationDTO> notificationDTOList=new ArrayList<>();
-                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
-                        while (iterator.hasNext()){
-                            DataSnapshot snap=iterator.next();
+                        List<NotificationDTO> notificationDTOList = new ArrayList<>();
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        while (iterator.hasNext()) {
+                            DataSnapshot snap = iterator.next();
                             notificationDTOList.add(snap.getValue(NotificationDTO.class));
                         }
 
@@ -413,11 +420,11 @@ public class MainDashboardActivity extends AppCompatActivity
     }
 
     private void setUpBadge(int notificationCount) {
-        if (notificationCount==0){
+        if (notificationCount == 0) {
             notificationCountTextview.setVisibility(View.GONE);
-        }else {
+        } else {
             notificationCountTextview.setVisibility(View.VISIBLE);
-            notificationCountTextview.setText(notificationCount+"");
+            notificationCountTextview.setText(notificationCount + "");
         }
     }
 
@@ -425,46 +432,57 @@ public class MainDashboardActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+
         Intent intent = null;
 
-        if (id == R.id.profileID) {
-            intent = new Intent(MainDashboardActivity.this, UserProfileActivity.class);
-            userId = FirebaseAuth.getInstance().getUid();
-            intent.putExtra("userId",userId);
-            intent.putExtra("userName", userName);
-            intent.putExtra("userProfilePic", userProfilePic);
-
-            // Handle the camera action
-        } else if (id == R.id.productsID) {
-
-        } else if (id == R.id.uploadProductID) {
-            intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            // Handle navigation view item clicks here.
+            int id = item.getItemId();
 
 
-        } else if (id == R.id.categoriesID) {
-            intent = new Intent(MainDashboardActivity.this, CategoriesActivity.class);
+            if (id == R.id.profileID) {
+                intent = new Intent(MainDashboardActivity.this, UserProfileActivity.class);
+                userId = FirebaseAuth.getInstance().getUid();
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userProfilePic", userProfilePic);
 
-        } else if (id == R.id.aboutUsID) {
-            intent = new Intent(MainDashboardActivity.this, AboutUsActivity.class);
+                // Handle the camera action
+            } else if (id == R.id.productsID) {
 
-        } else if (id == R.id.logOutID) {
-            FirebaseAuth.getInstance().signOut();
+            } else if (id == R.id.uploadProductID) {
+                intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
+
+
+            } else if (id == R.id.categoriesID) {
+                intent = new Intent(MainDashboardActivity.this, CategoriesActivity.class);
+
+            } else if (id == R.id.aboutUsID) {
+                intent = new Intent(MainDashboardActivity.this, AboutUsActivity.class);
+
+            } else if (id == R.id.logOutID) {
+                FirebaseAuth.getInstance().signOut();
+                intent = new Intent(MainDashboardActivity.this, MainActivity.class);
+                LoginManager.getInstance().logOut();
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+            }
+
+            if (intent != null) {
+                startActivity(intent);
+            }
+        } else {
             intent = new Intent(MainDashboardActivity.this, MainActivity.class);
-
-            LoginManager.getInstance().logOut();
-
-        }
-        if (intent!=null) {
+            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
+
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
 }

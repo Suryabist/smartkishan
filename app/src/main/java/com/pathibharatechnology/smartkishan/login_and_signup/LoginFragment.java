@@ -31,6 +31,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
@@ -50,6 +51,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.Executor;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.provider.ContactsContract.Intents.Insert.EMAIL;
 import static com.facebook.AccessTokenManager.TAG;
 
@@ -64,8 +66,15 @@ public class LoginFragment extends Fragment {
     ProgressBar progressBar;
     LoginButton fbLoginButton;
 
+
+    TextView forgotPasswordTextview;
+    TextView resendVerificationTextview;
+    TextView skipTextview;
+
     CallbackManager callbackManager;
     private static final String EMAIL = "email";
+
+    FirebaseUser mUser;
 
     FirebaseAuth mAuth;
     StorageReference storageReference;
@@ -98,6 +107,11 @@ public class LoginFragment extends Fragment {
         fbLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
         fbLoginButton.setReadPermissions(Arrays.asList(EMAIL));
 
+        forgotPasswordTextview = view.findViewById(R.id.forgotPasswordTextviewID);
+        resendVerificationTextview = view.findViewById(R.id.emailVerificationSendId);
+        skipTextview = view.findViewById(R.id.skipTextviewId);
+
+
 
         fbLoginButton.setFragment(this);
 
@@ -127,6 +141,57 @@ public class LoginFragment extends Fragment {
         });
 
 
+        resendVerificationTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (validate()){
+                    sendVerification();
+                }
+
+            }
+        });
+
+        skipTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainDashboardActivity.class);
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+
+
+
+
+
+        forgotPasswordTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailForForgotPassword = emailEditText.getText().toString().trim();
+                if (TextUtils.isEmpty(emailForForgotPassword)) {
+                    emailEditText.setError("Please enter email to reset your password...");
+                } else {
+
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(emailForForgotPassword)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getContext(), "Please check your email for password reset link.", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                }
+            }
+        });
 
 
 
@@ -294,6 +359,41 @@ public class LoginFragment extends Fragment {
     }
 
 
+    private void sendVerification(){
+        progressBar.setVisibility(View.VISIBLE);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if(task.isSuccessful()){
+
+                            mUser = FirebaseAuth.getInstance().getCurrentUser();
+                            mUser.reload();
+
+                            mUser.reload();
+                            if(!mUser.isEmailVerified()) {
+                                mUser.sendEmailVerification();
+                                Toast.makeText(getContext(), "Email Sent!", Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(getContext(), "Your email has been verified!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getContext(), MainDashboardActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
+
+
+                        }else{
+                            Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG)
+                                    .show();
+                            Toast.makeText(getContext(), "error:"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
     private void loginUserToFirebase(){
         progressBar.setVisibility(View.VISIBLE);
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
@@ -302,6 +402,10 @@ public class LoginFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
+
+                            mUser = FirebaseAuth.getInstance().getCurrentUser();
+                            mUser.reload();
+
                             if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
                                 Snackbar.make(getView(), "Login Successful.", Snackbar.LENGTH_LONG)
                                         .show();

@@ -41,6 +41,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class AddNewProductActivity extends AppCompatActivity {
 
     TextView selectCategoryTextView;
@@ -128,6 +130,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                 popupMenu.getMenu().add(2, 2, 2, "माछा मासु");
                 popupMenu.getMenu().add(3, 3, 3, "तरकारी");
                 popupMenu.getMenu().add(4, 4, 4, "पशुजन्य");
+                popupMenu.getMenu().add(5, 5, 5, "अन्न");
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -295,8 +298,6 @@ public class AddNewProductActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
                             Toast.makeText(AddNewProductActivity.this, "Successful...", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(AddNewProductActivity.this, MainDashboardActivity.class);
-                            startActivity(intent);
                             finish();
                         }
 
@@ -394,10 +395,17 @@ public class AddNewProductActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(AddNewProductActivity.this, MainDashboardActivity.class);
-        startActivity(intent);
-        finish();
         super.onBackPressed();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

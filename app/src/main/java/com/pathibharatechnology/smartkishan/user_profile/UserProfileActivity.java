@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -147,6 +150,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(UserProfileActivity.this, MainDashboardActivity.class);
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
         super.onBackPressed();
     }
 }

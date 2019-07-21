@@ -1,5 +1,6 @@
 package com.pathibharatechnology.smartkishan.products_list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -20,11 +21,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pathibharatechnology.smartkishan.MainActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
+import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder>  implements Filterable {
 
@@ -163,18 +168,25 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             recyclerLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("userId", userID);
-                    intent.putExtra("uploaderUserName", uploaderUserName);
-                    intent.putExtra("imageUrl", imageUrl);
-                    intent.putExtra("productName", productName);
-                    intent.putExtra("productPrice", price);
-                    intent.putExtra("productDetail", productDetail);
-                    intent.putExtra("deliveryLocation", deliveryLocation);
-                    intent.putExtra("uploaderImageUrl", uploaderImageUrl);
-                    intent.putExtra("productId", productListDTO.getProductId());
-                    intent.putExtra("productUploaderId", productListDTO.getProductUploaderUserId());
-                    mContext.startActivity(intent);
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                        Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                        intent.putExtra("userId", userID);
+                        intent.putExtra("uploaderUserName", uploaderUserName);
+                        intent.putExtra("imageUrl", imageUrl);
+                        intent.putExtra("productName", productName);
+                        intent.putExtra("productPrice", price);
+                        intent.putExtra("productDetail", productDetail);
+                        intent.putExtra("deliveryLocation", deliveryLocation);
+                        intent.putExtra("uploaderImageUrl", uploaderImageUrl);
+                        intent.putExtra("productId", productListDTO.getProductId());
+                        intent.putExtra("productUploaderId", productListDTO.getProductUploaderUserId());
+                        mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
+                    } else {
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                        mContext.startActivity(intent);
+                    }
 
                 }
             });
