@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.provider.MediaStore;
@@ -25,17 +26,26 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.MainActivity;
 import com.pathibharatechnology.smartkishan.R;
+import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
@@ -54,6 +64,7 @@ public class SignUpFragment extends Fragment {
     Uri uri;
     StorageReference storageReference;
     ProgressBar progressBar;
+    int count = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,16 +88,33 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (validate()) {
-                    UserDTO user=new UserDTO();
-                    user.setFullName(fullName);
-                    user.setEmail(email);
-                    user.setUserName(userName);
-                    user.setMobile(mobile);
-                    DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                    Date date = new Date();
-                    String strDate = dateFormat.format(date);
-                    user.setJoinedTime(strDate);
-                    regiterUserToFirebase(user);
+                    Query query = FirebaseDatabase.getInstance().getReference().child("users")
+                            .orderByChild("userName").equalTo(userName);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getChildrenCount() > 0) {
+                                userNameEditText.setError("This username has already been taken.");
+                            } else {
+                                UserDTO user=new UserDTO();
+                                user.setFullName(fullName);
+                                user.setEmail(email);
+                                user.setUserName(userName);
+                                user.setMobile(mobile);
+                                DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                                Date date = new Date();
+                                String strDate = dateFormat.format(date);
+                                user.setJoinedTime(strDate);
+                                regiterUserToFirebase(user);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
 
             }
@@ -120,13 +148,12 @@ public class SignUpFragment extends Fragment {
     private boolean validate() {
         boolean isValid = false;
 
-        fullName = fullNameEditText.getText().toString();
-        email = emailEditText.getText().toString();
-        userName = userNameEditText.getText().toString();
-        mobile = (mobileEditText.getText().toString());
-        password = passwordEditText.getText().toString();
-        confirmPassword = confirmPasswordEditText.getText().toString();
-
+        fullName = fullNameEditText.getText().toString().trim();
+        email = emailEditText.getText().toString().trim();
+        userName = userNameEditText.getText().toString().toLowerCase().trim();
+        mobile = mobileEditText.getText().toString().trim();
+        password = passwordEditText.getText().toString().trim();
+        confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(fullName)) {
             fullNameEditText.setError("Required");
@@ -143,7 +170,6 @@ public class SignUpFragment extends Fragment {
         } else if (bitmap == null) {
             Snackbar.make(getView(), "Please select profile picture.", Snackbar.LENGTH_LONG)
                     .show();
-            Toast.makeText(getContext(), "Please select profile picture", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(confirmPassword)){
             confirmPasswordEditText.setError("Password doesnot match.");
         }else {

@@ -20,11 +20,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (!TextUtils.isEmpty(FirebaseAuth.getInstance().getUid())) {
-            Intent intent = new Intent(this, MainDashboardActivity.class);
-            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            Toast.makeText(this, "User already logged in...", Toast.LENGTH_SHORT).show();
-            finish();
+            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+                Intent intent = new Intent(this, MainDashboardActivity.class);
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
+            } else {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
         } else {
 
             setContentView(R.layout.activity_main);
