@@ -29,12 +29,14 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
+                android:theme="@style/NewAppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
+                    android:backgroundTint="#fff"
                     android:layout_height="?attr/actionBarSize">
 
                 </androidx.appcompat.widget.Toolbar>
@@ -111,7 +113,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/custom_inputtext"
                 android:gravity="center"
-                android:hint="Full name"
+                android:hint="पुरा नाम"
                 android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -132,14 +134,14 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/custom_inputtext"
                 android:gravity="center"
-                android:hint="Email"
+                android:hint="ई-मेल"
                 android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailEditTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
+                    android:editable="false"
                     android:background="@drawable/custom_inputtext"
                     android:singleLine="true"
                     android:padding="8dp"
@@ -154,7 +156,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/custom_inputtext"
                 android:gravity="center"
-                android:hint="Mobile"
+                android:hint="मोबाइल"
                 android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -172,7 +174,7 @@
             <TextView
                 android:id="@+id/changePasswordTextViewID"
                 android:layout_width="wrap_content"
-                android:text="Change Password"
+                android:text="पासवर्ड परिवर्तन गर्नुहोस्"
                 android:textSize="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
@@ -185,7 +187,7 @@
                 android:background="@drawable/upload_button_background"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Update"
+                android:text="अप्डेट गर्नुहोस्"
                 android:padding="16dp"
                 android:textColor="#fff"
                 android:layout_width="match_parent"

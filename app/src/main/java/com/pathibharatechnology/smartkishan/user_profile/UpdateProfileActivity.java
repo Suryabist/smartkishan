@@ -2,6 +2,7 @@ package com.pathibharatechnology.smartkishan.user_profile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
+import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
 import com.pathibharatechnology.smartkishan.login_and_signup.LoginFragment;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -48,11 +52,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UpdateProfileActivity extends AppCompatActivity {
 
     TextInputEditText fullnameEdittext, emailEdittext, mobileEdittext;
-    TextView userNameTextview;
+    TextView userNameTextview, changePasswordTextview;
     CircleImageView userImageCircleImageView;
     Button updateButton;
 
-    String userFullName, userEmail, userMobile, userName, imageUrl, joinedTime, password;
+    TextInputLayout emailTextlayout;
+
+    String userFullName, userEmail, userMobile, userName, imageUrl, joinedTime;
 
     Uri uri;
     Bitmap bitmap;
@@ -65,13 +71,21 @@ public class UpdateProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        SupportActionBarInitializer.setUpSupportActionBar(getSupportActionBar(), "Update profile", true);
+
+
         fullnameEdittext = findViewById(R.id.fullNameEditTextID);
         emailEdittext = findViewById(R.id.emailEditTextID);
         mobileEdittext = findViewById(R.id.mobileEditTextID);
         userNameTextview = findViewById(R.id.userNameTextViewID);
         userImageCircleImageView = findViewById(R.id.userProfileImageID);
         updateButton = findViewById(R.id.updateUserProfileID);
+        changePasswordTextview = findViewById(R.id.changePasswordTextViewID);
 
+        emailTextlayout = findViewById(R.id.emailID);
 
         userImageCircleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +95,28 @@ public class UpdateProfileActivity extends AppCompatActivity {
         });
 
         getUserDetails();
+
+        changePasswordTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(UpdateProfileActivity.this,
+                                "Please check your email for password reset link.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
+        emailEdittext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(UpdateProfileActivity.this, "Please contact admin to change default email.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,6 +304,16 @@ public class UpdateProfileActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
