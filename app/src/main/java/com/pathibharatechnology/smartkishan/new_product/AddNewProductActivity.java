@@ -86,14 +86,17 @@ public class AddNewProductActivity extends AppCompatActivity {
 
         System.out.println("intent=====" + intent);
 
-        downloadurl = intent.getStringExtra("productImageUrl");
-        productName = intent.getStringExtra("productName");
-        category = intent.getStringExtra("productCategory");
-        productPriceInString = intent.getStringExtra("productPrice");
-        productDescription = intent.getStringExtra("productDetail");
-        productDeliveryLocation = intent.getStringExtra("productDeliveryLocation");
-        idOfProduct = intent.getStringExtra("productId");
+        String checkCategory = intent.getStringExtra("productCategory");
+        if (checkCategory != null){
+            downloadurl = intent.getStringExtra("productImageUrl");
+            productName = intent.getStringExtra("productName");
+            productPriceInString = intent.getStringExtra("productPrice");
+            productDescription = intent.getStringExtra("productDetail");
+            productDeliveryLocation = intent.getStringExtra("productDeliveryLocation");
+            idOfProduct = intent.getStringExtra("productId");
+        }
 
+        downloadurl = intent.getStringExtra("productImageUrl");
 
         if (downloadurl == null) {
 
