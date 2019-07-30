@@ -86,21 +86,22 @@ public class AddNewProductActivity extends AppCompatActivity {
 
         System.out.println("intent=====" + intent);
 
-        String checkCategory = intent.getStringExtra("productCategory");
-        if (checkCategory != null){
+
+        downloadurl = intent.getStringExtra("productImageUrl");
+
+        if (downloadurl == null) {
+
+
+        } else {
+
             downloadurl = intent.getStringExtra("productImageUrl");
             productName = intent.getStringExtra("productName");
             productPriceInString = intent.getStringExtra("productPrice");
             productDescription = intent.getStringExtra("productDetail");
             productDeliveryLocation = intent.getStringExtra("productDeliveryLocation");
             idOfProduct = intent.getStringExtra("productId");
-        }
+            category = intent.getStringExtra("productCategory");
 
-        downloadurl = intent.getStringExtra("productImageUrl");
-
-        if (downloadurl == null) {
-
-        } else {
             Glide.with(this)
                     .load(downloadurl)
                     .asBitmap()
