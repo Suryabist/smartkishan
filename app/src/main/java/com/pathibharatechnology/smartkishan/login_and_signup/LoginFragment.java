@@ -67,7 +67,7 @@ public class LoginFragment extends Fragment {
     TextView signUpTextView;
     String email, password;
     ProgressBar progressBar;
-    LoginButton fbLoginButton;
+//    LoginButton fbLoginButton;
 
 
     TextView forgotPasswordTextview;
@@ -107,8 +107,8 @@ public class LoginFragment extends Fragment {
         signUpTextView = view.findViewById(R.id.signUpTextviewId);
         progressBar = view.findViewById(R.id.progressBarID);
 
-        fbLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
-        fbLoginButton.setReadPermissions(Arrays.asList(EMAIL));
+//        fbLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
+//        fbLoginButton.setReadPermissions(Arrays.asList(EMAIL));
 
         forgotPasswordTextview = view.findViewById(R.id.forgotPasswordTextviewID);
         resendVerificationTextview = view.findViewById(R.id.emailVerificationSendId);
@@ -116,13 +116,13 @@ public class LoginFragment extends Fragment {
 
 
 
-        fbLoginButton.setFragment(this);
+//        fbLoginButton.setFragment(this);
 
         mAuth = FirebaseAuth.getInstance();
 
         // Callback registration
 
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        /*fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
@@ -141,7 +141,7 @@ public class LoginFragment extends Fragment {
                 // App code
                 Toast.makeText(getContext(), "Text error: "+exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
         resendVerificationTextview.setOnClickListener(new View.OnClickListener() {

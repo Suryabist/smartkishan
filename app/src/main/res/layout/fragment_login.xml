@@ -131,14 +131,14 @@
                 android:background="@drawable/sign_in_button_background"
                 android:layout_height="wrap_content" />
 
-            <com.facebook.login.widget.LoginButton
+            <!--<com.facebook.login.widget.LoginButton
                 android:id="@+id/fb_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:textSize="18dp" />
+                android:textSize="18dp" />-->
 
 
             <TextView

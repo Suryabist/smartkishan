@@ -262,6 +262,7 @@ public class SignUpFragment extends Fragment {
                 if(task.isSuccessful()){
                     Snackbar.make(getView(), "Sign Up successful. Please check your email to verify.", Snackbar.LENGTH_LONG)
                             .show();
+                    FirebaseAuth.getInstance().signOut();
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction()
                             .replace(R.id.frameForFragmentID, new LoginFragment());
                     fragmentTransaction.commit();
