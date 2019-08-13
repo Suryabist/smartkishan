@@ -174,20 +174,22 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String emailForForgotPassword = emailEditText.getText().toString().trim();
                 if (TextUtils.isEmpty(emailForForgotPassword)) {
-                    emailEditText.setError("Please enter email to reset your password...");
+                    emailEditText.setError("कृपया तपाईंको पासवर्ड रिसेट गर्न ईमेल भर्नुहोस्...");
                 } else {
 
                     FirebaseAuth.getInstance().sendPasswordResetEmail(emailForForgotPassword)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getContext(), "Please check your email for password reset link.", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(getView(), "पासवर्ड रिसेट लिंकको लागि कृपया तपाईंको ईमेल जाँच गर्नुहोस्।", Snackbar.LENGTH_LONG)
+                                            .show();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_LONG)
+                                            .show();
                                 }
                             });
 
@@ -256,8 +258,8 @@ public class LoginFragment extends Fragment {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Snackbar.make(getView(), "प्रमाणीकरण असफल भयो।", Snackbar.LENGTH_LONG)
+                                    .show();
                             updateUI();
                         }
 
@@ -376,20 +378,18 @@ public class LoginFragment extends Fragment {
                             mUser.reload();
                             if(!mUser.isEmailVerified()) {
                                 mUser.sendEmailVerification();
-                                Toast.makeText(getContext(), "Email Sent!", Toast.LENGTH_LONG).show();
+                                Snackbar.make(getView(), "ईमेल पठाइयो", Snackbar.LENGTH_LONG)
+                                        .show();
                             }else {
-                                Toast.makeText(getContext(), "Your email has been verified!", Toast.LENGTH_LONG).show();
+                                Snackbar.make(getView(), "तपाईंको ईमेल प्रमाणित भेरिफाइ भइसकेको छ।", Snackbar.LENGTH_LONG)
+                                        .show();
                                 Intent intent = new Intent(getContext(), MainDashboardActivity.class);
                                 startActivity(intent);
                                 getActivity().finish();
                             }
-
-
-
                         }else{
                             Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG)
                                     .show();
-                            Toast.makeText(getContext(), "error:"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -409,19 +409,18 @@ public class LoginFragment extends Fragment {
                             mUser.reload();
 
                             if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-                                Snackbar.make(getView(), "Login Successful.", Snackbar.LENGTH_LONG)
-                                        .show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 getActivity().startActivity(intent);
                                 getActivity().finish();
                             } else {
-                                Toast.makeText(getContext(), "Please verify your email...", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(getView(), "कृपया ईमेल भेरिफाइ गर्न तपाईंको ईमेल जाँच गर्नुहोस्।", Snackbar.LENGTH_LONG)
+                                        .show();
+                                FirebaseAuth.getInstance().signOut();
                             }
 
                         }else{
                             Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG)
                                     .show();
-                            Toast.makeText(getContext(), "error:"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
