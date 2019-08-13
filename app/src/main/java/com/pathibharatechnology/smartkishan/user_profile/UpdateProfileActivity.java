@@ -102,8 +102,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(UpdateProfileActivity.this,
-                                "Please check your email for password reset link.", Toast.LENGTH_SHORT).show();
+
+                        Snackbar.make(getWindow().getDecorView().getRootView(), "कृपया पासवर्ड रिसेट लिंकको लागि तपाईंको ईमेल जाँच गर्नुहोस्।", Snackbar.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -113,7 +113,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         emailEdittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(UpdateProfileActivity.this, "Please contact admin to change default email.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getWindow().getDecorView().getRootView(), "कृपया पूर्वनिर्धारित ईमेल परिवर्तन गर्न एड्मिन सम्पर्क गर्नुहोस्।", Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -265,7 +265,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 selectImage();
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().getDecorView().getRootView(),"आवश्यक अनुमतिहरू प्रदान गरिएको छैन", Snackbar.LENGTH_SHORT).show();
             }
         }
         if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
@@ -273,7 +273,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 // required permissions granted, start crop image activity
                 cropRequest();
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().getDecorView().getRootView(),"आवश्यक अनुमतिहरू प्रदान गरिएको छैन", Snackbar.LENGTH_SHORT).show();
             }
         }
     }

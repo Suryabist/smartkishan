@@ -243,7 +243,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                         if (task.isComplete()) {
 //                            onBackPressed();
-                            Toast.makeText(ProductDetailActivity.this, "Notification sent successfully...", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "सूचना सफलतापूर्वक पठाइयो", Snackbar.LENGTH_SHORT).show();
+
                             /*Intent intent = new Intent(Pro.this, MainDashboardActivity.class);
                             startActivity(intent);
                             finish();*/
