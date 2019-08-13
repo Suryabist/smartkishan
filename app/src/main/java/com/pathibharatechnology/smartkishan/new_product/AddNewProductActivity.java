@@ -18,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +30,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
 import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
@@ -41,7 +38,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 public class AddNewProductActivity extends AppCompatActivity {
 
@@ -171,7 +167,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                         if (uploadButton.getText().toString().equals("अपडेट गर्नुहोस")) {
 
                             if (downloadurl.equals("")) {
-                                Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(view, "कृपया एक फोटो अपलोड गर्नुहोस्", Snackbar.LENGTH_SHORT).show();
                             } else {
 //                                addPostToDatabase();
                                 updatePost();
@@ -180,7 +176,7 @@ public class AddNewProductActivity extends AppCompatActivity {
 
                         } else {
                             if (bitmap == null) {
-                                Snackbar.make(view, "Please upload an image.", Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(view, "कृपया एक फोटो अपलोड गर्नुहोस्", Snackbar.LENGTH_SHORT).show();
                             } else {
 
                                 addPostToDatabase();
@@ -301,7 +297,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                         if (task.isComplete()) {
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
-                            Toast.makeText(AddNewProductActivity.this, "Successful...", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(),"पोष्ट अपलोड गरिएको छ", Snackbar.LENGTH_SHORT).show();
                             finish();
                         }
 
@@ -356,7 +352,8 @@ public class AddNewProductActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 selectImage();
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+
+                Snackbar.make(getWindow().getDecorView().getRootView(),"आवश्यक अनुमतिहरू प्रदान गरिएको छैन", Snackbar.LENGTH_SHORT).show();
             }
         }
         if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
@@ -364,7 +361,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                 // required permissions granted, start crop image activity
                 cropRequest();
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+                Snackbar.make(getWindow().getDecorView().getRootView(),"आवश्यक अनुमतिहरू प्रदान गरिएको छैन", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
