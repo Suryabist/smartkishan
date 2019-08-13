@@ -226,7 +226,8 @@ public class SignUpFragment extends Fragment {
 
                                         }
                                     }else {
-                                        Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG)
+                                                .show();
                                     }
                                 }
                             });
@@ -260,7 +261,7 @@ public class SignUpFragment extends Fragment {
             public void onComplete(@NonNull Task<Void> task) {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
-                    Snackbar.make(getView(), "Sign Up successful. Please check your email to verify.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(getView(), "साइन अप सफल भयो। कृपया ईमेल भेरिफाइ गर्न तपाईंको ईमेल जाँच गर्नुहोस्।", Snackbar.LENGTH_LONG)
                             .show();
                     FirebaseAuth.getInstance().signOut();
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction()
