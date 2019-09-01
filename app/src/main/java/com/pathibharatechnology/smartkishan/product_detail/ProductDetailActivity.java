@@ -66,7 +66,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     String currentUserName;
 
     ImageButton sendMailButton;
-    String mobile;
+    String mobile, clientMobile;
     String email;
 
     String productCategory, productPrice;
@@ -289,6 +289,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserDTO user = dataSnapshot.getValue(UserDTO.class);
                         currentUserName = user.getUserName();
+                        clientMobile = user.getMobile();
 
                     }
 
@@ -316,10 +317,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             if (email != null && !email.equals("Not Available")) {
                 Intent intent = new Intent("android.intent.action.SENDTO", Uri.fromParts("mailto", email, null));
                 intent.putExtra("android.intent.extra.SUBJECT", "Smart Kishan");
-                if (mobile != null && !mobile.equals("Not Available")) {
+                if (clientMobile != null && !clientMobile.equals("Not Available")) {
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("I want to buy your product, Please reply to this mail or call me at ");
-                    stringBuilder.append(mobile);
+                    stringBuilder.append(clientMobile);
                     intent.putExtra("android.intent.extra.TEXT", stringBuilder.toString());
                 } else {
                     intent.putExtra("android.intent.extra.TEXT", "I want to buy your product, Please reply to this mail.");

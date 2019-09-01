@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".user_profile.UpdateProfileActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             />
         <activity android:name=".notification_package.NotificationList"
             />
@@ -24,16 +24,17 @@
         <activity android:name=".user_profile.UserProfileActivity" />
         <activity android:name=".product_detail.ProductDetailActivity" />
         <activity android:name=".new_product.AddNewProductActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             />
         <activity
             android:name=".MainDashboardActivity"
             android:label="Main Dashboard Activity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize"
+            >
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
             <intent-filter>
