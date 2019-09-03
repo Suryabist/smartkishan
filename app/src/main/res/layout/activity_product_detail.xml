@@ -194,6 +194,15 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteProductId"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_delete_black_24dp"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/editProductInfoID"
         android:layout_width="wrap_content"
         android:layout_gravity="right"
@@ -202,6 +211,8 @@
         android:tint="#fff"
         android:src="@drawable/ic_edit_black_24dp"
         android:layout_height="wrap_content" />
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"

@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -57,7 +59,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageView productImageView;
     TextView nameOfProduct, priceTextview, productDescriptionTextView, uploaderUserNameTextview, productDeliveryTextview;
     CircleImageView uploaderImage;
-    FloatingActionButton editProductInfoFloatingButton, callFloatingButton;
+    FloatingActionButton editProductInfoFloatingButton, callFloatingButton, deleteFloatingButton;
     LinearLayout uploaderDetailLinearLayout;
     Button sendNotificationButton;
 
@@ -68,6 +70,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageButton sendMailButton;
     String mobile, clientMobile;
     String email;
+
+    boolean deleteProductResponse = false;
 
     String productCategory, productPrice;
 
@@ -89,6 +93,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         sendNotificationButton = findViewById(R.id.notifyID);
         callFloatingButton = findViewById(R.id.callFloatingButtonID);
         sendMailButton = findViewById(R.id.sendMailButtonID);
+        deleteFloatingButton = findViewById(R.id.deleteProductId);
 
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
@@ -119,6 +124,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getUid().equals(userId)) {
             editProductInfoFloatingButton.setVisibility(View.VISIBLE);
+            deleteFloatingButton.setVisibility(View.VISIBLE);
         }
 
 
@@ -136,6 +142,40 @@ public class ProductDetailActivity extends AppCompatActivity {
                 startActivity(getEditIntent);
             }
         });
+
+        deleteFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProductDetailActivity.this, "Delete button", Toast.LENGTH_SHORT).show();
+
+
+                new AlertDialog.Builder(ProductDetailActivity.this)
+                        .setTitle("पुष्टि गर्नुहोस्")
+                        .setMessage("के तपाई वास्तवमै यस उत्पादनलाई मेटाउन चाहानुहुन्छ?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton("हटाउनुहोस्", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                DeleteProductTask deleteProductTask = new DeleteProductTask();
+                                deleteProductTask.deleteProduct(productId, ProductDetailActivity.this);
+                                dialog.dismiss();
+                                finish();
+
+
+                            }
+                        })
+                        .setNegativeButton("नहटाउनुहोस्", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(ProductDetailActivity.this, "उत्पादन मेटिएको छैन।", Toast.LENGTH_SHORT).show();
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+
+
+            }
+        });
+
 
         getUploaderPhone(productUploaderUserId);
 
@@ -256,17 +296,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
 
-    public void getProductDetails(String idOfProduct){
+    public void getProductDetails(String idOfProduct) {
 
         FirebaseDatabase.getInstance().getReference().child("products").child(idOfProduct)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         ProductListDTO productListDTO = dataSnapshot.getValue(ProductListDTO.class);
-                        productCategory = productListDTO.getProductCategory();
-                        productPrice = productListDTO.getProductPrice().toString();
+                        try {
 
-
+                            productCategory = productListDTO.getProductCategory();
+                            productPrice = productListDTO.getProductPrice().toString();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                     }
 

@@ -24,13 +24,13 @@
         <activity android:name=".user_profile.UserProfileActivity" />
         <activity android:name=".product_detail.ProductDetailActivity" />
         <activity android:name=".new_product.AddNewProductActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:windowSoftInputMode="adjustResize"
             />
         <activity
             android:name=".MainDashboardActivity"
             android:label="Main Dashboard Activity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|adjustPan" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize"

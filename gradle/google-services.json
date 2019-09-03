@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "75931416663",
+    "firebase_url": "https://smart-kishan.firebaseio.com",
+    "project_id": "smart-kishan",
+    "storage_bucket": "smart-kishan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75931416663:android:c11ccddf5307f6c5",
+        "android_client_info": {
+          "package_name": "com.pathibharatechnology.smartkishan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75931416663-aujft1r3v4p9n5d7au7stak83elr7ttb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj070en_AQnOreW1x-uaNsdB07DjqoLqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75931416663-aujft1r3v4p9n5d7au7stak83elr7ttb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
