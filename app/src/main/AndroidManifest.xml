@@ -26,6 +26,7 @@
         <activity android:name=".new_product.AddNewProductActivity"
             android:windowSoftInputMode="adjustResize"
             />
+        <activity android:name=".job.JobActivity" />
         <activity
             android:name=".MainDashboardActivity"
             android:label="Main Dashboard Activity"

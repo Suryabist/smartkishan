@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.about_us.AboutUsActivity;
+import com.pathibharatechnology.smartkishan.job.JobActivity;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationAdapter;
@@ -462,6 +463,9 @@ public class MainDashboardActivity extends AppCompatActivity
 
                 // Handle the camera action
             } else if (id == R.id.productsID) {
+
+            } else if (id == R.id.jobsId) {
+                intent = new Intent(MainDashboardActivity.this, JobActivity.class);
 
             } else if (id == R.id.uploadProductID) {
                 intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);

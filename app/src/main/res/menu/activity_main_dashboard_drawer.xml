@@ -12,6 +12,11 @@
             android:id="@+id/productsID"
             android:icon="@drawable/ic_shopping_basket_black_24dp"
             android:title="प्रोडक्टहरु" />
+
+        <item android:id="@+id/jobsId"
+            android:icon="@drawable/ic_job_search"
+            android:title="जागिर" />
+
         <item
             android:id="@+id/uploadProductID"
             android:icon="@drawable/add_post_floating_icon"
