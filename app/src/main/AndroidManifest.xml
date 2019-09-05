@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pathibharatechnology.smartkishan">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -13,19 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".user_profile.UpdateProfileActivity"
-            android:windowSoftInputMode="adjustResize"
-            />
-        <activity android:name=".notification_package.NotificationList"
-            />
+        <activity android:name=".job.AddJobActivity"></activity>
+        <activity
+            android:name=".user_profile.UpdateProfileActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".notification_package.NotificationList" />
         <activity android:name=".about_us.AboutUsActivity" />
         <activity android:name=".products_list.CategoryProductList" />
         <activity android:name=".products_list.CategoriesActivity" />
         <activity android:name=".user_profile.UserProfileActivity" />
         <activity android:name=".product_detail.ProductDetailActivity" />
-        <activity android:name=".new_product.AddNewProductActivity"
-            android:windowSoftInputMode="adjustResize"
-            />
+        <activity
+            android:name=".new_product.AddNewProductActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".job.JobActivity" />
         <activity
             android:name=".MainDashboardActivity"
@@ -34,40 +30,45 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize"
-            >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -2,20 +2,39 @@ package com.pathibharatechnology.smartkishan.job;
 
 public class JobDTO {
 
+    String id;
     String title;
     String company;
     String location;
     Long salary;
     String description;
     String deadline;
+    String uploaderId;
 
-    public JobDTO(String title, String company, String location, Long salary, String description, String deadline) {
+    /*public JobDTO(String title, String company, String location, Long salary, String description, String deadline) {
         this.title = title;
         this.company = company;
         this.location = location;
         this.salary = salary;
         this.description = description;
         this.deadline = deadline;
+    }*/
+
+
+    public String getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
