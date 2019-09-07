@@ -15,9 +15,9 @@
 
         <ImageView
             android:id="@+id/productImageviewID"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:scaleType="centerCrop"
-            android:layout_height="150dp" />
+            android:layout_height="120dp" />
 
         <View
             android:layout_width="match_parent"

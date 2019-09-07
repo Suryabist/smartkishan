@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(FirebaseAuth.getInstance().getUid())) {
             if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
-                Intent intent = new Intent(this, ProductByCategoryActivity.class);
+                Intent intent = new Intent(this, MainDashboardActivity.class);
                 intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

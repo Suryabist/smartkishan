@@ -42,6 +42,7 @@ public class UserProfileActivity extends AppCompatActivity {
     String userId, userName, userProfilePic;
 
     RecyclerView recyclerView;
+    GridLayoutManager gridLayoutManager;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -56,7 +57,7 @@ public class UserProfileActivity extends AppCompatActivity {
         itemCountTextview = findViewById(R.id.itemCountTextViewID);
         recyclerView = findViewById(R.id.recyclerViewID);
 
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
+        gridLayoutManager=new GridLayoutManager(this, 3);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,65 +24,56 @@ import java.util.List;
 
 public class ProductByCategoryActivity extends AppCompatActivity {
 
-    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView;
+    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView;
     LinearLayoutManager linearLayoutManager;
     DividerItemDecoration mDividerItemDecoration;
     ProductListAdapter adapter;
+    LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_by_category);
 
+        defineView();
+
+        callLinearLayoutManager(fruitsRecyclerView);
+        callLinearLayoutManager(fishAndMeatRecyclerView);
+        callLinearLayoutManager(vegetablesRecyclerView);
+        callLinearLayoutManager(animalistciRecyclerView);
+        callLinearLayoutManager(grainsRecyclerView);
+
+        getProductBycategoryTask("फलफुल", fruitsRecyclerView, fruitsLayout);
+        getProductBycategoryTask("माछा मासु", fishAndMeatRecyclerView, fishMeatlayout);
+        getProductBycategoryTask("तरकारी", vegetablesRecyclerView, vegetablesLayout);
+        getProductBycategoryTask("पशुजन्य", animalistciRecyclerView, animalisticsLayout);
+        getProductBycategoryTask("अन्न", grainsRecyclerView, grainsLayout);
+
+    }
+
+    private void defineView() {
         fruitsRecyclerView = findViewById(R.id.fruitsRecyclerViewId);
         fishAndMeatRecyclerView = findViewById(R.id.fishesAndMeatRecyclerViewId);
         vegetablesRecyclerView = findViewById(R.id.vegetablesRecyclerId);
+        animalistciRecyclerView = findViewById(R.id.animalisticRecyclerViewId);
+        grainsRecyclerView = findViewById(R.id.grainsRecyclerViewId);
 
+        fruitsLayout = findViewById(R.id.fruitLayoutId);
+        fishMeatlayout = findViewById(R.id.fishMeatLayoutId);
+        vegetablesLayout = findViewById(R.id.vegetablesLayoutId);
+        animalisticsLayout = findViewById(R.id.animalisticLayoutId);
+        grainsLayout = findViewById(R.id.grainsLayoutId);
+    }
 
+    private void callLinearLayoutManager(RecyclerView recyclerView) {
         linearLayoutManager = new LinearLayoutManager(this);
-        /*mDividerItemDecoration = new DividerItemDecoration(fruitsRecyclerView.getContext(),
-                linearLayoutManager.HORIZONTAL);
-        fruitsRecyclerView.addItemDecoration(mDividerItemDecoration);
-        fruitsRecyclerView.setNestedScrollingEnabled(true);
-        fruitsRecyclerView.setLayoutFrozen(true);*/
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        fruitsRecyclerView.setLayoutManager(linearLayoutManager);
-
-
-        linearLayoutManager = new LinearLayoutManager(this);
-        /*mDividerItemDecoration = new DividerItemDecoration(fishAndMeatRecyclerView.getContext(),
-                linearLayoutManager.HORIZONTAL);
-        fishAndMeatRecyclerView.addItemDecoration(mDividerItemDecoration);
-        fishAndMeatRecyclerView.setNestedScrollingEnabled(true);
-        fishAndMeatRecyclerView.setLayoutFrozen(true);*/
-
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        fishAndMeatRecyclerView.setLayoutManager(linearLayoutManager);
-
-        linearLayoutManager = new LinearLayoutManager(this);
-        /*mDividerItemDecoration = new DividerItemDecoration(vegetablesRecyclerView.getContext(),
-                linearLayoutManager.HORIZONTAL);
-        vegetablesRecyclerView.addItemDecoration(mDividerItemDecoration);
-        vegetablesRecyclerView.setNestedScrollingEnabled(true);
-        vegetablesRecyclerView.setLayoutFrozen(true);*/
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        vegetablesRecyclerView.setLayoutManager(linearLayoutManager);
-
-        /*getProductBycategoryTask("fruits", fruitsRecyclerView);
-        getProductBycategoryTask("meat_fish", fishAndMeatRecyclerView);
-        getProductBycategoryTask("vegetables", vegetablesRecyclerView);*/
-
-        getProductBycategoryTask("फलफुल", fruitsRecyclerView);
-        getProductBycategoryTask("माछा मासु", fishAndMeatRecyclerView);
-        getProductBycategoryTask("तरकारी", vegetablesRecyclerView);
-
-
+        recyclerView.setLayoutManager(linearLayoutManager);
 
     }
 
 
-
-    public void getProductBycategoryTask(String categoryText, final RecyclerView recyclerView){
+    public void getProductBycategoryTask(String categoryText, final RecyclerView recyclerView, final LinearLayout linearLayout){
 
         FirebaseDatabase.getInstance().getReference().child("products").orderByChild("productCategory").equalTo(categoryText)
                 .addValueEventListener(new ValueEventListener() {
@@ -95,6 +87,10 @@ public class ProductByCategoryActivity extends AppCompatActivity {
 
                         }
 
+                        if (!productList.isEmpty()) {
+                            linearLayout.setVisibility(View.VISIBLE);
+                        }
+
                         adapter= new ProductListAdapter(productList, ProductByCategoryActivity.this);
                         recyclerView.setAdapter(adapter);
 
@@ -105,8 +101,6 @@ public class ProductByCategoryActivity extends AppCompatActivity {
 
                     }
                 });
-
-
     }
 
 }

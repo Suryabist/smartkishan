@@ -13,57 +13,158 @@
         android:id="@+id/relativeLayoutId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
         android:background="#F1F2F6">
 
-        <TextView
-            android:id="@+id/categoryFruits"
+        <LinearLayout
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:id="@+id/fruitLayoutId"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_width="match_parent"
-            android:text="Fruits"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/categoryFruits"
+                android:layout_width="match_parent"
+                android:text="फलफुल"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fruitsRecyclerViewId"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fruitsRecyclerViewId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/categoryFruits"
-            android:layout_marginTop="8dp"
-            />
+            android:id="@+id/fishMeatLayoutId"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_below="@id/fruitLayoutId"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/fishesAndMeatId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fruitsRecyclerViewId"
-            android:layout_marginTop="20dp"
-            android:text="Fishes And meats"
-            android:textColor="#000000"
-            />
+            <TextView
+                android:id="@+id/fishesAndMeatId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:text="माछा मासु"
+                android:textColor="@color/colorPrimary"
+                />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fishesAndMeatRecyclerViewId"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fishesAndMeatRecyclerViewId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_width="match_parent"
-            android:layout_below="@id/fishesAndMeatId"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            />
+            android:id="@+id/vegetablesLayoutId"
+            android:orientation="vertical"
+            android:layout_below="@id/fishMeatLayoutId"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/vegetablesId"
-            android:text="Vegetables"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/fishesAndMeatRecyclerViewId"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/vegetablesId"
+                android:text="तरकारी"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:layout_height="wrap_content" />
 
-        <androidx.recyclerview.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:id="@+id/vegetablesRecyclerId"
+                android:layout_height="wrap_content"
+                />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
-            android:layout_below="@+id/vegetablesId"
-            android:id="@+id/vegetablesRecyclerId"
-            android:layout_height="wrap_content"
-            />
+            android:id="@+id/animalisticLayoutId"
+            android:orientation="vertical"
+            android:layout_below="@id/vegetablesLayoutId"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/animalisticId"
+                android:text="पशुजन्य"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/vegetablesId"
+                android:id="@+id/animalisticRecyclerViewId"
+                android:layout_height="wrap_content"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:id="@+id/grainsLayoutId"
+            android:orientation="vertical"
+            android:layout_below="@id/animalisticLayoutId"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/grainsId"
+                android:text="अन्न"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/vegetablesId"
+                android:id="@+id/grainsRecyclerViewId"
+                android:layout_height="wrap_content"
+                />
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -71,6 +172,7 @@
 
 
 
+<!--    tools:showIn="@layout/activity_main_dashboard"-->
 
 
     <!--

@@ -54,7 +54,7 @@ public class CategoryProductList extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewID);
 
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 3);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 

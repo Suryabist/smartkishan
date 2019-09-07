@@ -30,6 +30,7 @@ import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationAdapter;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationList;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationDTO;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductByCategoryActivity;
 import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
@@ -38,7 +39,9 @@ import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
@@ -61,31 +64,21 @@ import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 public class MainDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<String> listOfCategories = new ArrayList<>();
-    Spinner selectCategorySpinner;
     FloatingActionButton uploadProductFloatingActionButton;
-
     ProgressBar progressBar;
-    RecyclerView recyclerView;
     LinearLayout nav_header;
-
     CircleImageView navUserImage;
     TextView navUserName;
-
-
     String userId;
     String userProfilePic = null;
     String userName = null;
-
-    EditText searchKeywordEditText;
-    ImageView searchButton;
-    String selectedCategory = "";
-    String categoryFilter = "";
-
     ImageView notificationImage;
     TextView notificationCountTextview;
 
-    int pendingNotificationCount = 10;
+    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView;
+    LinearLayoutManager linearLayoutManager;
+    ProductListAdapter adapter;
+    LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout;
 
 
     @Override
@@ -94,9 +87,7 @@ public class MainDashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_dashboard);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        uploadProductFloatingActionButton = findViewById(R.id.uploadProductID);
-        searchKeywordEditText = findViewById(R.id.searchKeywordID);
-        searchButton = findViewById(R.id.searchButtonID);
+        progressBar = findViewById(R.id.progressBarID);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -107,7 +98,6 @@ public class MainDashboardActivity extends AppCompatActivity
 
         navUserImage = mView.findViewById(R.id.nav_imageID);
         navUserName = mView.findViewById(R.id.nav_userNameID);
-
 
         try {
             getUserDetails();
@@ -132,164 +122,25 @@ public class MainDashboardActivity extends AppCompatActivity
             logOutMenu.setVisible(false);
         }
 
+        defineView();
+
+        callLinearLayoutManager(fruitsRecyclerView);
+        callLinearLayoutManager(fishAndMeatRecyclerView);
+        callLinearLayoutManager(vegetablesRecyclerView);
+        callLinearLayoutManager(animalistciRecyclerView);
+        callLinearLayoutManager(grainsRecyclerView);
+
+        getProductBycategoryTask("फलफुल", fruitsRecyclerView, fruitsLayout);
+        getProductBycategoryTask("माछा मासु", fishAndMeatRecyclerView, fishMeatlayout);
+        getProductBycategoryTask("तरकारी", vegetablesRecyclerView, vegetablesLayout);
+        getProductBycategoryTask("पशुजन्य", animalistciRecyclerView, animalisticsLayout);
+        getProductBycategoryTask("अन्न", grainsRecyclerView, grainsLayout);
+
         navigationView.setNavigationItemSelectedListener(this);
 
-
         uploadProductFloatingActionButton = findViewById(R.id.uploadProductID);
-        progressBar = findViewById(R.id.progressBarID);
-        recyclerView = findViewById(R.id.recyclerViewID);
 
         SupportActionBarInitializer.setSupportActionBarTitle(this.getSupportActionBar(), "Smart Kishan");
-
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        listOfCategories.add("क्याटेगोरी सिलेक्ट गर्नुहोस");
-        listOfCategories.add("फलफुल");
-        listOfCategories.add("माछा मासु");
-        listOfCategories.add("तरकारी");
-        listOfCategories.add("पशुजन्य");
-        listOfCategories.add("अन्न");
-        selectCategorySpinner = findViewById(R.id.searchCategoryID);
-
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.spinner_item, listOfCategories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selectCategorySpinner.setAdapter(adapter);
-
-
-        fetchFeedFromDatabase();
-
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                final List<ProductListDTO> listOfProduct = new ArrayList<>();
-
-                final String searchKeyWord = searchKeywordEditText.getText().toString().trim();
-                selectedCategory = selectCategorySpinner.getSelectedItem().toString();
-                System.out.println("Selected category is=====" + selectedCategory);
-                if (selectedCategory.equals("क्याटेगोरी सिलेक्ट गर्नुहोस")) {
-                    categoryFilter = "";
-                } else {
-                    categoryFilter = selectedCategory;
-                }
-
-
-                if (searchKeyWord.equals("")) {
-                    //search empty && category also empty
-                    if (categoryFilter.equals("")) {
-                        fetchFeedFromDatabase();
-                    }
-
-                    //search empty && category !empty
-                    else {
-                        FirebaseDatabase.getInstance().getReference().child("products").orderByChild("productCategory").equalTo(categoryFilter)
-                                .addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        List<ProductListDTO> productList = new ArrayList<>();
-                                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                                        while (iterator.hasNext()) {
-                                            DataSnapshot snap = iterator.next();
-                                            productList.add(snap.getValue(ProductListDTO.class));
-
-                                        }
-
-                                        ProductListAdapter productListAdapter = new ProductListAdapter(productList, MainDashboardActivity.this);
-                                        progressBar.setVisibility(View.GONE);
-                                        recyclerView.setAdapter(productListAdapter);
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                    }
-                } else {
-
-                    //search !empty && category empty
-                    if (categoryFilter.equals("")) {
-                        FirebaseDatabase.getInstance().getReference().child("products").orderByChild("productName").startAt(searchKeyWord)
-                                .addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        List<ProductListDTO> productList = new ArrayList<>();
-                                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                                        while (iterator.hasNext()) {
-                                            DataSnapshot snap = iterator.next();
-                                            productList.add(snap.getValue(ProductListDTO.class));
-
-                                        }
-
-                                        ProductListAdapter productListAdapter = new ProductListAdapter(productList, MainDashboardActivity.this);
-                                        progressBar.setVisibility(View.GONE);
-                                        recyclerView.setAdapter(productListAdapter);
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                    }
-
-                    //search !empty && category also !empty
-                    else {
-                        FirebaseDatabase.getInstance().getReference().child("products")
-                                .addChildEventListener(new ChildEventListener() {
-                                    @Override
-                                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                        ProductListDTO productListDTO = dataSnapshot.getValue(ProductListDTO.class);
-
-
-                                        if (productListDTO.getProductName().contains(searchKeyWord) && productListDTO.getProductCategory().equals(categoryFilter)) {
-                                            listOfProduct.add(productListDTO);
-                                        }
-                                        ProductListAdapter productListAdapter = new ProductListAdapter(listOfProduct, MainDashboardActivity.this);
-                                        progressBar.setVisibility(View.GONE);
-                                        recyclerView.setAdapter(productListAdapter);
-
-                                    }
-
-                                    @Override
-                                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                    }
-
-                                    @Override
-                                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                                    }
-
-                                    @Override
-                                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                    }
-                }
-
-                //search empty category !empty
-                //search !empty and category !empty
-                //search !empty && category empty
-
-            }
-        });
-
 
         uploadProductFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,7 +155,6 @@ public class MainDashboardActivity extends AppCompatActivity
                 }
             }
         });
-
 
     }
 
@@ -332,26 +182,49 @@ public class MainDashboardActivity extends AppCompatActivity
                 });
     }
 
+    private void defineView() {
+        fruitsRecyclerView = findViewById(R.id.fruitsRecyclerViewId);
+        fishAndMeatRecyclerView = findViewById(R.id.fishesAndMeatRecyclerViewId);
+        vegetablesRecyclerView = findViewById(R.id.vegetablesRecyclerId);
+        animalistciRecyclerView = findViewById(R.id.animalisticRecyclerViewId);
+        grainsRecyclerView = findViewById(R.id.grainsRecyclerViewId);
 
-    private void fetchFeedFromDatabase() {
+        fruitsLayout = findViewById(R.id.fruitLayoutId);
+        fishMeatlayout = findViewById(R.id.fishMeatLayoutId);
+        vegetablesLayout = findViewById(R.id.vegetablesLayoutId);
+        animalisticsLayout = findViewById(R.id.animalisticLayoutId);
+        grainsLayout = findViewById(R.id.grainsLayoutId);
+    }
+
+    private void callLinearLayoutManager(RecyclerView recyclerView) {
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+    }
+
+
+    public void getProductBycategoryTask(String categoryText, final RecyclerView recyclerView, final LinearLayout linearLayout){
 
         progressBar.setVisibility(View.VISIBLE);
-        FirebaseDatabase.getInstance().getReference().child("products")
+
+        FirebaseDatabase.getInstance().getReference().child("products").orderByChild("productCategory").equalTo(categoryText)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<ProductListDTO> productList = new ArrayList<>();
-                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                        while (iterator.hasNext()) {
-                            DataSnapshot snap = iterator.next();
+                        List<ProductListDTO> productList=new ArrayList<>();
+                        Iterator<DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
+                        while (iterator.hasNext()){
+                            DataSnapshot snap=iterator.next();
                             productList.add(snap.getValue(ProductListDTO.class));
 
                         }
-
-                        ProductListAdapter adapter = new ProductListAdapter(productList, MainDashboardActivity.this);
-
-                        progressBar.setVisibility(View.GONE);
+                        if (!productList.isEmpty()) {
+                            linearLayout.setVisibility(View.VISIBLE);
+                        }
+                        adapter= new ProductListAdapter(productList, MainDashboardActivity.this);
                         recyclerView.setAdapter(adapter);
+                        progressBar.setVisibility(View.GONE);
 
                     }
 
@@ -385,7 +258,6 @@ public class MainDashboardActivity extends AppCompatActivity
         notificationCountTextview = showNotificationView.findViewById(R.id.notificationCountID);
         notificationCountTextview.setVisibility(View.INVISIBLE);
         getNotifications();
-
 
         notificationImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -494,12 +366,8 @@ public class MainDashboardActivity extends AppCompatActivity
             finish();
         }
 
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }
