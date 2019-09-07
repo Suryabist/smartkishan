@@ -32,7 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
-import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 

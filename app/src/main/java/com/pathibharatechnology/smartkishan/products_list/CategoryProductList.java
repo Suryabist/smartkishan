@@ -12,15 +12,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 
 import java.util.ArrayList;
 import java.util.Iterator;

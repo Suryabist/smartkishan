@@ -1,4 +1,4 @@
-package com.pathibharatechnology.smartkishan.products_list;
+package com.pathibharatechnology.smartkishan.product_by_category;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.MainActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
-import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;

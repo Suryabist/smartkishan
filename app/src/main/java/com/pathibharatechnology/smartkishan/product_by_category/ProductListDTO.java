@@ -1,4 +1,4 @@
-package com.pathibharatechnology.smartkishan.products_list;
+package com.pathibharatechnology.smartkishan.product_by_category;
 
 import java.util.HashMap;
 

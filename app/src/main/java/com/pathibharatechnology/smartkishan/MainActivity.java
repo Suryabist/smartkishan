@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.pathibharatechnology.smartkishan.login_and_signup.LoginFragment;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductByCategoryActivity;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(FirebaseAuth.getInstance().getUid())) {
             if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
-                Intent intent = new Intent(this, MainDashboardActivity.class);
+                Intent intent = new Intent(this, ProductByCategoryActivity.class);
                 intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

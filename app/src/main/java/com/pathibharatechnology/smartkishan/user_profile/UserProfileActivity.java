@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -24,13 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
-import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
-import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 

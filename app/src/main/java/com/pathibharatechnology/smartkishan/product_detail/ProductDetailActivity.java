@@ -36,18 +36,12 @@ import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationDTO;
-import com.pathibharatechnology.smartkishan.notification_package.NotificationList;
-import com.pathibharatechnology.smartkishan.products_list.CategoryProductList;
-import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
-import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

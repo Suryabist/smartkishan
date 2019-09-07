@@ -1,9 +1,7 @@
 package com.pathibharatechnology.smartkishan.product_detail;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,10 +9,9 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
-import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 

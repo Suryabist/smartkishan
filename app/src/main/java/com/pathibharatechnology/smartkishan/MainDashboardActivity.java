@@ -31,8 +31,8 @@ import com.pathibharatechnology.smartkishan.notification_package.NotificationAda
 import com.pathibharatechnology.smartkishan.notification_package.NotificationList;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationDTO;
 import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
-import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
-import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
+import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import androidx.drawerlayout.widget.DrawerLayout;

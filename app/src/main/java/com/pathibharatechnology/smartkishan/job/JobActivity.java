@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.SupportActionBarInitializer;
-import com.pathibharatechnology.smartkishan.products_list.ProductListAdapter;
-import com.pathibharatechnology.smartkishan.products_list.ProductListDTO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
