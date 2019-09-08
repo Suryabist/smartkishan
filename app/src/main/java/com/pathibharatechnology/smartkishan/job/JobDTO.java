@@ -8,6 +8,7 @@ public class JobDTO {
     String location;
     Long salary;
     String description;
+    String postedDate;
     String deadline;
     String uploaderId;
 
@@ -20,6 +21,14 @@ public class JobDTO {
         this.deadline = deadline;
     }*/
 
+
+    public String getPostedDate() {
+        return postedDate;
+    }
+
+    public void setPostedDate(String postedDate) {
+        this.postedDate = postedDate;
+    }
 
     public String getUploaderId() {
         return uploaderId;

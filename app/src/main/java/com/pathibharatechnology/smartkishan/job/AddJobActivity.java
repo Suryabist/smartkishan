@@ -18,6 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pathibharatechnology.smartkishan.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AddJobActivity extends AppCompatActivity {
 
     TextInputEditText titleText, companyText, locationText, salaryText, detailText, timeLimitText;
@@ -91,7 +95,10 @@ public class AddJobActivity extends AppCompatActivity {
         jobDTO.setLocation(location);
         jobDTO.setTitle(title);
         jobDTO.setSalary(salary);
-
+        DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        jobDTO.setPostedDate(strDate);
         uploadJob(jobDTO);
 
     }

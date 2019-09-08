@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".job.JobDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_height="200dp" >
+
+            <TextView
+                android:id="@+id/companyTextId"
+                android:layout_width="wrap_content"
+                android:text="Company"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/titleTextId"
+                android:layout_above="@id/companyTextId"
+                android:layout_centerHorizontal="true"
+                android:textColor="#fff"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:drawableLeft="@drawable/location"
+                android:layout_width="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="Location"
+                android:id="@+id/locationTextId"
+                android:layout_below="@id/companyTextId"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="#fff"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Salary"
+                android:drawableLeft="@drawable/dollar"
+                android:drawablePadding="4dp"
+                android:id="@+id/salaryTextId"
+                android:layout_below="@id/companyTextId"
+                android:layout_marginTop="16dp"
+                android:textColor="#fff"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="expire date"
+                android:drawableLeft="@drawable/timer"
+                android:drawablePadding="4dp"
+                android:id="@+id/deadlineTextId"
+                android:layout_below="@id/companyTextId"
+                android:layout_marginTop="16dp"
+                android:textColor="#fff"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="जागिरको विबरण"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="job"
+            android:textColor="#000"
+            android:id="@+id/detailTextId"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="पोष्ट गरेको मिति"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Aug 27, 2019"
+            android:id="@+id/postedTextId"
+            android:textColor="#000"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Posted by"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/uploaderDetailID"
+            android:layout_height="wrap_content" >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_launcher_icon"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Surya Ghising"
+                android:textColor="#000"
+                android:id="@+id/uploaderId"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/applyButtonId"
+            android:layout_width="wrap_content"
+            android:text="अप्लाइ गर्नुहोस्"
+            android:background="@drawable/custom_botton_design"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/callFloatingButtonID"
+        android:src="@drawable/ic_phone_in_talk_black_24dp"
+        android:tint="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
