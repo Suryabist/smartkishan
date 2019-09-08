@@ -3,12 +3,14 @@ package com.pathibharatechnology.smartkishan.job;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +29,8 @@ public class AddJobActivity extends AppCompatActivity {
     TextInputEditText titleText, companyText, locationText, salaryText, detailText, timeLimitText;
     Button submitButton;
     ProgressBar progressBar;
+    String jobId;
+    String uploaderId;
     String title, company, location, detail, timeLimit;
     Long salary;
 
@@ -44,17 +48,95 @@ public class AddJobActivity extends AppCompatActivity {
         submitButton = findViewById(R.id.uploadButtonID);
         progressBar = findViewById(R.id.progressBarId);
 
+        Intent editIntent = getIntent();
+
+
+        jobId = editIntent.getStringExtra("jobId");
+
+        if (jobId == null) {
+
+
+        } else {
+
+            company = editIntent.getStringExtra("productName");
+            company = editIntent.getStringExtra("company");
+            title = editIntent.getStringExtra("title");
+            location = editIntent.getStringExtra("location");
+            timeLimit = editIntent.getStringExtra("expiryDate");
+            detail = editIntent.getStringExtra("description");
+            uploaderId = editIntent.getStringExtra("postedById");
+            salary = editIntent.getLongExtra("salary", 0);
+
+            titleText.setText(title);
+            companyText.setText(company);
+            locationText.setText(location);
+            salaryText.setText("" + salary);
+            detailText.setText(detail);
+            timeLimitText.setText(timeLimit);
+            submitButton.setText("Update");
+        }
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validate()) {
-                    addJobToDatabase();
+
+                    if (submitButton.getText().toString().equals("Update")) {
+                        upDateDatabase();
+                    } else {
+                        addJobToDatabase();
+                    }
+
+
                 }
             }
         });
+    }
+
+    private void upDateDatabase() {
+
+        final JobDTO jobDTO = new JobDTO();
+        jobDTO.setUploaderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        jobDTO.setId(jobId);
+        jobDTO.setCompany(company);
+        jobDTO.setDeadline(timeLimit);
+        jobDTO.setDescription(detail);
+        jobDTO.setLocation(location);
+        jobDTO.setTitle(title);
+        jobDTO.setSalary(salary);
+        DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        jobDTO.setPostedDate(strDate);
+        updateJobToDatabase(jobDTO);
 
 
+    }
+
+    private void updateJobToDatabase(JobDTO jobDTO) {
+        FirebaseDatabase.getInstance().getReference().child("jobs")
+                .child(jobDTO.getId())
+                .setValue(jobDTO)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(View.GONE);
+                        Snackbar.make(getWindow().getDecorView().getRootView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isComplete()) {
+                            progressBar.setVisibility(View.GONE);
+//                            onBackPressed();
+                            Snackbar.make(getWindow().getDecorView().getRootView(),"पोष्ट अपलोड गरिएको छ", Snackbar.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                    }
+                });
     }
 
     private boolean validate() {
@@ -105,7 +187,7 @@ public class AddJobActivity extends AppCompatActivity {
 
     private void uploadJob(JobDTO job) {
 
-        System.out.println("post data ====="+job.getId());
+        System.out.println("post data =====" + job.getId());
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -126,7 +208,7 @@ public class AddJobActivity extends AppCompatActivity {
 
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
-                            Snackbar.make(getWindow().getDecorView().getRootView(),"Job has been uploaded.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "Job has been uploaded.", Snackbar.LENGTH_SHORT).show();
                             finish();
                         }
 

@@ -35,6 +35,7 @@ public class JobDetailActivity extends AppCompatActivity {
     LinearLayout uploaderProfileLayout;
     FloatingActionButton callJobUploader, editJobButton;
     Button applyButton;
+    String jobId;
     TextView titleText, companyText, locationText, salaryText, deadlineText, jobDetailText, uploaderText, postedDateText;
 
     @SuppressLint("RestrictedApi")
@@ -56,8 +57,10 @@ public class JobDetailActivity extends AppCompatActivity {
         applyButton = findViewById(R.id.applyButtonId);
         editJobButton = findViewById(R.id.editJobButtonId);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
+
         company = intent.getStringExtra("company");
+        jobId = intent.getStringExtra("jobId");
         title = intent.getStringExtra("title");
         location = intent.getStringExtra("location");
         expiryDate = intent.getStringExtra("expiryDate");
@@ -79,7 +82,18 @@ public class JobDetailActivity extends AppCompatActivity {
         editJobButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(JobDetailActivity.this, "Job can be edited.", Toast.LENGTH_SHORT).show();
+                Intent editIntent = new Intent(JobDetailActivity.this, AddJobActivity.class);
+                editIntent.putExtra("jobId", jobId);
+                editIntent.putExtra("company", company);
+                editIntent.putExtra("title", title);
+                editIntent.putExtra("location", location);
+                editIntent.putExtra("expiryDate", expiryDate);
+                editIntent.putExtra("description", description);
+                editIntent.putExtra("postedById", uploaderId);
+                editIntent.putExtra("salary", salary);
+                editIntent.putExtra("postedDate", postedDate);
+                startActivity(editIntent);
+                finish();
             }
         });
 

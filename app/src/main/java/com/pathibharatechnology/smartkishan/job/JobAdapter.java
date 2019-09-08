@@ -54,6 +54,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         TextView jobTitle, jobDesc, jobDeadline;
         LinearLayout jobListLayout;
         String mobile;
+        String jobId;
         String company, title, location, expiryDate, postedDate, description, postedBy, uploaderName, uploaderProfilePic;
         Long salary;
 
@@ -76,6 +77,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
             postedBy = jobDTO.getUploaderId();
             postedDate = jobDTO.getPostedDate();
             salary = jobDTO.getSalary();
+            jobId = jobDTO.getId();
 
             getJobUploaderDetail(jobDTO.getUploaderId());
 
@@ -86,6 +88,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, JobDetailActivity.class);
+                    intent.putExtra("jobId", jobId);
                     intent.putExtra("company", company);
                     intent.putExtra("title", title);
                     intent.putExtra("location", location);
