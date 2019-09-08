@@ -164,7 +164,7 @@ public class JobDetailActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             if (email != null && !email.equals("Not Available")) {
                 Intent intent = new Intent("android.intent.action.SENDTO", Uri.fromParts("mailto", email, null));
-                intent.putExtra("android.intent.extra.SUBJECT", "Application For Job");
+                intent.putExtra("android.intent.extra.SUBJECT", title);
                 if (clientMobile != null && !clientMobile.equals("Not Available")) {
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("I saw your job vacancy in Smart Kishan. I think I am the best fit for that position. Please feel free to contact me for further processing. You can also call me at ");

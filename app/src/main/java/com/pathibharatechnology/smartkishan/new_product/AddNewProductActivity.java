@@ -135,6 +135,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                 popupMenu.getMenu().add(2, 2, 2, "प्रति लिटर");
                 popupMenu.getMenu().add(3, 3, 3, "प्रति दर्जन");
                 popupMenu.getMenu().add(4, 4, 4, "प्रति मात्रा");
+                popupMenu.getMenu().add(5, 5, 5, "प्रति सयकडा");
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
