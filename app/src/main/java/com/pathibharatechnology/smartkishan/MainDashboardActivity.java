@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.about_us.AboutUsActivity;
+import com.pathibharatechnology.smartkishan.forum_and_discussion.DiscussionActivity;
 import com.pathibharatechnology.smartkishan.job.JobActivity;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
@@ -342,11 +343,13 @@ public class MainDashboardActivity extends AppCompatActivity
             } else if (id == R.id.uploadProductID) {
                 intent = new Intent(MainDashboardActivity.this, AddNewProductActivity.class);
 
-
             } else if (id == R.id.categoriesID) {
                 intent = new Intent(MainDashboardActivity.this, CategoriesActivity.class);
 
-            } else if (id == R.id.aboutUsID) {
+            } else if (id == R.id.discussionId) {
+                intent = new Intent(MainDashboardActivity.this, DiscussionActivity.class);
+
+            }else if (id == R.id.aboutUsID) {
                 intent = new Intent(MainDashboardActivity.this, AboutUsActivity.class);
 
             } else if (id == R.id.logOutID) {

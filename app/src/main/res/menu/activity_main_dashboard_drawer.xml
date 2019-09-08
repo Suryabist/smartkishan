@@ -17,6 +17,8 @@
             android:icon="@drawable/ic_job_search"
             android:title="जागिर" />
 
+
+
         <item
             android:id="@+id/uploadProductID"
             android:icon="@drawable/add_post_floating_icon"
@@ -25,6 +27,11 @@
             android:id="@+id/categoriesID"
             android:icon="@drawable/ic_categories"
             android:title="क्याटेगोरिहरु" />
+
+        <item
+            android:id="@+id/discussionId"
+            android:icon="@drawable/ic_discussion"
+            android:title="Discussion" />
 
         <item
             android:id="@+id/aboutUsID"
