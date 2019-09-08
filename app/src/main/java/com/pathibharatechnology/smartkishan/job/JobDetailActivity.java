@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -32,10 +33,11 @@ public class JobDetailActivity extends AppCompatActivity {
     String mobile, email, clientMobile;
     Long salary;
     LinearLayout uploaderProfileLayout;
-    FloatingActionButton callJobUploader;
+    FloatingActionButton callJobUploader, editJobButton;
     Button applyButton;
     TextView titleText, companyText, locationText, salaryText, deadlineText, jobDetailText, uploaderText, postedDateText;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,7 @@ public class JobDetailActivity extends AppCompatActivity {
         uploaderProfileLayout = findViewById(R.id.uploaderDetailID);
         callJobUploader = findViewById(R.id.callFloatingButtonID);
         applyButton = findViewById(R.id.applyButtonId);
+        editJobButton = findViewById(R.id.editJobButtonId);
 
         Intent intent = getIntent();
         company = intent.getStringExtra("company");
@@ -68,6 +71,17 @@ public class JobDetailActivity extends AppCompatActivity {
 
         getUserDetails();
         getUploaderPhone(uploaderId);
+
+        if (FirebaseAuth.getInstance().getUid().equals(uploaderId)){
+            editJobButton.setVisibility(View.VISIBLE);
+        }
+
+        editJobButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(JobDetailActivity.this, "Job can be edited.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         titleText.setText(title);
@@ -160,11 +174,10 @@ public class JobDetailActivity extends AppCompatActivity {
 
     private void sendMailToUploader() {
 
-
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             if (email != null && !email.equals("Not Available")) {
                 Intent intent = new Intent("android.intent.action.SENDTO", Uri.fromParts("mailto", email, null));
-                intent.putExtra("android.intent.extra.SUBJECT", title);
+                intent.putExtra("android.intent.extra.SUBJECT", "Application for the post of "+title);
                 if (clientMobile != null && !clientMobile.equals("Not Available")) {
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("I saw your job vacancy in Smart Kishan. I think I am the best fit for that position. Please feel free to contact me for further processing. You can also call me at ");
