@@ -67,7 +67,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     boolean deleteProductResponse = false;
 
-    String productCategory, productPrice;
+    String productCategory, productPrice, measurement;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -91,6 +91,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
+        measurement = intent.getStringExtra("measurement");
         uploaderUserName = intent.getStringExtra("uploaderUserName");
         imageUrl = intent.getStringExtra("imageUrl");
         productName = intent.getStringExtra("productName");
@@ -105,7 +106,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         getProductDetails(productId);
 
         nameOfProduct.setText(productName);
-        priceTextview.setText(price + " ने.रू.");
+        priceTextview.setText(price + " ने.रू. "+measurement);
         System.out.println("Product description====" + productDetail);
         productDescriptionTextView.setText(productDetail + " ");
         uploaderUserNameTextview.setText(uploaderUserName);
@@ -128,6 +129,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Intent getEditIntent = new Intent(ProductDetailActivity.this, AddNewProductActivity.class);
                 getEditIntent.putExtra("productImageUrl", imageUrl);
                 getEditIntent.putExtra("productName", productName);
+                getEditIntent.putExtra("measurement", measurement);
                 getEditIntent.putExtra("productCategory", productCategory);
                 getEditIntent.putExtra("productPrice", productPrice);
                 getEditIntent.putExtra("productDetail", productDetail);
@@ -300,6 +302,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         try {
 
                             productCategory = productListDTO.getProductCategory();
+                            measurement = productListDTO.getProductMeasurement();
                             productPrice = productListDTO.getProductPrice().toString();
                         } catch (Exception e) {
                             e.printStackTrace();

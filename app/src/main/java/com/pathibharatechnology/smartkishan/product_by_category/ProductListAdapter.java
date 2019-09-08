@@ -108,7 +108,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ImageView productImageView;
         TextView productNameTextview, productPriceTextview;
         LinearLayout recyclerLinearLayout;
-        String imageUrl, productName, productDetail, deliveryLocation;
+        String imageUrl, productName, productDetail, deliveryLocation, measurement;
         Integer price;
         String userID, uploaderUserName, uploaderImageUrl;
 
@@ -129,6 +129,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             userID = productListDTO.getProductUploaderUserId();
             deliveryLocation = productListDTO.getProductDeliveryLocation();
             price = productListDTO.getProductPrice();
+            measurement = productListDTO.getProductMeasurement();
 
             if (imageUrl.equals("")){
                 Glide.with(productImageView.getContext())
@@ -172,6 +173,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         intent.putExtra("userId", userID);
                         intent.putExtra("uploaderUserName", uploaderUserName);
                         intent.putExtra("imageUrl", imageUrl);
+                        intent.putExtra("measurement", measurement);
                         intent.putExtra("productName", productName);
                         intent.putExtra("productPrice", price);
                         intent.putExtra("productDetail", productDetail);

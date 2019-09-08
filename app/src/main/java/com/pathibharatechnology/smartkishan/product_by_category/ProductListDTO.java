@@ -11,9 +11,18 @@ public class ProductListDTO {
     private String productDescription;
     private String productDeliveryLocation;
     private String productUploaderName;
-
+    private String productMeasurement;
     private String productUploaderUserId;
     private String productId;
+
+
+    public String getProductMeasurement() {
+        return productMeasurement;
+    }
+
+    public void setProductMeasurement(String productMeasurement) {
+        this.productMeasurement = productMeasurement;
+    }
 
     public String getProductImageUrl() {
         return productImageUrl;

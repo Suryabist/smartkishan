@@ -128,11 +128,22 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <TextView
+                        android:id="@+id/productCalculationId"
+                        android:layout_below="@+id/productPriceID"
+                        android:layout_width="match_parent"
+                        android:padding="32dp"
+                        android:textSize="16dp"
+                        android:text="मापन"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/custom_inputtext"
+                        android:layout_height="wrap_content" />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/productDescriptionID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/productPriceID"
+                        android:layout_below="@id/productCalculationId"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/custom_inputtext"
                         android:gravity="center"

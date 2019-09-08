@@ -48,7 +48,8 @@ public class AddNewProductActivity extends AppCompatActivity {
     Integer productPrice = 0;
     String category = "";
     Button uploadButton;
-
+    String measurement;
+    TextView productCalculationText;
     Uri uri;
     Bitmap bitmap;
     StorageReference storageReference;
@@ -75,6 +76,8 @@ public class AddNewProductActivity extends AppCompatActivity {
         productDeliverLocationEdittext = findViewById(R.id.productDeliveryLocationEdittextID);
         uploadButton = findViewById(R.id.uploadButtonID);
         imageUploadImageView = findViewById(R.id.imageID);
+        productCalculationText = findViewById(R.id.productCalculationId);
+
         progressBar = findViewById(R.id.progressBarID);
 
 
@@ -92,6 +95,7 @@ public class AddNewProductActivity extends AppCompatActivity {
 
             downloadurl = intent.getStringExtra("productImageUrl");
             productName = intent.getStringExtra("productName");
+            measurement = intent.getStringExtra("measurement");
             productPriceInString = intent.getStringExtra("productPrice");
             productDescription = intent.getStringExtra("productDetail");
             productDeliveryLocation = intent.getStringExtra("productDeliveryLocation");
@@ -105,6 +109,7 @@ public class AddNewProductActivity extends AppCompatActivity {
             productNameEdittext.setText(productName);
 
             selectCategoryTextView.setText(category);
+            productCalculationText.setText(measurement);
             productPriceEdittext.setText(productPriceInString);
             productDescriptionEdittext.setText(productDescription);
             productDeliverLocationEdittext.setText(productDeliveryLocation);
@@ -120,6 +125,34 @@ public class AddNewProductActivity extends AppCompatActivity {
             }
         });
 
+
+        productCalculationText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PopupMenu popupMenu = new PopupMenu(AddNewProductActivity.this, productCalculationText);
+                popupMenu.getMenu().add(0, 0, 0, "मापन");
+                popupMenu.getMenu().add(1, 1, 1, "प्रति केजी");
+                popupMenu.getMenu().add(2, 2, 2, "प्रति लिटर");
+                popupMenu.getMenu().add(3, 3, 3, "प्रति दर्जन");
+                popupMenu.getMenu().add(4, 4, 4, "प्रति मात्रा");
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(final MenuItem menuItem) {
+                        if (menuItem.getItemId() == 0) {
+                            productCalculationText.setText(menuItem.getTitle());
+                            measurement = "";
+                        } else {
+                            productCalculationText.setText(menuItem.getTitle());
+                            measurement = menuItem.getTitle().toString();
+                        }
+                        return false;
+                    }
+                });
+
+            }
+        });
 
         selectCategoryTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +189,14 @@ public class AddNewProductActivity extends AppCompatActivity {
                 if (validate()) {
                     if (category.equals("")) {
                         Snackbar.make(view, "क्याटेगोरी सिलेक्ट गर्नुहोस", Snackbar.LENGTH_SHORT)
+                                .setAction("Close", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                    }
+                                })
+                                .show();
+                    } else if (measurement.equals("")) {
+                        Snackbar.make(view, "मापन सिलेक्ट गर्नुहोस", Snackbar.LENGTH_SHORT)
                                 .setAction("Close", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -202,6 +243,7 @@ public class AddNewProductActivity extends AppCompatActivity {
         productListDTO.setProductCategory(category);
         productListDTO.setProductDeliveryLocation(productDeliveryLocation);
         productListDTO.setProductPrice(productPrice);
+        productListDTO.setProductMeasurement(measurement);
 
         if (bitmap != null) {
 
@@ -243,6 +285,7 @@ public class AddNewProductActivity extends AppCompatActivity {
         productListDTO.setProductUploaderUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
         productListDTO.setProductId(productId);
         productListDTO.setProductName(productName);
+        productListDTO.setProductMeasurement(measurement);
         productListDTO.setProductDescription(productDescription);
         productListDTO.setProductCategory(category);
         productListDTO.setProductDeliveryLocation(productDeliveryLocation);
