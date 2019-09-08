@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -24,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
+import com.pathibharatechnology.smartkishan.product_detail.DeleteProductTask;
 import com.pathibharatechnology.smartkishan.product_detail.ProductDetailActivity;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
@@ -33,7 +36,7 @@ public class JobDetailActivity extends AppCompatActivity {
     String mobile, email, clientMobile;
     Long salary;
     LinearLayout uploaderProfileLayout;
-    FloatingActionButton callJobUploader, editJobButton;
+    FloatingActionButton callJobUploader, editJobButton, deleteJobButton;
     Button applyButton;
     String jobId;
     TextView titleText, companyText, locationText, salaryText, deadlineText, jobDetailText, uploaderText, postedDateText;
@@ -56,6 +59,7 @@ public class JobDetailActivity extends AppCompatActivity {
         callJobUploader = findViewById(R.id.callFloatingButtonID);
         applyButton = findViewById(R.id.applyButtonId);
         editJobButton = findViewById(R.id.editJobButtonId);
+        deleteJobButton = findViewById(R.id.deleteJobId);
 
         final Intent intent = getIntent();
 
@@ -77,6 +81,7 @@ public class JobDetailActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getUid().equals(uploaderId)){
             editJobButton.setVisibility(View.VISIBLE);
+            deleteJobButton.setVisibility(View.VISIBLE);
         }
 
         editJobButton.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +102,33 @@ public class JobDetailActivity extends AppCompatActivity {
             }
         });
 
+        deleteJobButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(JobDetailActivity.this)
+                        .setTitle("पुष्टि गर्नुहोस्")
+                        .setMessage("के तपाई वास्तवमै यस कामलाई मेटाउन चाहानुहुन्छ?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton("हटाउनुहोस्", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                DeleteJobTask deleteJobTask = new DeleteJobTask();
+                                deleteJobTask.deleteJob(jobId, JobDetailActivity.this);
+                                dialog.dismiss();
+                                finish();
+
+
+                            }
+                        })
+                        .setNegativeButton("नहटाउनुहोस्", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(JobDetailActivity.this, "काम मेटिएको छैन।", Toast.LENGTH_SHORT).show();
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }
+        });
 
         titleText.setText(title);
         companyText.setText(company);

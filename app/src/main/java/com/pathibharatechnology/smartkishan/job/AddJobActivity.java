@@ -73,7 +73,7 @@ public class AddJobActivity extends AppCompatActivity {
             salaryText.setText("" + salary);
             detailText.setText(detail);
             timeLimitText.setText(timeLimit);
-            submitButton.setText("Update");
+            submitButton.setText("अपडेट गर्नुहोस");
         }
 
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class AddJobActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (validate()) {
 
-                    if (submitButton.getText().toString().equals("Update")) {
+                    if (submitButton.getText().toString().equals("अपडेट गर्नुहोस")) {
                         upDateDatabase();
                     } else {
                         addJobToDatabase();
@@ -131,7 +131,7 @@ public class AddJobActivity extends AppCompatActivity {
                         if (task.isComplete()) {
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
-                            Snackbar.make(getWindow().getDecorView().getRootView(),"पोष्ट अपलोड गरिएको छ", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(),"काम अपलोड गरिएको छ", Snackbar.LENGTH_SHORT).show();
                             finish();
                         }
 
@@ -208,7 +208,7 @@ public class AddJobActivity extends AppCompatActivity {
 
                             progressBar.setVisibility(View.GONE);
 //                            onBackPressed();
-                            Snackbar.make(getWindow().getDecorView().getRootView(), "Job has been uploaded.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "काम अपलोड गरिएको छ", Snackbar.LENGTH_SHORT).show();
                             finish();
                         }
 

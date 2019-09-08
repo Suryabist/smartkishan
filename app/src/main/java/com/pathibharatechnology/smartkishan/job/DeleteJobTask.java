@@ -1,4 +1,4 @@
-package com.pathibharatechnology.smartkishan.product_detail;
+package com.pathibharatechnology.smartkishan.job;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,22 +15,21 @@ import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
-public class DeleteProductTask {
+public class DeleteJobTask {
 
-    ProductListDTO productListDTO;
+    JobDTO jobDTO;
 
-    public void deleteProduct(String productId, final Context context){
+    public void deleteJob(String jobId, final Context context) {
 
-        productListDTO = new ProductListDTO();
+        jobDTO = new JobDTO();
 
-        FirebaseDatabase.getInstance().getReference().child("products")
-                .child(productId)
-                .setValue(productListDTO)
+        FirebaseDatabase.getInstance().getReference().child("jobs")
+                .child(jobId)
+                .setValue(jobDTO)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "उत्पादन मेटाउन सक्दैन।", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(context, "काम मेटाउन सक्दैन।", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -38,18 +37,13 @@ public class DeleteProductTask {
                     public void onComplete(@NonNull Task<Void> task) {
 
                         if (task.isComplete()) {
-                            Toast.makeText(context, "उत्पादन सफलतापूर्वक हटाइयो।", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(context, MainDashboardActivity.class);
-                            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
-                            context.startActivity(intent);
+                            Toast.makeText(context, "काम सफलतापूर्वक हटाइयो।", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(context, "Error: "+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
 
-
     }
-
 }
