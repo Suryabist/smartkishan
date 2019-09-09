@@ -39,6 +39,7 @@ tools:context=".forum_and_discussion.DiscussionActivity"
                     android:src="@drawable/luffy" />
 
                 <EditText
+                    android:id="@+id/addDiscussionId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
