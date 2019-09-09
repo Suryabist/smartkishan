@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,21 +20,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> {
 
     List<DiscussionDTO> discussionDTOArrayList;
     Context mContext;
-    String uploaderName, uploaderImage;
+    ProgressBar progressBar;
 
-    public ForumAdapter(List<DiscussionDTO> discussionDTOArrayList, Context mContext, String uploaderName, String uploaderImage) {
+    public ForumAdapter(List<DiscussionDTO> discussionDTOArrayList, Context mContext, ProgressBar progressBar) {
         this.discussionDTOArrayList = discussionDTOArrayList;
         this.mContext = mContext;
-        this.uploaderName = uploaderName;
-        this.uploaderImage = uploaderImage;
+        this.progressBar = progressBar;
     }
 
     @NonNull
@@ -49,6 +50,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
         viewHolder.displayContent(discussionDTOArrayList.get(i));
     }
 
+
     @Override
     public int getItemCount() {
         return discussionDTOArrayList.size();
@@ -60,6 +62,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
         TextView name, date, content, like, liked;
         String imageText;
         String uploaderName;
+        CircleImageView uploaderImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,12 +73,32 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             content = itemView.findViewById(R.id.contentID);
             like = itemView.findViewById(R.id.likeID);
             liked = itemView.findViewById(R.id.likedID);
+            uploaderImage = itemView.findViewById(R.id.imageOfPostUploaderID);
         }
 
-
-
-
         public void displayContent(DiscussionDTO discussionDTO) {
+            progressBar.setVisibility(View.VISIBLE);
+
+            FirebaseDatabase.getInstance().getReference()
+                    .child("users")
+                    .child(discussionDTO.getPostUploaderUserId())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            UserDTO user = dataSnapshot.getValue(UserDTO.class);
+                            name.setText(user.getUserName());
+                            Glide.with(mContext)
+                                    .load(user.getProfilePic())
+                                    .asBitmap()
+                                    .into(uploaderImage);
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
             imageText = discussionDTO.getImageUrl();
 
@@ -91,6 +114,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             name.setText(uploaderName);
             date.setText(discussionDTO.getDate());
             content.setText(discussionDTO.getContent());
+
 
             /*final boolean[] isChecked = {false};
 

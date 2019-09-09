@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,22 +24,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DiscussionActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     EditText addDiscussionText;
-
+    ProgressBar progressBar;
+    CircleImageView userImage;
     ForumAdapter adapter;
+    String userImageText;
     LinearLayoutManager layoutManager;
-    String uploaderName, uploaderImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
 
-        getUserDetails();
         addDiscussionText = findViewById(R.id.addDiscussionId);
+        progressBar = findViewById(R.id.progressBarId);
+        userImage = findViewById(R.id.userPicID);
+
+        Intent intent = getIntent();
+        userImageText = intent.getStringExtra("userImage");
+
+        Glide.with(this)
+                .load(userImageText)
+                .asBitmap()
+                .into(userImage);
 
         recyclerView = findViewById(R.id.recyclerViewID);
         layoutManager = new LinearLayoutManager(this);
@@ -57,28 +71,9 @@ public class DiscussionActivity extends AppCompatActivity {
 
     }
 
-    public void getUserDetails() {
-        FirebaseDatabase.getInstance().getReference()
-                .child("users")
-                .child(FirebaseAuth.getInstance().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        UserDTO user = dataSnapshot.getValue(UserDTO.class);
-                        uploaderName = user.getUserName();
-                        uploaderImage = user.getProfilePic();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-    }
-
     private void getDiscussionListFromFirebase() {
 
+        progressBar.setVisibility(View.VISIBLE);
         final List<DiscussionDTO> discussionDTOList = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("discussions")
                 .addValueEventListener(new ValueEventListener() {
@@ -90,10 +85,9 @@ public class DiscussionActivity extends AppCompatActivity {
                             discussionDTOList.add(snap.getValue(DiscussionDTO.class));
 
                         }
-                        adapter = new ForumAdapter(discussionDTOList, DiscussionActivity.this, uploaderName, uploaderImage);
+                        adapter = new ForumAdapter(discussionDTOList, DiscussionActivity.this, progressBar);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(layoutManager);
-
                     }
 
                     @Override

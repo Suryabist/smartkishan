@@ -172,7 +172,7 @@ public class MainDashboardActivity extends AppCompatActivity
                         userProfilePic = user.getProfilePic();
 
                         Glide.with(MainDashboardActivity.this).
-                                load(user.getProfilePic())
+                                load(userProfilePic)
                                 .into(navUserImage);
                     }
 
@@ -348,6 +348,7 @@ public class MainDashboardActivity extends AppCompatActivity
 
             } else if (id == R.id.discussionId) {
                 intent = new Intent(MainDashboardActivity.this, DiscussionActivity.class);
+                intent.putExtra("userImage", userProfilePic);
 
             }else if (id == R.id.aboutUsID) {
                 intent = new Intent(MainDashboardActivity.this, AboutUsActivity.class);
