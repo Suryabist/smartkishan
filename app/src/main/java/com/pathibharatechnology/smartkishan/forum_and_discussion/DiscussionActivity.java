@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +22,7 @@ import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +34,6 @@ public class DiscussionActivity extends AppCompatActivity {
     EditText addDiscussionText;
     ProgressBar progressBar;
     CircleImageView userImage;
-    ForumAdapter adapter;
     String userImageText;
     LinearLayoutManager layoutManager;
 
@@ -74,20 +75,45 @@ public class DiscussionActivity extends AppCompatActivity {
     private void getDiscussionListFromFirebase() {
 
         progressBar.setVisibility(View.VISIBLE);
-        final List<DiscussionDTO> discussionDTOList = new ArrayList<>();
+
         FirebaseDatabase.getInstance().getReference().child("discussions")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<DiscussionDTO> discussionDTOList = new ArrayList<>();
                         Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
                         while (iterator.hasNext()) {
                             DataSnapshot snap = iterator.next();
                             discussionDTOList.add(snap.getValue(DiscussionDTO.class));
 
                         }
-                        adapter = new ForumAdapter(discussionDTOList, DiscussionActivity.this, progressBar);
+                        ForumAdapter adapter = new ForumAdapter(discussionDTOList,  progressBar, new OnFeedClickHandleListener() {
+                            @Override
+                            public void onFeedClicked(DiscussionDTO discussionDTO) {
+                                Toast.makeText(DiscussionActivity.this, discussionDTO.getContent(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onLikeBtnToggled(DiscussionDTO discussionDTO, boolean liked) {
+                                HashMap<String,Boolean> likes=new HashMap<>();
+                                if(liked){
+                                    discussionDTO.setLikeCount(discussionDTO.getLikeCount()+1);
+                                    likes.put(FirebaseAuth.getInstance().getUid(),true);
+                                    Toast.makeText(DiscussionActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    discussionDTO.setLikeCount(discussionDTO.getLikeCount()-1);
+                                    likes.put(FirebaseAuth.getInstance().getUid(),false);
+                                    Toast.makeText(DiscussionActivity.this, "Unlike", Toast.LENGTH_SHORT).show();
+                                }
+                                discussionDTO.setLikes(likes);
+                                FirebaseDatabase.getInstance().getReference().child("discussions")
+                                        .child(discussionDTO.getPostId())
+                                        .setValue(discussionDTO);
+                            }
+                        });
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(layoutManager);
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override

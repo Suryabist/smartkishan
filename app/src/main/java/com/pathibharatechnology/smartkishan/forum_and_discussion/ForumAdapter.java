@@ -1,12 +1,15 @@
 package com.pathibharatechnology.smartkishan.forum_and_discussion;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,16 +28,16 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> {
+public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder>{
 
     List<DiscussionDTO> discussionDTOArrayList;
-    Context mContext;
     ProgressBar progressBar;
+    OnFeedClickHandleListener feedClickHandleListener;
 
-    public ForumAdapter(List<DiscussionDTO> discussionDTOArrayList, Context mContext, ProgressBar progressBar) {
+    public ForumAdapter(List<DiscussionDTO> discussionDTOArrayList, ProgressBar progressBar, OnFeedClickHandleListener feedClickHandleListener) {
         this.discussionDTOArrayList = discussionDTOArrayList;
-        this.mContext = mContext;
         this.progressBar = progressBar;
+        this.feedClickHandleListener = feedClickHandleListener;
     }
 
     @NonNull
@@ -59,7 +62,8 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView name, date, content, like, liked;
+        TextView name, date, content, comment;
+        ToggleButton like;
         String imageText;
         String uploaderName;
         CircleImageView uploaderImage;
@@ -72,11 +76,11 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             date = itemView.findViewById(R.id.postUploadTimeID);
             content = itemView.findViewById(R.id.contentID);
             like = itemView.findViewById(R.id.likeID);
-            liked = itemView.findViewById(R.id.likedID);
             uploaderImage = itemView.findViewById(R.id.imageOfPostUploaderID);
+            comment = itemView.findViewById(R.id.commentID);
         }
 
-        public void displayContent(DiscussionDTO discussionDTO) {
+        public void displayContent(final DiscussionDTO discussionDTO) {
             progressBar.setVisibility(View.VISIBLE);
 
             FirebaseDatabase.getInstance().getReference()
@@ -87,7 +91,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             UserDTO user = dataSnapshot.getValue(UserDTO.class);
                             name.setText(user.getUserName());
-                            Glide.with(mContext)
+                            Glide.with(uploaderImage.getContext())
                                     .load(user.getProfilePic())
                                     .asBitmap()
                                     .into(uploaderImage);
@@ -105,7 +109,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             if (imageText == null || imageText.equals("")) {
                 image.setVisibility(View.GONE);
             } else {
-                Glide.with(mContext)
+                Glide.with(image.getContext())
                         .load(imageText)
                         .asBitmap()
                         .into(image);
@@ -115,40 +119,43 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             date.setText(discussionDTO.getDate());
             content.setText(discussionDTO.getContent());
 
+            comment.setText(discussionDTO.getCommentCount() +" comments");
 
-            /*final boolean[] isChecked = {false};
-
-            like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isChecked[0] == false) {
-                        like.setVisibility(View.GONE);
-                        liked.setVisibility(View.VISIBLE);
-                        isChecked[0] = true;
+            if(discussionDTO.getLikes()!=null) {
+                if (discussionDTO.getLikes().containsKey(FirebaseAuth.getInstance().getUid())) {
+                    if (discussionDTO.getLikes().get(FirebaseAuth.getInstance().getUid())) {
+                        like.setChecked(true);
                     } else {
-                        liked.setVisibility(View.GONE);
-                        like.setVisibility(View.VISIBLE);
-                        isChecked[0] = false;
+
+                        like.setChecked(false);
+                    }
+                }
+            }
+
+            like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b){
+                        System.out.println("Checked=====");
+                        feedClickHandleListener.onLikeBtnToggled(discussionDTO,true);
+                    }else{
+
+                        System.out.println("Unchecked=====");
+                        feedClickHandleListener.onLikeBtnToggled(discussionDTO,false);
                     }
                 }
             });
 
-            liked.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isChecked[0] == true) {
-                        like.setVisibility(View.GONE);
-                        liked.setVisibility(View.VISIBLE);
-                        isChecked[0] = false;
-                    } else {
-                        liked.setVisibility(View.GONE);
-                        like.setVisibility(View.VISIBLE);
-                        isChecked[0] = true;
-                    }
-                }
-            });*/
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    feedClickHandleListener.onFeedClicked(discussionDTO);
+
+                }
+            });
         }
+
     }
 
 }
