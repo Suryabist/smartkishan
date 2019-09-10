@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".forum_and_discussion.DiscussionDetailActivity"></activity>
+        <activity android:name=".forum_and_discussion.DiscussionDetailActivity" android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".forum_and_discussion.AddDiscussionPostActivity"
             android:windowSoftInputMode="adjustResize" />

@@ -52,6 +52,9 @@ dependencies {
     //facebook dependency
     implementation 'com.facebook.android:facebook-login:[5,6)'
 
+    //carousal dependency
+    implementation 'com.synnapps:carouselview:0.1.5'
+
 }
 
 
