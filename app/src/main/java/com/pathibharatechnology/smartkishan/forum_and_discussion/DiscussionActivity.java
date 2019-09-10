@@ -90,7 +90,19 @@ public class DiscussionActivity extends AppCompatActivity {
                         ForumAdapter adapter = new ForumAdapter(discussionDTOList,  progressBar, new OnFeedClickHandleListener() {
                             @Override
                             public void onFeedClicked(DiscussionDTO discussionDTO) {
-                                Toast.makeText(DiscussionActivity.this, discussionDTO.getContent(), Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(DiscussionActivity.this, DiscussionDetailActivity.class);
+                                intent.putExtra("userImage", userImageText);
+                                intent.putExtra("uploadedDate", discussionDTO.getDate());
+                                intent.putExtra("content", discussionDTO.getContent());
+                                intent.putExtra("contentImage", discussionDTO.getImageUrl());
+                                intent.putExtra("uploaderId", discussionDTO.getPostUploaderUserId());
+                                intent.putExtra("postId", discussionDTO.getPostId());
+                                intent.putExtra("commentCount", discussionDTO.getCommentCount());
+                                intent.putExtra("likeCount", discussionDTO.getLikeCount());
+                                intent.putExtra("getLikes", discussionDTO.getLikes());
+                                startActivity(intent);
+
                             }
 
                             @Override
@@ -111,9 +123,9 @@ public class DiscussionActivity extends AppCompatActivity {
                                         .setValue(discussionDTO);
                             }
                         });
+                        adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(layoutManager);
-                        adapter.notifyDataSetChanged();
                     }
 
                     @Override

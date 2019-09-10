@@ -91,12 +91,21 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/likesCountId"
+                        android:text="0 Likes"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/commentID"
                     android:gravity="center"
                     android:padding="8dp"
+                    android:layout_gravity="center"
                     android:drawableLeft="@drawable/ic_comment"
                     android:layout_width="0dp"
                     android:layout_toRightOf="@+id/likeID"

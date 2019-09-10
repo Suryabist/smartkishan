@@ -62,7 +62,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView name, date, content, comment;
+        TextView name, date, content, comment, likesCount;
         ToggleButton like;
         String imageText;
         String uploaderName;
@@ -78,6 +78,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder>{
             like = itemView.findViewById(R.id.likeID);
             uploaderImage = itemView.findViewById(R.id.imageOfPostUploaderID);
             comment = itemView.findViewById(R.id.commentID);
+            likesCount = itemView.findViewById(R.id.likesCountId);
         }
 
         public void displayContent(final DiscussionDTO discussionDTO) {
@@ -118,8 +119,13 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder>{
             name.setText(uploaderName);
             date.setText(discussionDTO.getDate());
             content.setText(discussionDTO.getContent());
+            likesCount.setText(discussionDTO.getLikeCount()+" likes");
 
-            comment.setText(discussionDTO.getCommentCount() +" comments");
+            if (discussionDTO.getCommentCount()==0){
+                comment.setText("Comment");
+            } else {
+                comment.setText(discussionDTO.getCommentCount() +" comment");
+            }
 
             if(discussionDTO.getLikes()!=null) {
                 if (discussionDTO.getLikes().containsKey(FirebaseAuth.getInstance().getUid())) {
