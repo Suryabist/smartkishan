@@ -120,6 +120,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getUid().equals(userId)) {
             editProductInfoFloatingButton.setVisibility(View.VISIBLE);
             deleteFloatingButton.setVisibility(View.VISIBLE);
+            callFloatingButton.setVisibility(View.INVISIBLE);
+            sendMailButton.setVisibility(View.INVISIBLE);
         }
 
 

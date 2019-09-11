@@ -37,13 +37,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/categoryFruits"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:text="फलफुल"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimary"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/categoryFruits"
+                    android:layout_width="match_parent"
+                    android:text="फलफुल"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/fruitSeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -53,8 +70,16 @@
                 android:layout_marginTop="8dp"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
+
 
         </LinearLayout>
+
+
 
         <LinearLayout
             android:visibility="gone"
@@ -66,15 +91,33 @@
             android:layout_below="@id/fruitLayoutId"
             android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/fishesAndMeatId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
-                android:textSize="20sp"
-                android:text="माछा मासु"
-                android:textColor="@color/colorPrimary"
-                />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/fishesAndMeatId"
+                    android:layout_width="match_parent"
+                    android:text="माछा मासु"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/fishSeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -84,6 +127,11 @@
                 android:layout_marginTop="8dp"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
 
         </LinearLayout>
 
@@ -97,14 +145,32 @@
             android:layout_below="@id/fishMeatLayoutId"
             android:layout_height="wrap_content" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/vegetablesId"
-                android:text="तरकारी"
-                android:textColor="@color/colorPrimary"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
-                android:textSize="20sp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/vegetablesId"
+                    android:layout_width="match_parent"
+                    android:text="तरकारी"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/vegetablesSeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -113,6 +179,11 @@
                 android:layout_height="wrap_content"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
 
         </LinearLayout>
 
@@ -127,14 +198,31 @@
             android:layout_below="@id/vegetablesLayoutId"
             android:layout_height="wrap_content" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/animalisticId"
-                android:text="पशुजन्य"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimary"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/animalisticId"
+                    android:layout_width="match_parent"
+                    android:text="पशुजन्य"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/animalisticSeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -143,6 +231,12 @@
                 android:id="@+id/animalisticRecyclerViewId"
                 android:layout_height="wrap_content"
                 />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
 
 
         </LinearLayout>
@@ -157,14 +251,31 @@
             android:layout_below="@id/animalisticLayoutId"
             android:layout_height="wrap_content" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/grainsId"
-                android:text="अन्न"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/grainsId"
+                    android:layout_width="match_parent"
+                    android:text="अन्न"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/grainsSeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

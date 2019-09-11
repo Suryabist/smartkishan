@@ -35,6 +35,7 @@ import com.pathibharatechnology.smartkishan.product_by_category.ProductByCategor
 import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
+import com.pathibharatechnology.smartkishan.products_list.CategoryProductList;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -77,6 +78,11 @@ public class MainDashboardActivity extends AppCompatActivity
     String userName = null;
     ImageView notificationImage;
     TextView notificationCountTextview;
+
+    TextView fruitsSee, meatSee, vegetablesSee, animalisticSee, grainsSee;
+
+    List<ProductListDTO> limitedProductList;
+
 
     RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -151,6 +157,59 @@ public class MainDashboardActivity extends AppCompatActivity
         getProductBycategoryTask("पशुजन्य", animalistciRecyclerView, animalisticsLayout);
         getProductBycategoryTask("अन्न", grainsRecyclerView, grainsLayout);
 
+        fruitsSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "फलफुल");
+                startActivity(seeIntent);
+
+            }
+        });
+
+
+        meatSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "माछा मासु");
+                startActivity(seeIntent);
+
+            }
+        });
+
+
+        vegetablesSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "तरकारी");
+                startActivity(seeIntent);
+
+            }
+        });
+
+        animalisticSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "पशुजन्य");
+                startActivity(seeIntent);
+
+            }
+        });
+
+        grainsSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "अन्न");
+                startActivity(seeIntent);
+
+            }
+        });
+
+
         navigationView.setNavigationItemSelectedListener(this);
 
         uploadProductFloatingActionButton = findViewById(R.id.uploadProductID);
@@ -216,6 +275,12 @@ public class MainDashboardActivity extends AppCompatActivity
         vegetablesLayout = findViewById(R.id.vegetablesLayoutId);
         animalisticsLayout = findViewById(R.id.animalisticLayoutId);
         grainsLayout = findViewById(R.id.grainsLayoutId);
+
+        fruitsSee = findViewById(R.id.fruitSeeId);
+        meatSee = findViewById(R.id.fishSeeId);
+        vegetablesSee = findViewById(R.id.vegetablesSeeId);
+        animalisticSee = findViewById(R.id.animalisticSeeId);
+        grainsSee = findViewById(R.id.grainsSeeId);
     }
 
     private void callLinearLayoutManager(RecyclerView recyclerView) {
@@ -244,7 +309,19 @@ public class MainDashboardActivity extends AppCompatActivity
                         if (!productList.isEmpty()) {
                             linearLayout.setVisibility(View.VISIBLE);
                         }
-                        adapter= new ProductListAdapter(productList, MainDashboardActivity.this);
+
+                        limitedProductList = new ArrayList<>();
+                        if (productList.size()>4) {
+                            for (int i=0; i<5; i++) {
+                                limitedProductList.add(productList.get(i));
+                            }
+                        } else {
+                            for (int i=0; i<productList.size(); i++){
+                                limitedProductList.add(productList.get(i));
+                            }
+                        }
+
+                        adapter= new ProductListAdapter(limitedProductList, MainDashboardActivity.this);
                         recyclerView.setAdapter(adapter);
                         progressBar.setVisibility(View.GONE);
 
