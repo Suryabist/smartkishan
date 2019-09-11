@@ -36,6 +36,8 @@ import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,6 +83,10 @@ public class MainDashboardActivity extends AppCompatActivity
     ProductListAdapter adapter;
     LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout;
 
+    CarouselView carouselView;
+    int[] sampleImages = {R.drawable.luffy, R.drawable.luffy, R.drawable.luffy, R.drawable.luffy, R.drawable.luffy};
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,10 @@ public class MainDashboardActivity extends AppCompatActivity
 
         navUserImage = mView.findViewById(R.id.nav_imageID);
         navUserName = mView.findViewById(R.id.nav_userNameID);
+
+        carouselView = (CarouselView) findViewById(R.id.carouselView);
+
+
 
         try {
             getUserDetails();
@@ -124,6 +134,10 @@ public class MainDashboardActivity extends AppCompatActivity
         }
 
         defineView();
+
+        carouselView.setPageCount(sampleImages.length);
+
+        carouselView.setImageListener(imageListener);
 
         callLinearLayoutManager(fruitsRecyclerView);
         callLinearLayoutManager(fishAndMeatRecyclerView);
@@ -158,6 +172,13 @@ public class MainDashboardActivity extends AppCompatActivity
         });
 
     }
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sampleImages[position]);
+        }
+    };
 
     private void getUserDetails() {
         FirebaseDatabase.getInstance().getReference()

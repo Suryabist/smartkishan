@@ -14,10 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="12dp"
-        android:paddingTop="12dp"
         android:background="#F1F2F6">
 
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#00000000"
+            app:radius="6dp"
+            app:slideInterval="3000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp"/>
+
         <LinearLayout
+            android:layout_below="@id/carouselView"
             android:visibility="gone"
             android:orientation="vertical"
             android:id="@+id/fruitLayoutId"
