@@ -331,7 +331,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserDTO user = dataSnapshot.getValue(UserDTO.class);
-                        currentUserName = user.getUserName();
+                        currentUserName = user.getFullName();
                         clientMobile = user.getMobile();
 
                     }
@@ -359,14 +359,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             if (email != null && !email.equals("Not Available")) {
                 Intent intent = new Intent("android.intent.action.SENDTO", Uri.fromParts("mailto", email, null));
-                intent.putExtra("android.intent.extra.SUBJECT", "Smart Kishan");
+                intent.putExtra("android.intent.extra.SUBJECT", "Smart Kishan || "+currentUserName+ " wants to buy "+productName);
                 if (clientMobile != null && !clientMobile.equals("Not Available")) {
                     StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("I want to buy your product, Please reply to this mail or call me at ");
+                    stringBuilder.append("I want to buy your product("+productName+"), Please reply to this mail or call me at ");
                     stringBuilder.append(clientMobile);
                     intent.putExtra("android.intent.extra.TEXT", stringBuilder.toString());
                 } else {
-                    intent.putExtra("android.intent.extra.TEXT", "I want to buy your product, Please reply to this mail.");
+                    intent.putExtra("android.intent.extra.TEXT", "I want to buy your product("+productName+"), Please reply to this mail.");
                 }
                 this.startActivity(intent);
             } else {
