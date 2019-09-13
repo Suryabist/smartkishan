@@ -46,6 +46,10 @@ public class CategoriesActivity extends AppCompatActivity {
         categoryImageData.put("animal", "पशुजन्य");
         categoryArrayList.add("crops");
         categoryImageData.put("crops", "अन्न");
+        categoryArrayList.add("dairy");
+        categoryImageData.put("dairy", "दुग्ध");
+        categoryArrayList.add("others");
+        categoryImageData.put("others", "अन्य");
 
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);

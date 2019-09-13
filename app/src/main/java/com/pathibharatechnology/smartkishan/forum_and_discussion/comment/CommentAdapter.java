@@ -49,12 +49,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView showComment;
+        TextView uploaderName;
         CircleImageView commenterImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
             showComment=itemView.findViewById(R.id.show_comment);
             commenterImage = itemView.findViewById(R.id.commenterImageId);
+            uploaderName = itemView.findViewById(R.id.uploaderNameId);
         }
         public void bindView(final CommentDTO comment){
             FirebaseDatabase.getInstance().getReference()
@@ -68,6 +70,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                                     .load(user.getProfilePic())
                                     .asBitmap()
                                     .into(commenterImage);
+                            uploaderName.setText(user.getFullName());
                             showComment.setText(comment.getComment());
                         }
 

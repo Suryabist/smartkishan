@@ -24,11 +24,11 @@ import java.util.List;
 
 public class ProductByCategoryActivity extends AppCompatActivity {
 
-    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView;
+    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView, dairyRecyclerView, othersRecyclerView;
     LinearLayoutManager linearLayoutManager;
     DividerItemDecoration mDividerItemDecoration;
     ProductListAdapter adapter;
-    LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout;
+    LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout, dairyLayout, othersLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +42,16 @@ public class ProductByCategoryActivity extends AppCompatActivity {
         callLinearLayoutManager(vegetablesRecyclerView);
         callLinearLayoutManager(animalistciRecyclerView);
         callLinearLayoutManager(grainsRecyclerView);
+        callLinearLayoutManager(dairyRecyclerView);
+        callLinearLayoutManager(othersRecyclerView);
 
         getProductBycategoryTask("फलफुल", fruitsRecyclerView, fruitsLayout);
         getProductBycategoryTask("माछा मासु", fishAndMeatRecyclerView, fishMeatlayout);
         getProductBycategoryTask("तरकारी", vegetablesRecyclerView, vegetablesLayout);
         getProductBycategoryTask("पशुजन्य", animalistciRecyclerView, animalisticsLayout);
         getProductBycategoryTask("अन्न", grainsRecyclerView, grainsLayout);
+        getProductBycategoryTask("दुग्ध", dairyRecyclerView, dairyLayout);
+        getProductBycategoryTask("अन्य", othersRecyclerView, othersLayout);
 
     }
 
@@ -57,12 +61,16 @@ public class ProductByCategoryActivity extends AppCompatActivity {
         vegetablesRecyclerView = findViewById(R.id.vegetablesRecyclerId);
         animalistciRecyclerView = findViewById(R.id.animalisticRecyclerViewId);
         grainsRecyclerView = findViewById(R.id.grainsRecyclerViewId);
+        dairyRecyclerView = findViewById(R.id.dairyRecyclerViewId);
+        othersRecyclerView = findViewById(R.id.othersRecyclerViewId);
 
         fruitsLayout = findViewById(R.id.fruitLayoutId);
         fishMeatlayout = findViewById(R.id.fishMeatLayoutId);
         vegetablesLayout = findViewById(R.id.vegetablesLayoutId);
         animalisticsLayout = findViewById(R.id.animalisticLayoutId);
         grainsLayout = findViewById(R.id.grainsLayoutId);
+        dairyLayout = findViewById(R.id.dairyLayoutId);
+        othersLayout = findViewById(R.id.othersLayoutId);
     }
 
     private void callLinearLayoutManager(RecyclerView recyclerView) {

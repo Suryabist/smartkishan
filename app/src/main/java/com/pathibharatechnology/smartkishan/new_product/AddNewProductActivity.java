@@ -136,6 +136,7 @@ public class AddNewProductActivity extends AppCompatActivity {
                 popupMenu.getMenu().add(3, 3, 3, "प्रति दर्जन");
                 popupMenu.getMenu().add(4, 4, 4, "प्रति मात्रा");
                 popupMenu.getMenu().add(5, 5, 5, "प्रति सयकडा");
+
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -165,6 +166,8 @@ public class AddNewProductActivity extends AppCompatActivity {
                 popupMenu.getMenu().add(3, 3, 3, "तरकारी");
                 popupMenu.getMenu().add(4, 4, 4, "पशुजन्य");
                 popupMenu.getMenu().add(5, 5, 5, "अन्न");
+                popupMenu.getMenu().add(6, 6, 6, "दुग्ध");
+                popupMenu.getMenu().add(7, 7, 7, "अन्य");
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

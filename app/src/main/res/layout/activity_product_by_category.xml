@@ -285,8 +285,124 @@
                 android:layout_height="wrap_content"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
+
 
         </LinearLayout>
+
+
+        <LinearLayout
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:id="@+id/dairyLayoutId"
+            android:orientation="vertical"
+            android:layout_below="@id/grainsLayoutId"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/dairyId"
+                    android:layout_width="match_parent"
+                    android:text="दुग्ध"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/dairySeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/vegetablesId"
+                android:id="@+id/dairyRecyclerViewId"
+                android:layout_height="wrap_content"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:id="@+id/othersLayoutId"
+            android:orientation="vertical"
+            android:layout_below="@id/dairyLayoutId"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/othersId"
+                    android:layout_width="match_parent"
+                    android:text="अन्य"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/othersSeeId"
+                    android:layout_width="wrap_content"
+                    android:text="See all"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/vegetablesId"
+                android:id="@+id/othersRecyclerViewId"
+                android:layout_height="wrap_content"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="2dp" />
+
+
+        </LinearLayout>
+
+
 
     </RelativeLayout>
 

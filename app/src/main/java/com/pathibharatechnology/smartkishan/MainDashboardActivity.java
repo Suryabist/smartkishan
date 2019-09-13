@@ -79,15 +79,15 @@ public class MainDashboardActivity extends AppCompatActivity
     ImageView notificationImage;
     TextView notificationCountTextview;
 
-    TextView fruitsSee, meatSee, vegetablesSee, animalisticSee, grainsSee;
+    TextView fruitsSee, meatSee, vegetablesSee, animalisticSee, grainsSee, dairySee, othersSee;
 
     List<ProductListDTO> limitedProductList;
 
 
-    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView;
+    RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView, dairyRecyclerView, othersRecyclerView;
     LinearLayoutManager linearLayoutManager;
     ProductListAdapter adapter;
-    LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout;
+    LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout, dairyLayout, othersLayout;
 
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.luffy, R.drawable.luffy, R.drawable.luffy, R.drawable.luffy, R.drawable.luffy};
@@ -150,12 +150,16 @@ public class MainDashboardActivity extends AppCompatActivity
         callLinearLayoutManager(vegetablesRecyclerView);
         callLinearLayoutManager(animalistciRecyclerView);
         callLinearLayoutManager(grainsRecyclerView);
+        callLinearLayoutManager(dairyRecyclerView);
+        callLinearLayoutManager(othersRecyclerView);
 
         getProductBycategoryTask("फलफुल", fruitsRecyclerView, fruitsLayout);
         getProductBycategoryTask("माछा मासु", fishAndMeatRecyclerView, fishMeatlayout);
         getProductBycategoryTask("तरकारी", vegetablesRecyclerView, vegetablesLayout);
         getProductBycategoryTask("पशुजन्य", animalistciRecyclerView, animalisticsLayout);
         getProductBycategoryTask("अन्न", grainsRecyclerView, grainsLayout);
+        getProductBycategoryTask("दुग्ध", dairyRecyclerView, dairyLayout);
+        getProductBycategoryTask("अन्य", othersRecyclerView, othersLayout);
 
         fruitsSee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,6 +208,26 @@ public class MainDashboardActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
                 seeIntent.putExtra("category", "अन्न");
+                startActivity(seeIntent);
+
+            }
+        });
+
+        dairySee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "दुग्ध");
+                startActivity(seeIntent);
+
+            }
+        });
+
+        othersSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeIntent = new Intent(MainDashboardActivity.this, CategoryProductList.class);
+                seeIntent.putExtra("category", "अन्य");
                 startActivity(seeIntent);
 
             }
@@ -269,18 +293,25 @@ public class MainDashboardActivity extends AppCompatActivity
         vegetablesRecyclerView = findViewById(R.id.vegetablesRecyclerId);
         animalistciRecyclerView = findViewById(R.id.animalisticRecyclerViewId);
         grainsRecyclerView = findViewById(R.id.grainsRecyclerViewId);
+        dairyRecyclerView = findViewById(R.id.dairyRecyclerViewId);
+        othersRecyclerView = findViewById(R.id.othersRecyclerViewId);
 
         fruitsLayout = findViewById(R.id.fruitLayoutId);
         fishMeatlayout = findViewById(R.id.fishMeatLayoutId);
         vegetablesLayout = findViewById(R.id.vegetablesLayoutId);
         animalisticsLayout = findViewById(R.id.animalisticLayoutId);
         grainsLayout = findViewById(R.id.grainsLayoutId);
+        dairyLayout = findViewById(R.id.dairyLayoutId);
+        othersLayout = findViewById(R.id.othersLayoutId);
 
         fruitsSee = findViewById(R.id.fruitSeeId);
         meatSee = findViewById(R.id.fishSeeId);
         vegetablesSee = findViewById(R.id.vegetablesSeeId);
         animalisticSee = findViewById(R.id.animalisticSeeId);
         grainsSee = findViewById(R.id.grainsSeeId);
+        dairySee = findViewById(R.id.dairySeeId);
+        othersSee = findViewById(R.id.othersSeeId);
+
     }
 
     private void callLinearLayoutManager(RecyclerView recyclerView) {
