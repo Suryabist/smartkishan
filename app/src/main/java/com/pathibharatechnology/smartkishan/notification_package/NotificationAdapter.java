@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pathibharatechnology.smartkishan.R;
 import com.pathibharatechnology.smartkishan.login_and_signup.UserDTO;
+import com.pathibharatechnology.smartkishan.user_profile.UserDetailActivity;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 public void onClick(View view) {
 
                     updateStatusRead(notificationDTO.notificationId);
-                    Intent intent = new Intent(mContext, UserProfileActivity.class);
+                    Intent intent = new Intent(mContext, UserDetailActivity.class);
                     intent.putExtra("userName", notificationDTO.notificationSenderName);
                     intent.putExtra("userId", notificationDTO.notificationSenderId);
                     intent.putExtra("userProfilePic", userProfilePic);

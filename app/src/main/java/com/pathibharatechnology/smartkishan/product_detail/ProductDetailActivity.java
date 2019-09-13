@@ -122,6 +122,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             deleteFloatingButton.setVisibility(View.VISIBLE);
             callFloatingButton.setVisibility(View.INVISIBLE);
             sendMailButton.setVisibility(View.INVISIBLE);
+            sendNotificationButton.setVisibility(View.INVISIBLE);
         }
 
 

@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".forum_and_discussion.DiscussionDetailActivity" android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".user_profile.UserDetailActivity"></activity>
+        <activity
+            android:name=".forum_and_discussion.DiscussionDetailActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".forum_and_discussion.AddDiscussionPostActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -72,9 +75,9 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

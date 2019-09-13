@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context=".user_profile.UserDetailActivity"
+android:fitsSystemWindows="true">
+
+<com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
+    android:id="@+id/appBarLayout"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsingToolbarID"
+        android:layout_width="match_parent"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways"
+        app:title="User Name"
+        app:expandedTitleMargin="60dp"
+        app:contentScrim="@color/colorPrimary"
+        app:collapsedTitleGravity="center"
+        app:expandedTitleGravity="center|bottom"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/productImageviewID"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:alpha="0.4"
+            android:scaleType="centerCrop"
+            android:src="@drawable/smart_krishi_default_image"
+            app:layout_collapseMode="parallax" />
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>
+
+
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/joinDateTextviewId"
+            android:layout_width="wrap_content"
+            android:text="Joined on July 10, 2019"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/contactInfoId"
+            android:layout_width="wrap_content"
+            android:text="Contact Info"
+            android:layout_below="@+id/itemCountTextViewID"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="16dp"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Full Name:"
+            android:id="@+id/userNameId"
+            android:layout_marginLeft="16dp"
+            android:layout_below="@id/contactInfoId"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Surya Ghising"
+            android:id="@+id/userNameTextId"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/userNameId"
+            android:layout_below="@id/contactInfoId"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Email: "
+            android:id="@+id/emailId"
+            android:textSize="16sp"
+            android:layout_below="@id/userNameId"
+            android:layout_marginLeft="16dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/emailTextId"
+            android:text="Surya@gmail.com"
+            android:layout_toRightOf="@id/emailId"
+            android:layout_below="@id/userNameId"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Phone: "
+            android:id="@+id/phoneId"
+            android:textSize="16sp"
+            android:layout_below="@id/emailId"
+            android:layout_marginLeft="16dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/phoneTextId"
+            android:text="9801111111"
+            android:layout_toRightOf="@id/emailId"
+            android:layout_below="@id/emailId"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_below="@id/phoneTextId"
+            android:layout_marginTop="16dp"
+            android:id="@+id/callButtonId"
+            android:text="Call him now"
+            android:drawableLeft="@drawable/ic_phone_in_talk_black_24dp"
+            android:drawablePadding="16dp"
+            android:padding="16dp"
+            android:textColor="#fff"
+            android:drawableTint="#fff"
+            android:layout_centerInParent="true"
+            android:background="@drawable/custom_botton_design"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/userProfileImageID"
+    android:layout_width="100dp"
+    android:layout_marginLeft="16dp"
+    app:layout_anchor="@id/appBarLayout"
+    app:layout_anchorGravity="bottom|start"
+    android:elevation="20dp"
+    android:src="@drawable/smart_krishi_default_image"
+    android:layout_height="100dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
