@@ -90,7 +90,7 @@ public class MainDashboardActivity extends AppCompatActivity
     LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout, dairyLayout, othersLayout;
 
     CarouselView carouselView;
-    int[] sampleImages = {R.drawable.luffy, R.drawable.luffy, R.drawable.luffy, R.drawable.luffy, R.drawable.luffy};
+    int[] sampleImages = {R.drawable.fruits, R.drawable.meat_fish, R.drawable.vegetables, R.drawable.animal, R.drawable.crops, R.drawable.dairy};
 
 
 
