@@ -392,7 +392,7 @@ public class LoginFragment extends Fragment {
                                         final UserDTO userDTO = new UserDTO();
                                         userDTO.setFullName(name);
                                         userDTO.setEmail(email);
-                                        userDTO.setUserName(name);
+                                        userDTO.setUserName(email);
                                         if (profile.getPhoneNumber() == null || profile.getPhoneNumber().equals("")) {
                                             userDTO.setMobile("");
                                         } else {
