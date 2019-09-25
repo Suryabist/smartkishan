@@ -90,8 +90,9 @@ public class MainDashboardActivity extends AppCompatActivity
     LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout, dairyLayout, othersLayout;
 
     CarouselView carouselView;
-    int[] sampleImages = {R.drawable.fruits, R.drawable.meat_fish, R.drawable.vegetables, R.drawable.animal, R.drawable.crops, R.drawable.dairy};
+//    int[] sampleImages = {R.drawable.electronics, R.drawable.fruits, R.drawable.meat_fish, R.drawable.vegetables, R.drawable.animal, R.drawable.crops, R.drawable.dairy};
 
+    int[] sampleImages = {R.drawable.electronics};
 
 
     @Override
@@ -485,7 +486,7 @@ public class MainDashboardActivity extends AppCompatActivity
             } else if (id == R.id.logOutID) {
                 FirebaseAuth.getInstance().signOut();
                 intent = new Intent(MainDashboardActivity.this, MainActivity.class);
-                LoginManager.getInstance().logOut();
+//                LoginManager.getInstance().logOut();
                 intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
             }
 

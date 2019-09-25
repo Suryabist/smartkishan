@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,6 +30,12 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,11 +46,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.MainActivity;
 import com.pathibharatechnology.smartkishan.MainDashboardActivity;
 import com.pathibharatechnology.smartkishan.R;
@@ -82,6 +93,12 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     StorageReference storageReference;
 
+    //for google signin
+    private static final int RC_SIGN_IN = 234;
+    private static final String TAG = "surya";
+    GoogleSignInClient mGoogleSignInClient;
+    Uri photoUrl;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +136,27 @@ public class LoginFragment extends Fragment {
 //        fbLoginButton.setFragment(this);
 
         mAuth = FirebaseAuth.getInstance();
+
+
+        //for google signin
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient((Activity) getContext(), gso);
+
+        view.findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Google signin button clicked=====");
+                signIn();
+            }
+        });
+
+
+
+
 
         // Callback registration
 
@@ -228,10 +266,192 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    //for google signin
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //if the user is already signed in
+        //we will close this activity
+        //and take the user to profile activity
+        if (mAuth.getCurrentUser() != null) {
+            getActivity().finish();
+            Toast.makeText(getContext(), "Logged in google.", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(this, ProfileActivity.class));
+        }
+    }
+
+
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+//        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("INside activity result=====");
+
+        //if the requestCode is the Google Sign In code that we defined at starting
+        if (requestCode == RC_SIGN_IN) {
+
+            System.out.println("Inside this====");
+
+            //Getting the GoogleSignIn Task
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+
+                System.out.println("inside try=====");
+                //Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+
+                //authenticating with firebase
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                System.out.println("inside catch=====");
+                e.printStackTrace();
+//                Toast.makeText(getContext(), "got this"+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //for google signin
+    private void signIn() {
+        //getting the google signin intent
+        System.out.println("inside signin=====");
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+
+        //starting the activity for result
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    //for google signin
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        //getting the auth credential
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+
+        //Now using firebase we are signing in the user here
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener((Activity) getContext(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+//                            Toast.makeText(getContext(), "User Signed In", Toast.LENGTH_SHORT).show();
+
+                            checkForUserDetail();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText( getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    private void checkForUserDetail() {
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final UserDTO user = dataSnapshot.getValue(UserDTO.class);
+
+                        if (user != null) {
+                            progressBar.setVisibility(View.GONE);
+                            startActivity(new Intent(getContext(), MainDashboardActivity.class));
+                            getActivity().finish();
+                        } else {
+//                            String userName = user.getUserName();
+                                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                                if (fUser != null) {
+                                    for (UserInfo profile : fUser.getProviderData()) {
+                                        // Id of the provider (ex: google.com)
+                                        String providerId = profile.getProviderId();
+
+                                        // UID specific to the provider
+                                        String uid = profile.getUid();
+
+                                        // Name, email address, and profile photo Url
+                                        String name = profile.getDisplayName();
+                                        String email = profile.getEmail();
+
+                                        photoUrl = profile.getPhotoUrl();
+
+
+                                        final UserDTO userDTO = new UserDTO();
+                                        userDTO.setFullName(name);
+                                        userDTO.setEmail(email);
+                                        userDTO.setUserName(name);
+                                        if (profile.getPhoneNumber() == null || profile.getPhoneNumber().equals("")) {
+                                            userDTO.setMobile("");
+                                        } else {
+                                            userDTO.setMobile(profile.getPhoneNumber());
+                                        }
+                                        DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                                        Date date = new Date();
+                                        String strDate = dateFormat.format(date);
+                                        userDTO.setJoinedTime(strDate);
+
+                                        userDTO.setProfilePic(photoUrl.toString());
+                                        uploadUserInformation(userDTO);
+
+                                    }
+
+
+                            } else {
+                                    progressBar.setVisibility(View.GONE);
+                                startActivity(new Intent(getContext(), MainDashboardActivity.class));
+                                getActivity().finish();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
+    private void uploadUserInformation(UserDTO user)
+    {
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getUid())
+                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressBar.setVisibility(View.GONE);
+                if(task.isSuccessful()){
+                    Snackbar.make(getView(), "साइन अप सफल भयो।", Snackbar.LENGTH_LONG)
+                            .show();
+                    progressBar.setVisibility(View.GONE);
+                    getContext().startActivity(new Intent(getContext(), MainDashboardActivity.class));
+                    getActivity().finish();
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                })
+        ;
+
     }
 
 
