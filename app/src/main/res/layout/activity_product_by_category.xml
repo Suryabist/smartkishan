@@ -1,416 +1,424 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".product_by_category.ProductByCategoryActivity"
-    >
+    tools:context=".product_by_category.ProductByCategoryActivity">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayoutId"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:background="#F1F2F6">
-
+        android:gravity="center"
+        android:id="@+id/carousalLayout"
+        android:layout_height="220dp"
+         >
         <com.synnapps.carouselview.CarouselView
-            android:id="@+id/carouselView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/carouselView"
             app:fillColor="#FFFFFFFF"
             app:pageColor="#00000000"
             app:radius="6dp"
+            android:layout_gravity="center"
             app:slideInterval="3000"
-            app:strokeColor="#FF777777"
-            app:strokeWidth="1dp"/>
+            android:elevation="6dp"
+            app:strokeWidth="1dp"
+            android:layout_height="220dp"
+            />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_below="@id/carouselView"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:id="@+id/fruitLayoutId"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/carousalLayout"
+        android:layout_width="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/categoryFruits"
-                    android:layout_width="match_parent"
-                    android:text="फलफुल"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/fruitSeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#F1F2F6"
+            android:paddingBottom="12dp">
 
 
-            </RelativeLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fruitsRecyclerViewId"
+            <LinearLayout
+                android:id="@+id/fruitLayoutId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                />
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
-
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:id="@+id/fishMeatLayoutId"
-            android:orientation="vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_below="@id/fruitLayoutId"
-            android:layout_height="wrap_content" >
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/fishesAndMeatId"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:text="माछा मासु"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/fishSeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/categoryFruits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="फलफुल"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/fruitSeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
 
-            </RelativeLayout>
+                </RelativeLayout>
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fishesAndMeatRecyclerViewId"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fruitsRecyclerViewId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/fishMeatLayoutId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                />
+                android:layout_below="@id/fruitLayoutId"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_width="match_parent"
-            android:id="@+id/vegetablesLayoutId"
-            android:orientation="vertical"
-            android:layout_below="@id/fishMeatLayoutId"
-            android:layout_height="wrap_content" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/vegetablesId"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:text="तरकारी"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
 
-                <TextView
-                    android:id="@+id/vegetablesSeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fishesAndMeatId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="माछा मासु"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
-
-            </RelativeLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:id="@+id/vegetablesRecyclerId"
-                android:layout_height="wrap_content"
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
-
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/fishSeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
 
-        <LinearLayout
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:id="@+id/animalisticLayoutId"
-            android:orientation="vertical"
-            android:layout_below="@id/vegetablesLayoutId"
-            android:layout_height="wrap_content" >
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" >
 
-                <TextView
-                    android:id="@+id/animalisticId"
+                <View
                     android:layout_width="match_parent"
-                    android:text="पशुजन्य"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
 
-                <TextView
-                    android:id="@+id/animalisticSeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
-
-
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_below="@+id/vegetablesId"
-                android:id="@+id/animalisticRecyclerViewId"
-                android:layout_height="wrap_content"
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:id="@+id/grainsLayoutId"
-            android:orientation="vertical"
-            android:layout_below="@id/animalisticLayoutId"
-            android:layout_height="wrap_content" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/grainsId"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fishesAndMeatRecyclerViewId"
                     android:layout_width="match_parent"
-                    android:text="अन्न"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
 
-                <TextView
-                    android:id="@+id/grainsSeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
+                android:id="@+id/vegetablesLayoutId"
                 android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_below="@+id/vegetablesId"
-                android:id="@+id/grainsRecyclerViewId"
                 android:layout_height="wrap_content"
-                />
+                android:layout_below="@id/fishMeatLayoutId"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:id="@+id/dairyLayoutId"
-            android:orientation="vertical"
-            android:layout_below="@id/grainsLayoutId"
-            android:layout_height="wrap_content" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/dairyId"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:text="दुग्ध"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
 
-                <TextView
-                    android:id="@+id/dairySeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/vegetablesId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="तरकारी"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
-
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_below="@+id/vegetablesId"
-                android:id="@+id/dairyRecyclerViewId"
-                android:layout_height="wrap_content"
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
+                    <TextView
+                        android:id="@+id/vegetablesSeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
 
-        </LinearLayout>
+                </RelativeLayout>
 
 
-        <LinearLayout
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:id="@+id/othersLayoutId"
-            android:orientation="vertical"
-            android:layout_below="@id/dairyLayoutId"
-            android:layout_height="wrap_content" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/othersId"
+                <View
                     android:layout_width="match_parent"
-                    android:text="अन्य"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
 
-                <TextView
-                    android:id="@+id/othersSeeId"
-                    android:layout_width="wrap_content"
-                    android:text="See all"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/vegetablesRecyclerId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+
+            </LinearLayout>
 
 
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
+                android:id="@+id/animalisticLayoutId"
                 android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_below="@+id/vegetablesId"
-                android:id="@+id/othersRecyclerViewId"
                 android:layout_height="wrap_content"
-                />
+                android:layout_below="@id/vegetablesLayoutId"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
 
-            <View
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/animalisticId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="पशुजन्य"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/animalisticSeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/animalisticRecyclerViewId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vegetablesId"
+                    android:layout_marginTop="16dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/grainsLayoutId"
                 android:layout_width="match_parent"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:layout_height="2dp" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/animalisticLayoutId"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/grainsId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="अन्न"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/grainsSeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
 
 
-        </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/grainsRecyclerViewId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vegetablesId"
+                    android:layout_marginTop="16dp" />
 
 
-
-    </RelativeLayout>
-
-</androidx.core.widget.NestedScrollView>
+            </LinearLayout>
 
 
+            <LinearLayout
+                android:id="@+id/dairyLayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grainsLayoutId"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
 
-<!--    tools:showIn="@layout/activity_main_dashboard"-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/dairyId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="दुग्ध"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/dairySeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dairyRecyclerViewId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vegetablesId"
+                    android:layout_marginTop="16dp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/othersLayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dairyLayoutId"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/othersId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="अन्य"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/othersSeeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:text="See all"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/othersRecyclerViewId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vegetablesId"
+                    android:layout_marginTop="16dp" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
+
+
+    <!--    tools:showIn="@layout/activity_main_dashboard"-->
 
 
     <!--
