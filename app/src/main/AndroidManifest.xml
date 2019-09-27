@@ -11,35 +11,64 @@
         android:theme="@style/AppTheme">
         <activity android:name=".user_profile.UserDetailActivity"></activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".forum_and_discussion.DiscussionDetailActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".forum_and_discussion.AddDiscussionPostActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".forum_and_discussion.DiscussionActivity" />
-        <activity android:name=".job.JobDetailActivity" />
-        <activity android:name=".product_by_category.ProductByCategoryActivity" />
-        <activity android:name=".job.AddJobActivity" />
+        <activity android:name=".forum_and_discussion.DiscussionActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".job.JobDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".product_by_category.ProductByCategoryActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".job.AddJobActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
+            android:screenOrientation="portrait"
             android:name=".user_profile.UpdateProfileActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".notification_package.NotificationList" />
-        <activity android:name=".about_us.AboutUsActivity" />
-        <activity android:name=".products_list.CategoryProductList" />
-        <activity android:name=".products_list.CategoriesActivity" />
-        <activity android:name=".user_profile.UserProfileActivity" />
-        <activity android:name=".product_detail.ProductDetailActivity" />
+        <activity android:name=".notification_package.NotificationList"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".about_us.AboutUsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".products_list.CategoryProductList"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".products_list.CategoriesActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".user_profile.UserProfileActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".product_detail.ProductDetailActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".new_product.AddNewProductActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".job.JobActivity" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            />
+        <activity android:name=".job.JobActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".MainDashboardActivity"
             android:label="Main Dashboard Activity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,6 +82,7 @@
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
 
     </application>
