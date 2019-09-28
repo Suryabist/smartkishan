@@ -307,8 +307,6 @@ public class LoginFragment extends Fragment implements IVLogin {
 
     }
 
-
-
     @Override
     public void handleSendVerification() {
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/android"
+        android:title="Android"
+        />
+
+    <item
+        android:id="@+id/Php"
+        android:title="PHP"
+        />
+
+    <item
+        android:id="@+id/Blogger"
+        android:title="Blogger"
+        />
+
+    <item
+        android:id="@+id/WordPress"
+        android:title="WordPress"
+        />
+
+</menu>

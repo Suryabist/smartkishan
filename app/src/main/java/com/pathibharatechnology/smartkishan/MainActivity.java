@@ -42,3 +42,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+
+/*
+intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT,
+        "Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+        intent.setType("text/plain");*/

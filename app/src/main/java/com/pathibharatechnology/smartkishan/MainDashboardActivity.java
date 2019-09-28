@@ -480,7 +480,13 @@ public class MainDashboardActivity extends AppCompatActivity
                 intent = new Intent(MainDashboardActivity.this, DiscussionActivity.class);
                 intent.putExtra("userImage", userProfilePic);
 
-            }else if (id == R.id.aboutUsID) {
+            }else if(id == R.id.shareId){
+                intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,
+                        "Hey check out this app at: https://play.google.com/store/apps/details?id=com.pathibharatechnology.smartkishan");
+                intent.setType("text/plain");
+            } else if (id == R.id.aboutUsID) {
                 intent = new Intent(MainDashboardActivity.this, AboutUsActivity.class);
 
             } else if (id == R.id.logOutID) {
@@ -505,3 +511,8 @@ public class MainDashboardActivity extends AppCompatActivity
         return true;
     }
 }
+
+/*
+    Intent intent = new Intent(Intent.ACTION_VIEW);
+intent.setData(Uri.parse("market://details?id=com.example.android"));
+        startActivity(intent);*/

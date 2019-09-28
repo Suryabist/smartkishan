@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -50,6 +52,7 @@ public class DiscussionDetailActivity extends AppCompatActivity {
     CircleImageView uploaderImage;
     RecyclerView commentRecyclerView;
     HashMap<String,Boolean> likes;
+    ImageView optionsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         commentRecyclerView = findViewById(R.id.recyclerViewID);
         commentText = findViewById(R.id.commentTextId);
         sendCommentButton = findViewById(R.id.sendCommentId);
+        optionsBtn = findViewById(R.id.optionsId);
         likes=new HashMap<>();
 
         Intent intent = getIntent();
@@ -100,6 +104,13 @@ public class DiscussionDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 commentText.setFocusableInTouchMode(true);
+            }
+        });
+
+        optionsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openContextMenu(view);
             }
         });
 
@@ -236,6 +247,46 @@ public class DiscussionDetailActivity extends AppCompatActivity {
 
                     }
                 });
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.android:
+                Toast.makeText(getApplicationContext(),"Android Clicked",Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.Php:
+                Toast.makeText(getApplicationContext(),"Php Clicked",Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.Blogger:
+                Toast.makeText(getApplicationContext(),"Blogger Clicked",Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.WordPress:
+                Toast.makeText(getApplicationContext(),"WordPress Clicked",Toast.LENGTH_LONG).show();
+                return true;
+
+            default:
+
+                super.onOptionsItemSelected(item);
+
+        }
+        return true;
 
     }
 

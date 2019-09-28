@@ -92,6 +92,13 @@
                             android:layout_toRightOf="@id/imageOfPostUploaderID"
                             android:layout_height="wrap_content" />
 
+                        <ImageView
+                            android:id="@+id/optionsId"
+                            android:layout_width="20dp"
+                            android:src="@drawable/ic_option"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="20dp" />
+
                     </RelativeLayout>
 
                     <TextView

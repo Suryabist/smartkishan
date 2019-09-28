@@ -17,8 +17,6 @@
             android:icon="@drawable/ic_job_search"
             android:title="जागिर" />
 
-
-
         <item
             android:id="@+id/uploadProductID"
             android:icon="@drawable/add_post_floating_icon"
@@ -38,6 +36,9 @@
             android:icon="@drawable/ic_about_us"
             android:title="हाम्रो बारेमा जन्नुहोस" />
 
+        <item android:id="@+id/shareId"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="Share" />
 
         <item
             android:id="@+id/loginId"
