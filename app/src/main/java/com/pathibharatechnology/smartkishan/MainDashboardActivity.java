@@ -1,10 +1,14 @@
 package com.pathibharatechnology.smartkishan;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.view.View;
@@ -64,6 +68,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static java.security.AccessController.getContext;
 
 public class MainDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -94,6 +99,9 @@ public class MainDashboardActivity extends AppCompatActivity
 
     int[] sampleImages = {R.drawable.electronics};
 
+    GoogleSignInClient mGoogleSignInClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +122,12 @@ public class MainDashboardActivity extends AppCompatActivity
         navUserName = mView.findViewById(R.id.nav_userNameID);
 
         carouselView = (CarouselView) findViewById(R.id.carouselView);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
 
@@ -491,6 +505,7 @@ public class MainDashboardActivity extends AppCompatActivity
 
             } else if (id == R.id.logOutID) {
                 FirebaseAuth.getInstance().signOut();
+                mGoogleSignInClient.signOut();
                 intent = new Intent(MainDashboardActivity.this, MainActivity.class);
 //                LoginManager.getInstance().logOut();
                 intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
