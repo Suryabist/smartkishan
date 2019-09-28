@@ -27,7 +27,7 @@ public class AboutUsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         SupportActionBarInitializer.setUpSupportActionBar(getSupportActionBar(), "About Us", true);
 
-        aboutUsText.setText("Smart Krishi is a application which includes goods and services offers related to the agriculture. When you start browsing, the app displays an assortment of new goods and services. Buy and sell any agricultural products easily within the app.\n \nSmart Krishi is a mobile marketplace for local buyers and sellers.\n\nBuy or Sell anything, easily post your item for sale by taking a photo.\n\nBrowse agricultural items for sale through app.\n\nMessage, call or request to contact you, buyers and sellers from within the app. \n\nIf you want more information please feel free to contact us at smartkisan7@gmail.com");
+        aboutUsText.setText("Smart Krishi is a application which includes goods and services offers related to the agriculture. When you start browsing, the app displays an assortment of new goods and services. Buy and sell any agricultural products easily within the app.\n \nSmart Krishi is a mobile marketplace for local buyers and sellers.\n\nBuy or Sell anything, easily post your item for sale by taking a photo.\n\nBrowse agricultural items for sale through app.\n\nMessage, call or request to contact you, buyers and sellers from within the app. \n\nIf you want more information please feel free to contact us at pathibharatec@gmail.com");
 
     }
 
