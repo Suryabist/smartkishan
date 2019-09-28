@@ -34,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pathibharatechnology.smartkishan.R;
+import com.pathibharatechnology.smartkishan.login.LoginFragment;
 
 import java.io.IOException;
 import java.text.DateFormat;
