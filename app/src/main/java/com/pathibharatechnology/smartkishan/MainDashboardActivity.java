@@ -1,28 +1,18 @@
 package com.pathibharatechnology.smartkishan;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.bumptech.glide.Glide;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import android.view.View;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-
 import android.view.MenuItem;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,7 +25,6 @@ import com.pathibharatechnology.smartkishan.new_product.AddNewProductActivity;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationAdapter;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationList;
 import com.pathibharatechnology.smartkishan.notification_package.NotificationDTO;
-import com.pathibharatechnology.smartkishan.product_by_category.ProductByCategoryActivity;
 import com.pathibharatechnology.smartkishan.products_list.CategoriesActivity;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListAdapter;
 import com.pathibharatechnology.smartkishan.product_by_category.ProductListDTO;
@@ -43,33 +32,21 @@ import com.pathibharatechnology.smartkishan.products_list.CategoryProductList;
 import com.pathibharatechnology.smartkishan.user_profile.UserProfileActivity;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
-import static java.security.AccessController.getContext;
-
 public class MainDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -83,25 +60,16 @@ public class MainDashboardActivity extends AppCompatActivity
     String userName = null;
     ImageView notificationImage;
     TextView notificationCountTextview;
-
     TextView fruitsSee, meatSee, vegetablesSee, animalisticSee, grainsSee, dairySee, othersSee;
-
     List<ProductListDTO> limitedProductList;
-
-
     RecyclerView fruitsRecyclerView, fishAndMeatRecyclerView, vegetablesRecyclerView, animalistciRecyclerView, grainsRecyclerView, dairyRecyclerView, othersRecyclerView;
     LinearLayoutManager linearLayoutManager;
     ProductListAdapter adapter;
     LinearLayout fruitsLayout, fishMeatlayout, vegetablesLayout, animalisticsLayout, grainsLayout, dairyLayout, othersLayout;
-
     CarouselView carouselView;
 //    int[] sampleImages = {R.drawable.electronics, R.drawable.fruits, R.drawable.meat_fish, R.drawable.vegetables, R.drawable.animal, R.drawable.crops, R.drawable.dairy};
-
     int[] sampleImages = {R.drawable.electronics};
-
     GoogleSignInClient mGoogleSignInClient;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,26 +78,19 @@ public class MainDashboardActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         progressBar = findViewById(R.id.progressBarID);
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-
         View mView = navigationView.getHeaderView(0);
         nav_header = mView.findViewById(R.id.nav_headerID);
         nav_header.setScrollContainer(true);
-
         navUserImage = mView.findViewById(R.id.nav_imageID);
         navUserName = mView.findViewById(R.id.nav_userNameID);
-
         carouselView = (CarouselView) findViewById(R.id.carouselView);
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
 
         try {
             getUserDetails();
@@ -529,5 +490,5 @@ public class MainDashboardActivity extends AppCompatActivity
 
 /*
     Intent intent = new Intent(Intent.ACTION_VIEW);
-intent.setData(Uri.parse("market://details?id=com.example.android"));
+intent.setData(Uri.parse("market://details?id=com.pathibharatechnology.smartkishan"));
         startActivity(intent);*/
