@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">75931416663-aujft1r3v4p9n5d7au7stak83elr7ttb.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://smart-kishan.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">75931416663</string>
+    <string name="google_api_key" translatable="false">AIzaSyBj070en_AQnOreW1x-uaNsdB07DjqoLqM</string>
+    <string name="google_app_id" translatable="false">1:75931416663:android:c11ccddf5307f6c5</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBj070en_AQnOreW1x-uaNsdB07DjqoLqM</string>
+    <string name="google_storage_bucket" translatable="false">smart-kishan.appspot.com</string>
+    <string name="project_id" translatable="false">smart-kishan</string>
+</resources>
